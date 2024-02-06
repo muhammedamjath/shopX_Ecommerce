@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+    body{
+      background-color: lightblue;
+    }
+    .main{
+      height: 450px;
+      width: 300px;
+      background-color: #ffb703;
+      position: absolute;
+      top: 100px;
+      left: 40%;
+      border-radius: 20px;
+    }
+    .main h1{
+      font-size: 35px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .main p{
+      font-size: 15px;
+      position: relative;
+      top:130px ;
+      text-align: center;
+    }
+    .main input{
+      height: 50px;
+      width: 250px;
+      position: relative;
+      top: 180px;
+      left: 10%;
+      border-radius: 10px;
+      border: 1px solid gray;
+      text-align: center;
+      font-size: small;
+      /* color: white; */
+      /* background-color: black; */
+    }
+    .main input:focus{
+      outline: 1px solid yellow;
+    }
+    
+    .submit{
+      position: relative;
+      top: 230px;
+      left: 20%;
+      height: 40px;
+      width: 60%;
+      border-radius: 10px;
+      border: 1px solid gray;
+      background-color: green;
+      font-size: larger;
+      color: white;
+    }
+    .resent{
+      font-size: large;
+      position: relative;
+      top: 220px;
+      left: 10%;
+    }
+    .resent button{
+      background:none;
+      color: blue;
+      font-size: larger;
+      border: none;
+      margin-left: 10px;
+    }
+    .resent button:hover{
+      transform: scale(1.1);
+    }
+    .fa-landmark{
+      position: absolute;
+      top: 100px;
+      left: 45%;
+      color: cyan;
+      font-size: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <h1>OTP verification</h1>
+    <i class="fa-solid fa-landmark"></i>
+    <p>Enter the Email here to verify the  </p>
+    <form action="">
+      <input type="email" class="input"  required >
+      <button type="submit" class="submit">Create/Sent OTP</button>
+    </form>
+    
+  </div>
+</body>
+</html>

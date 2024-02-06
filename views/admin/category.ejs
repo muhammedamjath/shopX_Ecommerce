@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catogory & sub Catogory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            font-family: sans-serif;
+        }
+        .mainCatogory{
+            height: 100px;
+            width: 85%;
+            background-color: grey;
+            position: absolute;
+            top: 0%;
+            left: 15%;
+            border-radius: 0 0 10px 10px;
+        }
+        .catogory{
+            width: 25%;
+            /* height: 100px; */
+            border-radius: 10px;
+            border: 1px solid gray;
+            background-color: white;
+            position: relative;
+            top: 50px;
+            left: 10%;
+            box-shadow: 0 0 10px 2px gray;
+        }
+        .mainCatogory .catogory h1{
+            text-align: center;
+            margin-top: 10px;
+        }
+        .mainCatogory .catogory ul{
+            margin-left: 35%;
+            margin-top: 5%;
+            padding-bottom: 10px;
+
+        }
+        .mainCatogory .catogory ul li{
+           line-height: 30px;
+        }
+        .subCatogory{
+            width: 25%;
+            /* height: 100px; */
+            border-radius: 10px;
+            border: 1px solid gray;
+            background-color: white;
+            position: fixed;
+            top: 50px;
+            left: 60%;
+            box-shadow: 0 0 10px 2px gray;
+        }
+        .mainCatogory .subCatogory ul{
+            margin-left: 35%;
+            margin-top: 5%;
+            padding-bottom: 10px;
+        }
+        .mainCatogory .subCatogory ul li{
+           line-height: 30px;
+        }
+        .mainCatogory .subCatogory h1{
+            text-align: center;
+            margin-top: 10px;
+        }
+        .mainCatogory .subCatogory h1 a{
+            text-decoration: none;
+            position: relative;
+            left: 5%;
+            font-size: 20px;
+        }
+        .mainCatogory .catogory h1 a{
+            text-decoration: none;
+            position: relative;
+            left: 5%;
+            font-size: 20px;
+        }
+        .form-container{
+            display: none; 
+            height: 140px;
+            width: 250px;
+            background-color: white;
+            box-shadow: 0 0 10px 2px gray;
+            position: fixed;
+            left: 42%;
+            top: 10%;
+            border-radius: 10px;
+           
+        }
+        .form-container label{
+            /* color: white; */
+            margin-left: 5%;
+            
+            
+            
+        }
+        .form-container input{
+            height: 30px;
+            width: 90%;
+            border-radius: 10px;
+            border: 1px solid gray;
+            margin-left: 5%;
+            margin-top: 5%;
+            text-align: center;
+            
+        }
+    
+        .form-container button{
+            background-color: rgb(38, 161, 38);
+            margin-top: 5%;
+            margin-left: 20%;
+            height: 25px;
+            width: 60%;
+            border-radius: 5px ;
+            border: 1px solid gray;
+            color: white;
+            cursor: pointer;
+        }
+        .form-container #closeForm{
+            background: none;
+            border: none;
+            position: relative;
+            top: -5%;
+            left: 40%;
+            font-size: 20px;
+
+        }
+        .form-container2{
+            display: none; 
+            height: 140px;
+            width: 250px;
+            background-color: white;
+            box-shadow: 0 0 10px 2px gray;
+            position: fixed;
+            left: 82%;
+            top: 10%;
+            border-radius: 10px;
+        }
+        .form-container2 #closeForm2{
+            background: none;
+            border: none;
+            position: relative;
+            top: -5%;
+            left: 40%;
+            font-size: 20px;
+
+        }
+        .form-container2 button{
+            background-color: rgb(38, 161, 38);
+            margin-top: 5%;
+            margin-left: 20%;
+            height: 25px;
+            width: 60%;
+            border-radius: 5px ;
+            border: 1px solid gray;
+            color: white;
+            cursor: pointer;
+        }
+        .form-container2 input{
+            height: 30px;
+            width: 90%;
+            border-radius: 10px;
+            border: 1px solid gray;
+            margin-left: 5%;
+            margin-top: 5%;
+            text-align: center;
+            
+        }
+        .form-container2 label{
+            margin-left: 5%;
+        }
+    </style>
+    <%- include("layouts/header") -%>
+</head>
+<body>
+    <%- include('layouts/sidebar') -%>
+    <div class="mainCatogory">
+        <div class="catogory"> 
+            <h1>Catogory's <a href="#" id="openForm"><i class="fa-solid fa-circle-plus" style="color: #27e10e;"></i></a></h1>
+            <ul id="ul">
+                <% categories.forEach(function(data){ %>
+                    <li><%- data.category %></li>
+                  <% }); %>
+            </ul>
+            <div class="form-container" id="formContainer">
+                <form id="categoryForm" method="post" action="/admin/category">
+                    <label for="categoryName" >Category Name:</label><br>
+                    <input type="text" id="categoryName" name="category" required>
+                    <button type="submit" id="button1">Add Category</button>
+                </form>
+                <button id="closeForm"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i></button>
+            </div>
+        </div>
+        <div class="subCatogory">
+            <h1>Sub catogory <a href="#" id="openForm2"><i class="fa-solid fa-circle-plus" style="color: #27e10e;"></i></a></h1>
+            
+            <ul>
+                <li>Tshirt</li>
+                <li>Shirt</li>
+                <li>Kurthi</li>
+                <li>Chappal</li>
+                <li>Phones</li>
+                <li>Phones</li>
+                <li>Phones</li>
+                <li>Phones</li>
+                <li>Phones</li>
+
+            </ul>
+            <div class="form-container2" id="formContainer2" >
+                <form id="categoryForm" method="post" action="/admin/category">
+                    <label for="categoryName" >Category Name:</label><br>
+                    <input type="text" id="categoryName" name="category" required>
+                    <button type="submit" id="button2">Add Category</button>
+                </form>
+                <button id="closeForm2"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i></button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('openForm').addEventListener('click', function () {
+            document.getElementById('formContainer').style.display = 'block';
+        });
+    
+        document.getElementById('closeForm').addEventListener('click', function () {
+            document.getElementById('formContainer').style.display = 'none';
+        });
+
+
+        // form 2
+        document.getElementById('openForm2').addEventListener('click', function () {
+            document.getElementById('formContainer2').style.display = 'block';
+        });
+    
+        document.getElementById('closeForm2').addEventListener('click', function () {
+            document.getElementById('formContainer2').style.display = 'none';
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="/category.js"></script>
+</body>
+</html>

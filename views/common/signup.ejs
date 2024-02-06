@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+html,body{
+  height: 100%;
+}
+
+.content_1{
+    display: grid;
+    align-items: center;
+    position: relative;
+    /* left: .5%; */
+    /* top:1%; */
+    height: 600px;
+  width: 430px;
+  padding: 40px 30px;
+  background: #dde1e7;
+  border-radius: 10px;
+  box-shadow: -3px -3px 7px #ffffff73,
+               2px 2px 5px rgba(94,104,121,0.288);
+}
+.content_1 .text{
+  font-size: 33px;
+  font-weight: 600;
+  margin-bottom: 35px;
+  color: #595959;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+.field{
+  height: 50px;
+  width: 100%;
+  display: flex;
+  
+  position: relative;
+}
+/* .field:nth-child(){
+  margin-top: 20px;
+} */
+.field input{
+  height: 100%;
+  width: 100%;
+  padding-left: 45px;
+  outline: none;
+  border: none;
+  font-size: 13px;
+  background: #dde1e7;
+  color: #595959;
+  border-radius: 25px;
+  box-shadow: inset 2px 2px 5px #BABECC,
+              inset -5px -5px 10px #ffffff73;
+}
+.field input:focus{
+  box-shadow: inset 1px 1px 2px #BABECC,
+              inset -1px -1px 2px #ffffff73;
+}
+.field span{
+  position: absolute;
+  color: #595959;
+  width: 50px;
+  line-height: 50px;
+}
+.field label{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 65px;
+  pointer-events: none;
+  color: #666666;
+}
+.field input:valid ~ label{
+  opacity: 0;
+}
+.forgot-pass{
+  text-align: left;
+  margin: 10px 0 10px 5px;
+}
+.forgot-pass a{
+  font-size: 16px;
+  color: #3498db;
+  text-decoration: none;
+}
+.forgot-pass:hover a{
+  text-decoration: underline;
+}
+button{
+  margin: 15px 0;
+  width: 100%;
+  height: 50px;
+  font-size: 18px;
+  line-height: 50px;
+  font-weight: 600;
+  background: #dde1e7;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #595959;
+  box-shadow: 2px 2px 5px #BABECC,
+             -5px -5px 10px #ffffff73;
+}
+button:focus{
+  color: #3498db;
+  box-shadow: inset 2px 2px 5px #BABECC,
+             inset -5px -5px 10px #ffffff73;
+}
+.sign-up{
+  margin: 10px 0;
+  color: #595959;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.sign-up a{
+  color: #3498db;
+  text-decoration: none;
+}
+.sign-up a:hover{
+  text-decoration: underline;
+}
+.fas{
+  margin-left: 20px;
+}
+.container{
+  height: 602px;
+  width: 1200px;
+  /* background-color: red; */
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+input:hover{
+  border: 2px solid yellow;
+}
+button:hover{
+  border: 2px solid green;
+}
+.styleChenge::placeholder{
+  color: red;
+}
+
+</style>
+<body>
+    <!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+  
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+   </head>
+   <body>
+    <div class="container">
+      <div class="content_0">
+
+      </div>
+      <div class="content_1">
+         <div class="text">
+            Register
+         </div>
+         <form action="/signup" method="post">
+            <div class="field">
+                <input type="text" id="name" name="name" placeholder="User_name" required>
+                <span class="fas fa-user"></span>
+             </div><br>
+            <div class="field">
+               <input type="email" id="email" name="email" placeholder="Email" required>
+               <span class="fas fa-user"></span>
+            </div><br>
+            <div class="field">
+                <input type="number" id="number" name="number" placeholder="Mob No" required>
+                <span class="fas fa-mobile"></span>
+             </div><br>
+            <div class="field">
+               <input type="password" id="password" name="password" placeholder="Password" required>
+               <span class="fas fa-lock"></span>
+            </div><br>
+            <button type="submit">Sign Up</button>
+            <div class="sign-up">
+               Already heve an account !
+               <a href="/common/login">Log in</a>
+            </div>
+         </form>
+      </div>
+    </div>
+    <script src="/uservalidation.js"></script>
+   </body>
+</html>
+</body>
+</html>

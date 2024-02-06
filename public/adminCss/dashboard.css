@@ -1,0 +1,101 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: sans-serif;
+    list-style: none;
+}
+
+/* side bar start */
+.sidebar{
+    height: 100vh;
+    width: 15%;
+    /* background-color: #49111c; */
+    position: fixed;
+    box-shadow: 0px 0px 10px 2px gray;
+
+}
+.sidebar .logo{
+    height: 60px;
+    width: 100%;
+    /* background-color: red; */
+   border-bottom: 1px solid gray;
+}
+.sidebar .profile{
+    height: 150px;
+    width: 80%;
+    /* background-color: #9ad1d4; */
+    margin-left: 10%;
+    margin-top: 10px;
+    border-radius: 20px;
+    border: 1px solid gray;
+    box-shadow: 0 0 5px 1px gray;
+
+}
+.sidebar .profile .image{
+    height: 75px;
+    width: 75px;
+    background-color:red;
+    border-radius: 10px;
+    position: relative;
+    left: 30%;
+    top: 15%;
+}
+.sidebar .profile h1{
+    position: relative;
+    top: 25%;
+    text-align: center;
+    font-size: 15px;
+}
+
+.sidebar ul{
+    margin-top: 20px;
+   
+}
+.sidebar ul li{
+    margin: 0 0;
+    height: 50px;
+    width: 100%;
+    /* background-color: #49111c; */
+    margin-top: 1px;
+    line-height: 50px;
+}
+.sidebar ul li a{
+    margin-left: 20px;
+    color: gray;
+}
+.sidebar ul li:hover {
+   background-color: #9ad1d4;
+    
+}
+
+.sidebar ul li:hover a{
+    color: black;
+}
+.sidebar button{
+    height: 50px;
+    width:100% ;
+    font-size: larger;
+    position: absolute;
+    bottom: 0;
+    /* background-color: #49111c; */
+    border: none;
+    color: gray;
+   
+    
+}
+.sidebar button:hover{
+    background-color:blue ;
+    color: white;
+}
+.sidebar .logo h1{
+    color: blue;
+    text-align: center;
+    position: relative;
+    top: 5px;
+}
+
+/* side bar end */
+
+/* dashboard start */
+
