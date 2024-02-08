@@ -7,5 +7,6 @@ router.post('/post',adminController.loginpost)
 router.get('/dashboard',adminController.dashboardGet)
 router.get('/catogory',adminController.catogoryGet)
 router.post('/category',adminController.categoryPost)
-
+router.get('/subCategory',adminController.getsubcategory)
+router.post('/subCategory/:categoryId',adminController.postSubCategory)
 module.exports=router

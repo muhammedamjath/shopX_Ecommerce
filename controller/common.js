@@ -18,13 +18,11 @@ exports.loginget=(req,res)=>{
 }
 
 // signup get
-
 exports.signupget=(req,res)=>{
     res.render('common/signup')
 }
 
 // signup post
-
 let randomeOtp;
 let sentEmail;
 let signupData;
@@ -56,7 +54,6 @@ exports.signupPost=async(req,res)=>{
 } 
 
 //  get otp
-
 exports.getOtp=(req,res)=>{
     res.render('common/otp',{reqBody})
 }
@@ -87,13 +84,11 @@ exports.otpPost=async (req,res)=>{
 }  
  
 // otpInvalid get
-
 exports.otpInvalid=(req,res)=>{
     res.render('common/otpInvalid')
 }      
 
 // login post
-
 exports.loginpost= async (req,res)=>{
     const mongoData= await signupCollection.findOne({email:req.body.email})
     const mongoPass= await bcrypt.compare(req.body.password,mongoData.password)

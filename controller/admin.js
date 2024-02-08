@@ -20,19 +20,21 @@ exports.loginpost=async(req,res)=>{
         res.redirect('/admin')
     }
 }
-
+ 
 // Dashboard get
 exports.dashboardGet=(req,res)=>{
     res.render('admin/dashboard',{mongoAdminData})
 }
 
 // catogory get
-
+let categories;
 exports.catogoryGet=async(req,res)=>{
-    const categories=await categoryCollection.find()
+    categories=await categoryCollection.find()
     res.render('admin/category',{mongoAdminData,categories})
 }
 
+
+// category post in admin side 
 exports.categoryPost=async (req,res)=>{
     
     try {
@@ -45,5 +47,33 @@ exports.categoryPost=async (req,res)=>{
     }
     catch(err){
         console.log(err);
+    }
+}
+
+// sub category get in admin side
+
+exports.getsubcategory= async (req,res)=>{
+    const categoryId = req.query.categoryId;
+    const subCategoryData= await categoryCollection.findById(categoryId)
+    res.status(200).json({subCategoryData:subCategoryData ,mongoAdminData:mongoAdminData ,categories:categories})
+}   
+
+exports.postSubCategory=async(req,res)=>{
+    const categoryId = req.params.categoryId;
+    const { subcategory } = req.body;
+  
+   try{
+        const subdata =await categoryCollection.findByIdAndUpdate(
+            categoryId,
+            {$push:{subcategory:subcategory}},
+            {new:true}
+        )
+        if(!subdata){
+            return res.status(404).json({ error: "Category not found" });
+        }
+        res.status(200).json(subdata)
+    }
+    catch(err){
+        console.log(' the error is ',err);
     }
 }

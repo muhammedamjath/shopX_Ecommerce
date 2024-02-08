@@ -56,12 +56,12 @@
     margin: 0 0;
     height: 50px;
     width: 100%;
-    /* background-color: #49111c; */
+    background-color: #49111c;
     margin-top: 1px;
     line-height: 50px;
 }
 .sidebar ul li a{
-    margin-left: 20px;
+    margin-left: 50px;
     color: gray;
 }
 .sidebar ul li:hover {

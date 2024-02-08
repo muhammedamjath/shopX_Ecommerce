@@ -22,10 +22,10 @@ exports.sendOTPEmail = async (email, otp) => {
         to: email,
         subject: 'OTP Verification',
 
-        text: `OTP message from shadows
+        text: `OTP message from shopX
         Your OTP for signup is: ${otp}`,
     };
  
     await transporter.sendMail(mailOptions);
 };
- 
+  
