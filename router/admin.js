@@ -11,6 +11,7 @@ router.get('/subCategory',adminController.getsubcategory)
 router.post('/subCategory/:categoryId',adminController.postSubCategory)
 router.get('/aadproduct',adminController.getaadProduct)
 router.post('/postaddproduct',adminController.multerpost,adminController.postaddproduct)
+router.get('/usersList',adminController.userlistget)
 
 
 

@@ -12,18 +12,23 @@ button1.addEventListener('click',(event)=>{
     const data={
         category:inputCategory.value
     }
-    axios.post('/admin/category',data)
-    .then((res)=>{
-        const resData=inputCategory.value
-        const newLi=document.createElement('li');
-        newLi.textContent=resData
-
-        ul.appendChild(newLi)
-        inputCategory.value=''
-    })
-    .catch((err)=>{
-        console.log("error :" ,err);
-    })
+    if(inputCategory.value.trim() === '' || inputCategory.value === undefined){
+       alert('Please enter a category !')
+       event.preventDefault()
+    }else{
+        axios.post('/admin/category',data)
+        .then((res)=>{
+            const resData=inputCategory.value
+            const newLi=document.createElement('li');
+            newLi.textContent=resData
+    
+            ul.appendChild(newLi)
+            inputCategory.value=''
+        })
+        .catch((err)=>{
+            console.log("error :" ,err);
+        })
+    }
 })  
 
 // getting subcategory when click category
@@ -57,6 +62,9 @@ document.addEventListener('DOMContentLoaded',()=>{
 button2.addEventListener('click',(event)=>{
     event.preventDefault()
     const subcategory=inputSubCategory.value
+   if(inputSubCategory.value.trim() === '' || inputSubCategory.value === undefined  ){
+    alert('Please enter a subcategory !')
+   }else{
     axios.post(`/admin/subCategory/${categoryId}`, {subcategory})
     .then((res)=>{
         const subdata=inputSubCategory.value
@@ -70,6 +78,7 @@ button2.addEventListener('click',(event)=>{
         console.log('the error in subcatogory is ',err);
     })
    
+   }
 
     
 })

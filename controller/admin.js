@@ -2,6 +2,8 @@ const adminCollection=require('../model/adminscema')
 const categoryCollection=require('../model/categorySchema')
 const additemCollection=require('../model/addproductScema')
 const upload=require('../middileware/multer')
+const signupcollection=require('../model/usersignupData')
+
 
 
 
@@ -116,6 +118,8 @@ exports.postaddproduct=async (req,res)=>{
 } 
 
 // userlist get
-// exports.userlistget=(req,res)=>{
-//     res.render('admin/usersList')
-// }
+exports.userlistget=async(req,res)=>{
+    const userlistdata= await signupcollection.find()
+    const usersCount= await signupcollection.countDocuments()
+    res.render('admin/usersList',{userlistdata,mongoAdminData,usersCount})
+}

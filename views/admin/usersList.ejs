@@ -37,14 +37,15 @@
             width: 100%;
             background-color: #b7b7a4;
             position: relative;
-            left: 0%;
+            top: -5%;
             display: flex;
             gap: 0px;
+            margin-top: 0px;
         }
         .heddings p{
             font-size: 20px;
-            margin-left: 20%;
-            padding-top: 3px;
+            /* margin-left:0%; */
+            padding-top: 5px;
         }
         .data{
             width: 100%;
@@ -53,16 +54,27 @@
             border-bottom: 1px solid rgba(128, 128, 128, 0.303);
             display: flex;
             gap: .5%;
+            position: relative;
+            top: -5%;
         }
         .data  .two ,.three ,.four{
             height: 30px;
             width: 24%;
             /* background-color: red; */
+            text-align: center;
+            display: flex;
+            align-items: center;
+            /* justify-content: center; */
+            color: gray;
         }
         .data .one , .five{
             height: 30px;
             width: 11.5%;
             /* background-color: red; */
+            
+        }
+        .four{
+            justify-content: center;
         }
         .five{
             margin-left: 36px;
@@ -76,29 +88,62 @@
         }
         .one{
             text-align: center;
+            color: blue;
         }
         .fa-user{
             margin-top: 8px;
         }
+        .pone{
+            margin-left: 13%;
+        }
+        .ptwo{
+            margin-left: 25%;
+        }
+        .pthree{
+            margin-left: 27%;
+        }
+        .pfour{
+            margin-left: 20%;
+        }
+        .main p{
+            font-size: 15px;
+           
+        }
+        .count{
+            margin-left: 10px;
+            color: gray;
+        }
+        .main span{
+            font-weight: bolder;
+            color: black;
+        }
+        
     </style>
+    <%- include("layouts/header") -%>
+
 </head>
 <body>
+    <%- include('layouts/sidebar') -%>
+
     <div class="main">
         <h1>List of Users</h1>
+        <p class="count">Total number of users : <span><%= usersCount %></span></p>
         <div class="userslist">
             <div class="heddings">
-                <p>Name</p>
-                <p>Email</p>
-                <p>Mobile no </p>
-                <p>Status</p>
+                <p class="pone">Name</p>
+                <p class="ptwo">Email</p>
+                <p class="pthree">Mobile no </p>
+                <p class="pfour">Status</p>
             </div>
+            <% userlistdata.forEach((data)=>{ %>
             <div class="data">
                 <div class="one"><i class="fa-regular fa-user"></i></div>
-                <div class="two"></div>
-                <div class="three"></div>
-                <div class="four"></div>
+                <div class="two"><%= data.username %></div>
+                <div class="three"><%= data.email %></div>
+                <div class="four"><%= data.mobno %></div>
                 <div class="five"><button></button></div>
             </div>
+            <% }) %>
         </div>
     </div>
 </body>
