@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users list</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+
+        }
+        .main{
+            height: 100vh;
+            width: 85%;
+            position: absolute;
+            left: 15%;
+            background-color:  rgb(231, 237, 240);
+            z-index: -1;
+        }
+        .main h1{
+            text-align: center;
+            padding-top: 10px;
+            font-size: 25px;
+            font-weight: bolder;
+        }
+        .userslist{
+            height: 330px;
+            width: 100%;
+            /* background-color: blue; */
+            position: relative;
+            top: 20px;
+        }
+        .heddings{
+            height: 30px;
+            width: 100%;
+            background-color: #b7b7a4;
+            position: relative;
+            left: 0%;
+            display: flex;
+            gap: 0px;
+        }
+        .heddings p{
+            font-size: 20px;
+            margin-left: 20%;
+            padding-top: 3px;
+        }
+        .data{
+            width: 100%;
+            height: 30px;
+            /* background-color: red; */
+            border-bottom: 1px solid rgba(128, 128, 128, 0.303);
+            display: flex;
+            gap: .5%;
+        }
+        .data  .two ,.three ,.four{
+            height: 30px;
+            width: 24%;
+            /* background-color: red; */
+        }
+        .data .one , .five{
+            height: 30px;
+            width: 11.5%;
+            /* background-color: red; */
+        }
+        .five{
+            margin-left: 36px;
+        }
+        .five button{
+            height: 30px;
+            width: 50%;
+            margin-left: 50%;
+            background-color: blueviolet;
+            border: none;
+        }
+        .one{
+            text-align: center;
+        }
+        .fa-user{
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>List of Users</h1>
+        <div class="userslist">
+            <div class="heddings">
+                <p>Name</p>
+                <p>Email</p>
+                <p>Mobile no </p>
+                <p>Status</p>
+            </div>
+            <div class="data">
+                <div class="one"><i class="fa-regular fa-user"></i></div>
+                <div class="two"></div>
+                <div class="three"></div>
+                <div class="four"></div>
+                <div class="five"><button></button></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

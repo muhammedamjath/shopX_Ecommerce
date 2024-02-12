@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAd product</title>
+    <link rel="icon" href="/miscellaneous/logo only.png" >
+    <style>
+        *{
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            z-index: -1;
+            height: 100vh;
+            width: 85%;
+            background-color: rgb(231, 237, 240);
+            position: fixed;
+            left: 15%;
+        }
+        .header p{
+            font-size: 30px;
+            margin-top: 20px;
+            margin-left: 20px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .formBox{
+            margin-top: 30px;
+            margin-left: 20px;
+        }
+        input ,select{ 
+            height: 35px;
+            width: calc(98% - 20px);
+            margin-top: 10px;
+            padding-left: 20px;
+            border-radius: 5px;
+            border: none;
+        }
+        input:focus ,select:focus{
+            outline: 1px solid blue;
+        }
+        select{
+            width: 98%;
+        }
+        .part2 button{
+            background-color: rgb(23, 192, 23);
+            color: white;
+            height: 40px;
+            width: 45%;
+            font-size: 15px;
+            border: 1px solid gray;
+            border-radius: 10px;
+        }
+        .part1{
+            height:500px ;
+            width: 400px;
+            /* background-color: red; */
+        }
+        .part2{
+            height:500px ;
+            width: 400px;
+            /* background-color: red; */
+        }
+        .main{
+            display: flex;
+            gap: 200px;
+            margin-left: 100px;
+            margin-top: 80px;
+        }
+    </style>
+    <%- include('layouts/header') %>
+</head>
+<body>
+    <%- include('layouts/sidebar') -%>
+
+    <div class="container">
+        <div class="header">
+            <p> Add your product</p>
+        </div>
+        <div class="formBox">
+            <form action="/admin/postaddproduct" method="post" enctype="multipart/form-data" id="productform">
+
+                <div class="main">
+                    <div class="part1">
+                        <label for="name">Product Name </label><br>
+                        <input type="text" name="name" required><br><br>
+            
+                        <label for="prize">Prize</label><br>
+                        <input type="number" name="prize" required><br><br>
+            
+                        <label for="offerprize">Offer Prize</label><br>
+                        <input type="number" name="offerprize" ><br><br>
+            
+                        <label for="stock">Stocks</label><br>
+                        <input type="number" name="stock" required><br><br>
+            
+                        <label for="category">Category</label><br>
+                        <select name="category" id="category" required >
+                            <option value="">Select  categort</option>
+                            <% itemdata.forEach((category)=>{ %>
+                                <option value="<%= category.category %>"><%= category.category %></option>
+                            <% }) %>
+                        </select><br><br><br>
+            
+                        <label for="subCategory">Subcategory</label><br>
+                        <select name="subCategory" id="subCategory" required>
+                            <option value="">Subcategorys</option>
+                            <% itemdata.forEach((category)=>{ %>
+                                 <% category.subcategory.forEach((subcategory)=>{ %>
+                                    <option value="<%= subcategory %>"><%= category.category + "-" + subcategory %> </option>
+                              <%  }) %>
+                            <% }) %>
+                        </select><br><br><br>
+                    </div>
+    
+                    <div class="part2">
+                        <label for="image">Image (max:4)</label><br>
+                        <input type="file" id="imagefield"  name="image" accept="image/*" required multiple><br><br>
+
+                        <label for="size">Size</label><br>
+                        <select name="size" id="">
+                            <option value="s">S</option>
+                            <option value="m">M</option>
+                            <option value="l">L</option>
+                            <option value="xl">XL</option>
+                        </select><br><br>
+
+                        <label for="color">Colour</label><br>
+                        <select name="color" id="">
+                            <option value="red">Red</option>
+                            <option value="yellow">Yellow</option>
+                            <option value="green">Green</option>
+                            <option value="blue">Blue</option>
+                        </select><br><br>
+                        <button type="submit">Aad this item</button> 
+
+                        </div>
+
+                </div>    
+            </form>
+        </div>
+        
+    </div>
+    <script>
+        document.getElementById('productform').addEventListener('submit',(event)=>{
+            const imagefield=document.getElementById('imagefield')
+            if(imagefield.files.length>4){
+                alert('You can select maximum 4 images')
+                event.preventDefault()
+            }
+        })
+
+        
+    //     function getsubcategories() {
+    //     const itemdata = JSON.parse('<%= JSON.stringify(itemdata) %>');
+    //     const categoryselcet = document.getElementById('category');
+    //     const subCategoryselect = document.getElementById('subCategory');
+    //     const selectedcategory = categoryselcet.value;
+
+    //     subCategoryselect.innerHTML = '<option value="">Select subcategory</option>';
+
+    //     const selectedcategorydata = itemdata.find(category => category.category === selectedcategory);
+    //     console.log(selectedcategorydata);
+    //     if (selectedcategorydata) {
+    //         selectedcategorydata.subcategory.forEach(subcategory => {
+    //             const option = document.createElement('option');
+    //             option.value = subcategory;
+    //             option.text = subcategory;
+    //             subCategoryselect.appendChild(option);
+    //         });
+    //     }
+    // }
+    </script>
+</body>
+</html>

@@ -35,7 +35,7 @@
 .sidebar .profile .image{
     height: 75px;
     width: 75px;
-    background-color:red;
+    /* background-color:red; */
     border-radius: 10px;
     position: relative;
     left: 30%;
@@ -94,8 +94,14 @@
     position: relative;
     top: 5px;
 }
+.profile.image img{
+    height: 50px;
+    width: 50px;
+    background-color: yellow;
+    
+}
 
 /* side bar end */
 
-/* dashboard start */
+
 

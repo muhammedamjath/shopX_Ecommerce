@@ -1,7 +1,7 @@
 const adminCollection=require('../model/adminscema')
 const categoryCollection=require('../model/categorySchema')
-
-
+const additemCollection=require('../model/addproductScema')
+const upload=require('../middileware/multer')
 
 
 
@@ -51,13 +51,13 @@ exports.categoryPost=async (req,res)=>{
 }
 
 // sub category get in admin side
-
 exports.getsubcategory= async (req,res)=>{
     const categoryId = req.query.categoryId;
     const subCategoryData= await categoryCollection.findById(categoryId)
     res.status(200).json({subCategoryData:subCategoryData ,mongoAdminData:mongoAdminData ,categories:categories})
 }   
 
+// subcategory post/updation in admin side
 exports.postSubCategory=async(req,res)=>{
     const categoryId = req.params.categoryId;
     const { subcategory } = req.body;
@@ -77,3 +77,45 @@ exports.postSubCategory=async(req,res)=>{
         console.log(' the error is ',err);
     }
 }
+
+// add product get 
+exports.getaadProduct=async(req,res)=>{
+    const itemdata=await categoryCollection.find()
+    // console.log(itemdata);
+    res.render('admin/aadproduct',{mongoAdminData,itemdata})
+}
+
+
+// using multer 
+exports.multerpost=upload.array('image', 4)
+
+// add product post
+exports.postaddproduct=async (req,res)=>{
+    
+
+    const path= req.files.map((file)=>"images/" + file.filename)
+
+    const postdata=new additemCollection({
+        name : req.body.name ,
+        prize : req.body.prize ,
+        offerprize : req.body.offerprize ,
+        stock : req.body.stock ,
+        category : req.body.category ,
+        subCategory : req.body.subCategory ,
+        image : path ,
+        size : req.body.size , 
+        color : req.body.color
+    }) 
+    if(postdata){
+        await postdata.save()
+        console.log('product saved successfully');
+        res.redirect('/admin/aadproduct')
+    }else{
+        res.redirect('/admin/aadproduct')
+    }
+} 
+
+// userlist get
+// exports.userlistget=(req,res)=>{
+//     res.render('admin/usersList')
+// }

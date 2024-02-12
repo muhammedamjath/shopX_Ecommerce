@@ -10,7 +10,7 @@ const server=require('../model/mongodb')
 //     email:{
 //         type:String,
 //         required:true
-//     },
+//     }, 
 //     password:{
 //         typr:String,
 //         required:true
