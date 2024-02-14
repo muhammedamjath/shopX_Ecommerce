@@ -23,7 +23,7 @@ router.get('/todelete/:id',adminController.deleteitem)
 router.get('/toedit/:id',adminController.editproduct)
 router.post('/edititem/:editId',adminController.multerpost,adminController.postEdit)
 
-
+router.get('/changeStatus/:id',adminController.changeStatus)
 
 
 module.exports=router

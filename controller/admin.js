@@ -191,5 +191,25 @@ exports.postEdit=async (req,res)=>{
     catch(err){
         console.log(err);
     }
+}
 
+// changing the status of user
+exports.changeStatus= async (req,res)=>{
+    const dataId = req.params.id
+    const data = await signupcollection.findById(dataId)
+    const newStatus = data.status === 'Active' ? 'Blocked' : 'Active'; 
+    try{
+        await signupcollection.findByIdAndUpdate(
+            dataId,{
+                $set : {
+                    status : newStatus
+                }
+            },
+            {new:true}
+        )
+        res.redirect('/admin/usersList')
+    }
+    catch(err){
+        console.log(err);
+    } 
 }

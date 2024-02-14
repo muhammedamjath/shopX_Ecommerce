@@ -104,11 +104,19 @@
                         <td><%= data.username %></td>
                         <td><%= data.email %></td>
                         <td><%=  data.mobno %></td>
-                        <td><button ><%= data.status %></button></td>
+                        <td><button class="button1"  onclick="window.location.href='/admin/changeStatus/<%= data._id %>'"><%= data.status %></button></td>
                     </tr>
                     <% }) %>
             </tbody>
         </table>
     </div>
+    <script>
+       const buttons = document.querySelectorAll('.button1');
+        buttons.forEach(button => {
+            if (button.innerText === 'Blocked') {
+                button.style.color = 'red';
+            }
+        });
+    </script>
 </body>
 </html>
