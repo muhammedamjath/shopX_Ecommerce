@@ -18,7 +18,12 @@ const signupscema=new mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+    status:{
+        type:String,
+        default:"active"
     }
+    
 })
  
 const signupcollection=new mongoose.model('signupCollection',signupscema)

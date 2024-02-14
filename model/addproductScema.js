@@ -36,6 +36,9 @@ const productData= new mongoose.Schema({
     },
     color:{
         type:String,
+    },
+    discription:{
+        type:String,
     }
 })  
 

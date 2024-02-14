@@ -83,37 +83,37 @@
 
     <div class="container">
         <div class="header">
-            <p> Add your product</p>
+            <p> Edit your product</p>
         </div>
         <div class="formBox">
-            <form action="/admin/postaddproduct" method="post" enctype="multipart/form-data" id="productform">
+            <form action="/admin/edititem/<%= data._id %>" method="post" enctype="multipart/form-data" id="productform">
 
                 <div class="main">
                     <div class="part1">
                         <label for="name">Product Name </label><br>
-                        <input type="text" name="name" required><br><br>
+                        <input type="text" name="name" required value="<%= data.name %>"><br><br>
             
                         <label for="prize">Prize</label><br>
-                        <input type="number" name="prize" required><br><br>
+                        <input type="number" name="prize" required value="<%=data.prize %>"><br><br>
             
                         <label for="offerprize">Offer Prize</label><br>
-                        <input type="number" name="offerprize" ><br><br>
+                        <input type="number" name="offerprize" value="<%=data.offerprize %>" ><br><br>
             
                         <label for="stock">Stocks</label><br>
-                        <input type="number" name="stock" required><br><br>
+                        <input type="number" name="stock" required value="<%=data.stock %>"><br><br>
             
                         <label for="category">Category</label><br>
                         <select name="category" id="category" required >
-                            <option value="">Select  categort</option>
-                            <% itemdata.forEach((category)=>{ %>
+                            <option value="<%=data.category %>"><%= data.category %></option>
+                            <% categoryData.forEach((category)=>{ %>
                                 <option value="<%= category.category %>"><%= category.category %></option>
                             <% }) %>
                         </select><br><br><br>
             
-                        <label for="subCategory">Subcategory</label><br>
+                        <label for="subCategory"><%= %></label><br>
                         <select name="subCategory" id="subCategory" required>
-                            <option value="">Subcategorys</option>
-                            <% itemdata.forEach((category)=>{ %>
+                            <option value="<%=data.subCategory %>"><%=data.subCategory %></option>
+                            <% categoryData.forEach((category)=>{ %>
                                  <% category.subcategory.forEach((subcategory)=>{ %>
                                     <option value="<%= subcategory %>"><%= category.category + "-" + subcategory %> </option>
                               <%  }) %>
@@ -127,7 +127,7 @@
 
                         <label for="size">Size</label><br>
                         <select name="size" id="">
-                            <option value="">Select size</option>
+                            <option value="<%=data.size %>"><%=data.size %></option>
                             <option value="s">S</option>
                             <option value="m">M</option>
                             <option value="l">L</option>
@@ -136,7 +136,7 @@
 
                         <label for="color">Colour</label><br>
                         <select name="color" id="">
-                            <option value="">Selcet colour</option>
+                            <option value="<%=data.color %>"><%=data.color %></option>
                             <option value="red">Red</option>
                             <option value="yellow">Yellow</option>
                             <option value="green">Green</option>
@@ -144,7 +144,7 @@
                         </select><br><br>
 
                         <label for="discription">Discription</label><br>
-                        <textarea name="discription" id="" cols="30" rows="10"></textarea><br><br>
+                        <textarea name="discription" id="" cols="30" rows="10" ></textarea><br><br>
 
                         <button type="submit">Aad this item</button> 
 
@@ -165,25 +165,7 @@
         })
 
         
-    //     function getsubcategories() {
-    //     const itemdata = JSON.parse('<%= JSON.stringify(itemdata) %>');
-    //     const categoryselcet = document.getElementById('category');
-    //     const subCategoryselect = document.getElementById('subCategory');
-    //     const selectedcategory = categoryselcet.value;
-
-    //     subCategoryselect.innerHTML = '<option value="">Select subcategory</option>';
-
-    //     const selectedcategorydata = itemdata.find(category => category.category === selectedcategory);
-    //     console.log(selectedcategorydata);
-    //     if (selectedcategorydata) {
-    //         selectedcategorydata.subcategory.forEach(subcategory => {
-    //             const option = document.createElement('option');
-    //             option.value = subcategory;
-    //             option.text = subcategory;
-    //             subCategoryselect.appendChild(option);
-    //         });
-    //     }
-    // }
+   
     </script>
 </body>
 </html>

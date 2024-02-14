@@ -83,7 +83,6 @@ exports.postSubCategory=async(req,res)=>{
 // add product get 
 exports.getaadProduct=async(req,res)=>{
     const itemdata=await categoryCollection.find()
-    // console.log(itemdata);
     res.render('admin/aadproduct',{mongoAdminData,itemdata})
 }
 
@@ -93,12 +92,19 @@ exports.multerpost=upload.array('image', 4)
 
 // add product post
 exports.postaddproduct=async (req,res)=>{
-    
-
     const path= req.files.map((file)=>"images/" + file.filename)
+    let name = req.body.name;
+
+    //checking the first letter is capital
+    if (name.charAt(0) === name.charAt(0).toUpperCase()) {
+       true
+    } else {
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+    }
+
 
     const postdata=new additemCollection({
-        name : req.body.name ,
+        name : name ,
         prize : req.body.prize ,
         offerprize : req.body.offerprize ,
         stock : req.body.stock ,
@@ -106,9 +112,10 @@ exports.postaddproduct=async (req,res)=>{
         subCategory : req.body.subCategory ,
         image : path ,
         size : req.body.size , 
-        color : req.body.color
+        color : req.body.color,
+        discription:req.body.discription
     }) 
-    if(postdata){
+    if(postdata){ 
         await postdata.save()
         console.log('product saved successfully');
         res.redirect('/admin/aadproduct')
@@ -122,4 +129,67 @@ exports.userlistget=async(req,res)=>{
     const userlistdata= await signupcollection.find()
     const usersCount= await signupcollection.countDocuments()
     res.render('admin/usersList',{userlistdata,mongoAdminData,usersCount})
+}
+
+// productlist get
+let productdata;
+let productcount;
+exports.productlistget=async(req,res)=>{
+    productcount= await additemCollection.countDocuments()
+    productdata =await additemCollection.find()
+    res.render('admin/showproduct',{mongoAdminData,productdata,productcount})
+} 
+
+// delete item
+exports.deleteitem= async(req,res)=>{
+    const id=req.params.id
+     
+    const product= await additemCollection.findById(id)
+   if(!product){
+    console.log('item not fount');
+   }else{
+        await additemCollection.findByIdAndDelete(id)
+        console.log('item deleted');
+        res.redirect('/admin/showproduct')
+   }
+}
+
+// eidt the product
+exports.editproduct= async (req,res)=>{
+    const id=req.params.id
+    const categoryData= await categoryCollection.find()
+    const data = await additemCollection.findById(id)
+    res.render('admin/edititem',{data,mongoAdminData,categoryData})
+} 
+
+// post edit product
+exports.postEdit=async (req,res)=>{
+    const proId = req.params.editId
+    const data= await additemCollection.findById(proId)
+    const  {name,prize,offerprize,category,subCategory,size,color,discription}=req.body
+    const id=data._id
+    const path= req.files.map((file)=>"images/" + file.filename)
+    try{
+        await additemCollection.findByIdAndUpdate(
+            id,{
+                $set:{
+                    name : name,
+                    prize : prize,
+                    offerprize : offerprize,
+                    category : category,
+                    subCategory : subCategory,
+                    image : path,
+                    size:size,
+                    color:color,
+                    discription:discription
+                }
+            }
+        )
+        console.log('product updated successfully');
+        res.redirect('/admin/showproduct')
+    }
+    catch(err){
+        console.log(err);
+    }
+
 }
