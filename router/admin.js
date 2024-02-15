@@ -24,6 +24,7 @@ router.get('/toedit/:id',adminController.editproduct)
 router.post('/edititem/:editId',adminController.multerpost,adminController.postEdit)
 
 router.get('/changeStatus/:id',adminController.changeStatus)
+router.get('/status/:id',adminController.productStatus)
 
 
 module.exports=router

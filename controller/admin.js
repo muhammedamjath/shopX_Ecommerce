@@ -213,3 +213,25 @@ exports.changeStatus= async (req,res)=>{
         console.log(err);
     } 
 }
+
+// change the status of product
+exports.productStatus=async(req,res)=>{
+    const id=req.params.id
+    const data=await additemCollection.findById(id)
+    const newStatus= data.status === 'Active' ? 'Blocked' : 'Active'
+    try{
+        await additemCollection.findByIdAndUpdate(
+            id,{
+                $set : {
+                    status : newStatus
+                }
+            },
+            {new:true}
+        )
+        res.redirect('/admin/showproduct')
+    }
+    catch(err){
+        console.log(err);
+    } 
+    
+}

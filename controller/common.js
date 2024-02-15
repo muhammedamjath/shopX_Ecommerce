@@ -90,18 +90,22 @@ exports.otpInvalid=(req,res)=>{
 
 // login post
 exports.loginpost= async (req,res)=>{
+    const mongoData= await signupCollection.findOne({email:req.body.email})
+
     if( req.body.email =='' ||  req.body.password ==''){
 
-         res.render('common/otpInvalid')
+         res.render('common/login')
 
-    }else{
-        const mongoData= await signupCollection.findOne({email:req.body.email})
-    const mongoPass= await bcrypt.compare(req.body.password,mongoData.password)
-   if(mongoPass){
-    res.redirect('/user/home')
-   }else{
-    res.redirect('/common/login')
-   }
     }
+    if(mongoData.status === 'Blocked'){
+        res.send('your accound is blocked')
+    }else{
+        const mongoPass= await bcrypt.compare(req.body.password,mongoData.password)
+            if(mongoPass){
+            res.redirect('/user/home')
+            }else{
+            res.redirect('/common/login')
+            }
+        }
 }
 

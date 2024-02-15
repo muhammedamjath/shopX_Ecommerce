@@ -106,7 +106,11 @@
                     <td><%= data.stock %></td>
                     <td><button onclick="window.location.href='/admin/toedit/<%= data._id %>'" ><i class="fa-solid fa-pencil"></i></button></td>
                     <td><button id="button1" onclick="confirmDelete('/admin/todelete/<%= data._id %>')"><i class="fa-solid fa-trash-can"></i></button></td>
-                    <td><button ><i class="fa-regular fa-circle-check" style="color: #4bee2b;"></i></button></td>
+                    <td><button onclick="window.location.href='/admin/status/<%= data._id %>'"><% if (data.status === 'Active'){ %>
+                        <i class="fa-regular fa-circle-check" style="color: #4bee2b;"></i>
+                   <% }else { %>
+                    <i class="fa-regular fa-circle-xmark" style="color: #fe0613;"></i>
+                    <% } %></button></td>
                     
                 </tr>
             <% }) %>

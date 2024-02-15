@@ -39,6 +39,10 @@ const productData= new mongoose.Schema({
     },
     discription:{
         type:String,
+    },
+    status:{
+        type:String,
+        default:'Active'
     }
 })  
 
