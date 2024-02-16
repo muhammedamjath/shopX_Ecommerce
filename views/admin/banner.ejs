@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add banner</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+      /* Style for the banner container */
+      .banner {
+        padding: 10px;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 40%;
+        margin-left: 30%;
+      }
+
+      /* Style for form elements */
+      .banner form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .banner label {
+        font-size: 16px;
+        margin-bottom: 8px;
+        color: #333;
+      }
+
+      .banner input[type="file"],
+      .banner input[type="text"],
+      .banner button {
+        padding: 12px;
+        margin-bottom: 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+
+      .banner input[type="file"],
+      .banner input[type="text"] {
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+      }
+
+      .banner input[type="file"]:focus,
+      .banner input[type="text"]:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px #007bff;
+      }
+
+      .banner button {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .banner button:hover {
+        background-color: #0056b3;
+      }
+      .showbanner {
+        display: flex;
+        margin-left: 25%;
+        margin-top: 1%;
+        height: 350px;
+        width: 60%;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 1%;
+      }
+
+      .showbanner img {
+        height: 100%;
+        width: 100%;
+        border-radius: 10px 0 0 10px;
+      }
+      .showbanner .button {
+        height: 350px;
+        width: 5%;
+        border-radius: 0 10px 10px 0;
+        border: none;
+        font-size: larger;
+        cursor: pointer;
+      }
+      .showbanner .button .btn1,
+      .showbanner .button .btn2,
+      .showbanner .button .btn3 {
+        height: 33.33%;
+        width: 100%;
+        border: none;
+        cursor: pointer;
+        font-size: larger;
+      }
+      .showbanner .button .btn1 {
+        background-color: red;
+        border-radius: 0 10px 0 0;
+      }
+      .showbanner .button .btn2 {
+        background-color: lightskyblue;
+      }
+
+      .showbanner .button .btn3 {
+        background-color: orangered;
+        border-radius: 0 0 10px 0;
+      }
+
+      
+
+      @media (max-width: 1118px) {
+        .showbanner {
+          margin-left: 15%;
+        }
+      }
+
+      @media (max-width: 944px) {
+        .showbanner {
+          margin-left: 10%;
+        }
+      }
+
+      @media (max-width: 860px) {
+        .showbanner {
+          margin-left: 5%;
+        }
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <%- include('layouts/header') %>
+  </head>
+  <body>
+    <%- include('layouts/sidebar') -%>
+    <div class="banner">
+      <form action="/admin/banner" method="post" enctype="multipart/form-data">
+        <label for="image">Banner image </label>
+        <input type="file" name="image" required accept="image/*" />
+
+        <label for="link">Url </label>
+        <input type="text" name="url" />
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <!-- banner show -->
+    <h1>Existing banners</h1>
+    <% banner.forEach((data)=>{ %>
+    <div class="showbanner">
+      <img src="/<%= data.image %>" alt="😁" />
+      <div class="button">
+        <button  onclick="window.location.href='/admin/deletebanner/<%= data._id%>'" class="btn1">
+          <i class="fa-regular fa-trash-can" style="color: orange"></i>
+        </button>
+        <button onclick="window.location.href='/admin/toedit/<%= data._id%>'" class="btn2"><i class="fa-solid fa-pencil"></i></button>
+        <button onclick="window.location.href='/admin/bannerstatus/<%= data._id%>'"class="btn3"><% if(data.status === "Active" ){ %>
+          <i class="fa-regular fa-circle-check" style="color: #4bee2b"></i>
+        <% }else { %>
+          <i class="fa-regular fa-circle-xmark" style="color: #fe0613;"></i>
+         <% } %>
+        </button>
+      </div>
+    </div>
+    <%  }) %>
+  </body>
+</html>

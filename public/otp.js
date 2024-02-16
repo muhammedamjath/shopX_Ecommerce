@@ -1,5 +1,4 @@
 var nodemailer = require("nodemailer")
-const controller=require('./controller/common')
 
 // let email=controller.sentEmail
 exports.generateOTP = () => {

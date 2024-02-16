@@ -1,237 +1,283 @@
-const adminCollection=require('../model/adminscema')
-const categoryCollection=require('../model/categorySchema')
-const additemCollection=require('../model/addproductScema')
-const upload=require('../middileware/multer')
-const signupcollection=require('../model/usersignupData')
-
-
-
+const adminCollection = require("../model/adminscema");
+const categoryCollection = require("../model/categorySchema");
+const additemCollection = require("../model/addproductScema");
+const upload = require("../middileware/multer");
+const signupcollection = require("../model/usersignupData");
+const bannercollection=require('../model/banner')
 
 // login get
-exports.loginget=(req,res)=>{
-    res.render('admin/login')
-}
+exports.loginget = (req, res) => {
+  res.render("admin/login");
+};
 
 // login post
 let mongoAdminData;
-exports.loginpost=async(req,res)=>{
-    mongoAdminData= await  adminCollection.findOne({email:req.body.email})
-    if(req.body.password=== mongoAdminData.password){
-        res.redirect('/admin/dashboard')
-    }else{
-        res.redirect('/admin')
-    }
-}
- 
+exports.loginpost = async (req, res) => {
+  mongoAdminData = await adminCollection.findOne({ email: req.body.email });
+  if (req.body.password === mongoAdminData.password) {
+    res.redirect("/admin/dashboard");
+  } else {
+    res.redirect("/admin");
+  }
+};
+
 // Dashboard get
-exports.dashboardGet=(req,res)=>{
-    res.render('admin/dashboard',{mongoAdminData})
-}
+exports.dashboardGet = (req, res) => {
+  res.render("admin/dashboard", { mongoAdminData });
+};
 
 // catogory get
 let categories;
-exports.catogoryGet=async(req,res)=>{
-    categories=await categoryCollection.find()
-    res.render('admin/category',{mongoAdminData,categories})
-}
+exports.catogoryGet = async (req, res) => {
+  categories = await categoryCollection.find();
+  res.render("admin/category", { mongoAdminData, categories });
+};
 
-
-// category post in admin side 
-exports.categoryPost=async (req,res)=>{
-    
-    try {
-        const data= new categoryCollection({
-            category:req.body.category,
-            subcategory:[]
-        })
-        await data.save()
-        res.status(200).json({})
-    }
-    catch(err){
-        console.log(err);
-    }
-}
+// category post in admin side
+exports.categoryPost = async (req, res) => {
+  try {
+    const data = new categoryCollection({
+      category: req.body.category,
+      subcategory: [],
+    });
+    await data.save();
+    res.status(200).json({});
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 // sub category get in admin side
-exports.getsubcategory= async (req,res)=>{
-    const categoryId = req.query.categoryId;
-    const subCategoryData= await categoryCollection.findById(categoryId)
-    res.status(200).json({subCategoryData:subCategoryData ,mongoAdminData:mongoAdminData ,categories:categories})
-}   
+exports.getsubcategory = async (req, res) => {
+  const categoryId = req.query.categoryId;
+  const subCategoryData = await categoryCollection.findById(categoryId);
+  res
+    .status(200)
+    .json({
+      subCategoryData: subCategoryData,
+      mongoAdminData: mongoAdminData,
+      categories: categories,
+    });
+};
 
 // subcategory post/updation in admin side
-exports.postSubCategory=async(req,res)=>{
-    const categoryId = req.params.categoryId;
-    const { subcategory } = req.body;
-  
-   try{
-        const subdata =await categoryCollection.findByIdAndUpdate(
-            categoryId,
-            {$push:{subcategory:subcategory}},
-            {new:true}
-        )
-        if(!subdata){
-            return res.status(404).json({ error: "Category not found" });
-        }
-        res.status(200).json(subdata)
+exports.postSubCategory = async (req, res) => {
+  const categoryId = req.params.categoryId;
+  const { subcategory } = req.body;
+
+  try {
+    const subdata = await categoryCollection.findByIdAndUpdate(
+      categoryId,
+      { $push: { subcategory: subcategory } },
+      { new: true }
+    );
+    if (!subdata) {
+      return res.status(404).json({ error: "Category not found" });
     }
-    catch(err){
-        console.log(' the error is ',err);
-    }
-}
+    res.status(200).json(subdata);
+  } catch (err) {
+    console.log(" the error is ", err);
+  }
+};
 
-// add product get 
-exports.getaadProduct=async(req,res)=>{
-    const itemdata=await categoryCollection.find()
-    res.render('admin/aadproduct',{mongoAdminData,itemdata})
-}
+// add product get
+exports.getaadProduct = async (req, res) => {
+  const itemdata = await categoryCollection.find();
+  res.render("admin/aadproduct", { mongoAdminData, itemdata });
+};
 
+// using multer
+exports.multerpost = upload.upload.array("image", 4);
 
-// using multer 
-exports.multerpost=upload.array('image', 4)
+// using multer2
+exports.multer1=upload.upload2.single('image')
 
 // add product post
-exports.postaddproduct=async (req,res)=>{
-    const path= req.files.map((file)=>"images/" + file.filename)
-    let name = req.body.name;
+exports.postaddproduct = async (req, res) => {
+  const path = req.files.map((file) => "images/" + file.filename);
+  let name = req.body.name;
 
-    //checking the first letter is capital
-    if (name.charAt(0) === name.charAt(0).toUpperCase()) {
-       true
-    } else {
-        name = name.charAt(0).toUpperCase() + name.slice(1);
-    }
+  //checking the first letter is capital
+  if (name.charAt(0) === name.charAt(0).toUpperCase()) {
+    true;
+  } else {
+    name = name.charAt(0).toUpperCase() + name.slice(1);
+  }
 
-
-    const postdata=new additemCollection({
-        name : name ,
-        prize : req.body.prize ,
-        offerprize : req.body.offerprize ,
-        stock : req.body.stock ,
-        category : req.body.category ,
-        subCategory : req.body.subCategory ,
-        image : path ,
-        size : req.body.size , 
-        color : req.body.color,
-        discription:req.body.discription
-    }) 
-    if(postdata){ 
-        await postdata.save()
-        console.log('product saved successfully');
-        res.redirect('/admin/aadproduct')
-    }else{
-        res.redirect('/admin/aadproduct')
-    }
-} 
+  const postdata = new additemCollection({
+    name: name,
+    prize: req.body.prize,
+    offerprize: req.body.offerprize,
+    stock: req.body.stock,
+    category: req.body.category,
+    subCategory: req.body.subCategory,
+    image: path,
+    size: req.body.size,
+    color: req.body.color,
+    discription: req.body.discription,
+  });
+  if (postdata) {
+    await postdata.save();
+    console.log("product saved successfully");
+    res.redirect("/admin/aadproduct");
+  } else {
+    res.redirect("/admin/aadproduct");
+  }
+};
 
 // userlist get
-exports.userlistget=async(req,res)=>{
-    const userlistdata= await signupcollection.find()
-    const usersCount= await signupcollection.countDocuments()
-    res.render('admin/usersList',{userlistdata,mongoAdminData,usersCount})
-}
+exports.userlistget = async (req, res) => {
+  const userlistdata = await signupcollection.find();
+  const usersCount = await signupcollection.countDocuments();
+  res.render("admin/usersList", { userlistdata, mongoAdminData, usersCount });
+};
 
 // productlist get
 let productdata;
 let productcount;
-exports.productlistget=async(req,res)=>{
-    productcount= await additemCollection.countDocuments()
-    productdata =await additemCollection.find()
-    res.render('admin/showproduct',{mongoAdminData,productdata,productcount})
-} 
+exports.productlistget = async (req, res) => {
+  productcount = await additemCollection.countDocuments();
+  productdata = await additemCollection.find();
+  res.render("admin/showproduct", {
+    mongoAdminData,
+    productdata,
+    productcount,
+  });
+};
 
 // delete item
-exports.deleteitem= async(req,res)=>{
-    const id=req.params.id
-     
-    const product= await additemCollection.findById(id)
-   if(!product){
-    console.log('item not fount');
-   }else{
-        await additemCollection.findByIdAndDelete(id)
-        console.log('item deleted');
-        res.redirect('/admin/showproduct')
-   }
-}
+exports.deleteitem = async (req, res) => {
+  const id = req.params.id;
+
+  const product = await additemCollection.findById(id);
+  if (!product) {
+    console.log("item not fount");
+  } else {
+    await additemCollection.findByIdAndDelete(id);
+    console.log("item deleted");
+    res.redirect("/admin/showproduct");
+  }
+};
 
 // eidt the product
-exports.editproduct= async (req,res)=>{
-    const id=req.params.id
-    const categoryData= await categoryCollection.find()
-    const data = await additemCollection.findById(id)
-    res.render('admin/edititem',{data,mongoAdminData,categoryData})
-} 
+exports.editproduct = async (req, res) => {
+  const id = req.params.id;
+  const categoryData = await categoryCollection.find();
+  const data = await additemCollection.findById(id);
+  res.render("admin/edititem", { data, mongoAdminData, categoryData });
+};
 
 // post edit product
-exports.postEdit=async (req,res)=>{
-    const proId = req.params.editId
-    const data= await additemCollection.findById(proId)
-    const  {name,prize,offerprize,category,subCategory,size,color,discription}=req.body
-    const id=data._id
-    const path= req.files.map((file)=>"images/" + file.filename)
-    try{
-        await additemCollection.findByIdAndUpdate(
-            id,{
-                $set:{
-                    name : name,
-                    prize : prize,
-                    offerprize : offerprize,
-                    category : category,
-                    subCategory : subCategory,
-                    image : path,
-                    size:size,
-                    color:color,
-                    discription:discription
-                }
-            }
-        )
-        console.log('product updated successfully');
-        res.redirect('/admin/showproduct')
-    }
-    catch(err){
-        console.log(err);
-    }
-}
+exports.postEdit = async (req, res) => {
+  const proId = req.params.editId;
+  const data = await additemCollection.findById(proId);
+  const {name,prize,offerprize,category,subCategory,size,color,discription,} = req.body;
+  const id = data._id;
+  const path = req.files.map((file) => "images/" + file.filename);
+  try {
+    await additemCollection.findByIdAndUpdate(id, {
+      $set: {
+        name: name,
+        prize: prize,
+        offerprize: offerprize,
+        category: category,
+        subCategory: subCategory,
+        image: path,
+        size: size,
+        color: color,
+        discription: discription,
+      },
+    });
+    console.log("product updated successfully");
+    res.redirect("/admin/showproduct");
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 // changing the status of user
-exports.changeStatus= async (req,res)=>{
-    const dataId = req.params.id
-    const data = await signupcollection.findById(dataId)
-    const newStatus = data.status === 'Active' ? 'Blocked' : 'Active'; 
-    try{
-        await signupcollection.findByIdAndUpdate(
-            dataId,{
-                $set : {
-                    status : newStatus
-                }
-            },
-            {new:true}
-        )
-        res.redirect('/admin/usersList')
-    }
-    catch(err){
-        console.log(err);
-    } 
-}
+exports.changeStatus = async (req, res) => {
+  const dataId = req.params.id;
+  const data = await signupcollection.findById(dataId);
+  const newStatus = data.status === "Active" ? "Blocked" : "Active";
+  try {
+    await signupcollection.findByIdAndUpdate(
+      dataId,
+      {
+        $set: {
+          status: newStatus,
+        },
+      },
+      { new: true }
+    );
+    res.redirect("/admin/usersList");
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 // change the status of product
-exports.productStatus=async(req,res)=>{
-    const id=req.params.id
-    const data=await additemCollection.findById(id)
-    const newStatus= data.status === 'Active' ? 'Blocked' : 'Active'
-    try{
-        await additemCollection.findByIdAndUpdate(
-            id,{
-                $set : {
-                    status : newStatus
-                }
-            },
-            {new:true}
-        )
-        res.redirect('/admin/showproduct')
-    }
-    catch(err){
-        console.log(err);
-    } 
-    
+exports.productStatus = async (req, res) => {
+  const id = req.params.id;
+  const data = await additemCollection.findById(id);
+  const newStatus = data.status === "Active" ? "Blocked" : "Active";
+  try {
+    await additemCollection.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          status: newStatus,
+        },
+      },
+      { new: true }
+    );
+    res.redirect("/admin/showproduct");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// banner get
+exports.bannerget=async(req,res)=>{
+  const banner=await bannercollection.find()
+  res.render('admin/banner',{mongoAdminData,banner})
 }
+
+// banner post
+exports.bannerpost= async(req,res)=>{
+  const filedata = req.file 
+  const path="images/"+ filedata.filename
+  const bannerdata= new bannercollection({
+    url:req.body.url,
+    image:path
+  })
+
+  await bannerdata.save()
+  res.redirect('/admin/banner')
+}
+
+// banner delete
+exports.deletebanner=async(req,res)=>{
+  const id =req.params.id
+  await bannercollection.findByIdAndDelete(id)
+  res.redirect('/admin/banner')
+}
+
+// update banner status
+exports.bannerstatus=async(req,res)=>{
+  const id= req.params.id
+  const data= await bannercollection.findById(id)
+  const currentStatus= data.status === "Active"  ? "Bolcked" : "Active"
+   try{
+    await bannercollection.findByIdAndUpdate(
+      id,{
+        $set:
+        {status:currentStatus}
+      },{new:true}
+    )
+    res.redirect('/admin/banner')
+   }catch(err){
+    console.log(err);
+   } 
+  
+}    
