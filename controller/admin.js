@@ -3,7 +3,7 @@ const categoryCollection = require("../model/categorySchema");
 const additemCollection = require("../model/addproductScema");
 const upload = require("../middileware/multer");
 const signupcollection = require("../model/usersignupData");
-const bannercollection=require('../model/banner')
+const bannercollection = require("../model/banner");
 
 // login get
 exports.loginget = (req, res) => {
@@ -39,25 +39,66 @@ exports.categoryPost = async (req, res) => {
     const data = new categoryCollection({
       category: req.body.category,
       subcategory: [],
+      image:'images/'+req.file.filename
     });
     await data.save();
-    res.status(200).json({});
+    const catData=await categoryCollection.find()
+    res.status(200).json({categories:catData});
   } catch (err) {
-    console.log(err);
+    console.log(err); 
   }
 };
+
+// categorydelete with axios
+exports.deletecategory=async(req,res)=>{
+  const id=req.params.id
+  try{
+    await categoryCollection.findByIdAndDelete(id)
+    res.status(200).json({})
+  }
+  catch(err){
+    console.log(err);
+  }
+}
+
+// previews category delete
+exports.delcategory=async(req,res)=>{
+  const id=req.params.id
+  try{
+    await categoryCollection.findByIdAndDelete(id)
+    res.status(200).json({})
+  }
+  catch(err){
+    console.log('the err is ',err);
+  }
+}
+
+// subcategory delete with axios
+exports.subdelete=async(req,res)=>{
+  const id = req.params.id
+  const item =req.body.subcategoryName
+  try{
+      await categoryCollection.findByIdAndUpdate(
+        id,
+        {$pull:{subcategory:item}},
+        {new:true}
+      )
+      res.status(200).json({})
+  }
+  catch(err){
+    console.log(err);
+  }
+}
 
 // sub category get in admin side
 exports.getsubcategory = async (req, res) => {
   const categoryId = req.query.categoryId;
   const subCategoryData = await categoryCollection.findById(categoryId);
-  res
-    .status(200)
-    .json({
-      subCategoryData: subCategoryData,
-      mongoAdminData: mongoAdminData,
-      categories: categories,
-    });
+  res.status(200).json({
+    subCategoryData: subCategoryData,
+    mongoAdminData: mongoAdminData,
+    categories: categories,
+  });
 };
 
 // subcategory post/updation in admin side
@@ -90,7 +131,7 @@ exports.getaadProduct = async (req, res) => {
 exports.multerpost = upload.upload.array("image", 4);
 
 // using multer2
-exports.multer1=upload.upload2.single('image')
+exports.multer1 = upload.upload2.single("image"); 
 
 // add product post
 exports.postaddproduct = async (req, res) => {
@@ -119,7 +160,7 @@ exports.postaddproduct = async (req, res) => {
   if (postdata) {
     await postdata.save();
     console.log("product saved successfully");
-    res.redirect("/admin/aadproduct");
+    res.redirect("/admin/aadproduct"); 
   } else {
     res.redirect("/admin/aadproduct");
   }
@@ -171,7 +212,16 @@ exports.editproduct = async (req, res) => {
 exports.postEdit = async (req, res) => {
   const proId = req.params.editId;
   const data = await additemCollection.findById(proId);
-  const {name,prize,offerprize,category,subCategory,size,color,discription,} = req.body;
+  const {
+    name,
+    prize,
+    offerprize,
+    category,
+    subCategory,
+    size,
+    color,
+    discription,
+  } = req.body;
   const id = data._id;
   const path = req.files.map((file) => "images/" + file.filename);
   try {
@@ -238,46 +288,45 @@ exports.productStatus = async (req, res) => {
 };
 
 // banner get
-exports.bannerget=async(req,res)=>{
-  const banner=await bannercollection.find()
-  res.render('admin/banner',{mongoAdminData,banner})
-}
+exports.bannerget = async (req, res) => {
+  const banner = await bannercollection.find();
+  res.render("admin/banner", { mongoAdminData, banner });
+};
 
 // banner post
-exports.bannerpost= async(req,res)=>{
-  const filedata = req.file 
-  const path="images/"+ filedata.filename
-  const bannerdata= new bannercollection({
-    url:req.body.url,
-    image:path
-  })
-
-  await bannerdata.save()
-  res.redirect('/admin/banner')
-}
+exports.bannerpost = async (req, res) => {
+  const filedata = req.file;
+  const path = "images/" + filedata.filename;
+  const bannerdata = new bannercollection({
+    url: req.body.url,
+    image: path,
+  });
+  await bannerdata.save();
+  res.redirect("/admin/banner");
+};
 
 // banner delete
-exports.deletebanner=async(req,res)=>{
-  const id =req.params.id
-  await bannercollection.findByIdAndDelete(id)
-  res.redirect('/admin/banner')
-}
+exports.deletebanner = async (req, res) => {
+  const id = req.params.id;
+  await bannercollection.findByIdAndDelete(id);
+  res.redirect("/admin/banner");
+};
 
 // update banner status
-exports.bannerstatus=async(req,res)=>{
-  const id= req.params.id
-  const data= await bannercollection.findById(id)
-  const currentStatus= data.status === "Active"  ? "Bolcked" : "Active"
-   try{
+exports.bannerstatus = async (req, res) => {
+  const id = req.params.id;
+  const data = await bannercollection.findById(id);
+  const currentStatus = data.status === "Active" ? "Bolcked" : "Active";
+  try {
     await bannercollection.findByIdAndUpdate(
-      id,{
-        $set:
-        {status:currentStatus}
-      },{new:true}
-    )
-    res.redirect('/admin/banner')
-   }catch(err){
+      id,
+      {
+        $set: { status: currentStatus },
+      },
+      { new: true }
+    );
+    res.redirect("/admin/banner");
+  } catch (err) {
     console.log(err);
-   } 
-  
-}    
+  }
+};

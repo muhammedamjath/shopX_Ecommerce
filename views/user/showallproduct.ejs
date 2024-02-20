@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All product</title>
+    <style>
+        .allproduct{
+           display: flex;
+           flex-wrap: wrap;
+           gap: 20px;
+        }
+        .img{
+            height: 100%;
+            width: 50%;
+            background-color: rgb(193, 17, 17);
+            position: absolute;
+            left: 0%;
+            top: 0%;
+            border-radius: 10px 0 0 10px;
+        }
+        .filter{
+            height: 100%;
+            width: 25%;
+            background-color: black;
+            position: fixed;
+        }
+        
+        .detailes{
+            height: 100%;
+            width: 50%;
+            background-color: rgb(255, 255, 255);
+            position: absolute;
+            left: 50%;
+            border-radius: 0 10px 10px 0;
+            font-family: sans-serif;
+        }
+        .card{
+            height: 250px;
+            width: 35%;
+            /* background-color: red; */
+            position: relative;
+            top: 100px;
+            left: 420px;
+            border-radius: 10px;
+            border: 1px solid black;
+            display: flex;
+        }
+        .detailes .name{
+            text-align: center;
+            margin-top: 30%;
+            font-size: 25px;
+            font-weight: bolder;
+            font-family: sans-serif;
+        }
+        .detailes .category{
+            margin-left: 10%;
+        }
+        .detailes .prize{
+            margin-left: 10%;
+            font-weight: bold;
+        }
+        .detailes .subcategory{
+            margin-left: 10%;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div class="filter"></div>
+    <div class="allproduct">
+        <div class="card">
+            <div class="img"></div>
+            <div class="detailes">
+                <p class="name">Amjath</p>
+                <p class="category">Mens</p>
+                <p class="subcategory">pants</p>
+                <p class="prize"> ₹ 300 <span>(<del>500</del>) <span class="percent">10% off</span></span></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="img"></div>
+            <div class="detailes">
+                <p class="name">Amjath</p>
+                <p class="category">Mens</p>
+                <p class="subcategory">pants</p>
+                <p class="prize"> ₹ 300 <span>(<del>500</del>) <span class="percent">10% off</span></span></p>
+            </div>
+        </div><div class="card">
+            <div class="img"></div>
+            <div class="detailes">
+                <p class="name">Amjath</p>
+                <p class="category">Mens</p>
+                <p class="subcategory">pants</p>
+                <p class="prize"> ₹ 300 <span>(<del>500</del>) <span class="percent">10% off</span></span></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

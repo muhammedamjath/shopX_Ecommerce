@@ -7,7 +7,8 @@ router.post('/post', adminController.loginpost)
 
 router.get('/dashboard', adminController.dashboardGet)
 router.get('/catogory', adminController.catogoryGet)
-router.post('/category', adminController.categoryPost)
+router.post('/category',adminController.multer1, adminController.categoryPost)
+
 
 router.get('/subCategory', adminController.getsubcategory)
 router.post('/subCategory/:categoryId', adminController.postSubCategory)
@@ -30,5 +31,10 @@ router.get('/banner',adminController.bannerget)
 router.post('/banner',adminController.multer1,adminController.bannerpost)
 router.get('/deletebanner/:id',adminController.deletebanner)
 router.get('/bannerstatus/:id',adminController.bannerstatus)
+
+router.delete('/deletecategory/:id',adminController.deletecategory)
+router.delete('/delcategory/:id',adminController.delcategory)
+router.delete('/deletesubcat/:id',adminController.subdelete)
+
 
 module.exports = router

@@ -4,8 +4,14 @@
     list-style: none;
     text-decoration: none;
 }
+.container{
+    height: 100vh;
+    width: 100%;
+    
+}
 body{
     font-family: sans-serif;
+    background-color: #90e1ef4a;
 
 }
 /* nav bar  */
@@ -88,7 +94,7 @@ nav ul li button:hover{
 footer{
     height: 190px;
     background-color: #131a22;
-    position: fixed;
+    position:absolute;
     bottom: 0;
     width: 100%;
 }
@@ -174,12 +180,166 @@ footer .three a{
     color: #939b9c;
     
 }
+/* banner */
+.bannerhead{
+    height: 80%;
+    width: 100%;
+    margin-left: 0%;
+    margin-top: 1%;
+    /* background-color: red; */
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;  
+}
+.banner{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    transition: 1s;
+}
+.banner img{
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+
+}
+.btnnav{
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        /* transform: translateY(-50%); */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+}
+.btnnav button{
+    height: 60px;
+    width: 30px;
+    font-size: larger;
+    border: none;
+    background: none;
+}
+
+/* show category */
+.categorycard{
+    height: 200px;
+    width: 20%;
+    background-color: red;
+    position: relative;
+    left: 5%;
+    top: 50px;
+    border-radius: 10px; 
+    cursor: pointer;
+}
+.listcategory{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+.categoryh1{
+    text-align: center;
+    position: relative;
+    top: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.listcategory .categorycard img{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+
+}
+.listcategory .categorycard p{
+    text-align: center;
+    font-size: 15px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif
+}
+
+/* first 10 product  */
+.product{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+.procard{
+height: 250px;
+width: 250px;
+position: relative;
+border: 1px solid gray;
+top: 150px;
+left: 7%;
+border-radius: 5px;
+box-shadow: 0 0 1px 1px red;
+cursor: pointer;
+
+}
+.procard img{
+height: 70%;
+width: 90%;
+position: relative;
+top: 5%;
+left: 5%;
+border-radius: 10px;
+}
+.procard img:hover{
+    transform: scale(1.3);
+    transition: .3s ease-in;
+    z-index: 1;
+}
+.procard .name{
+text-align: center;
+font-size: 30px;
+font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+position: relative;
+top: 10px;
+}
+.procard .prize{
+text-align: center;
+font-family: sans-serif;
+font-weight: bolder;
+position: relative;
+top: 10px;
+
+}
+.product-h1 {
+    text-align: center;
+    position: relative;
+    top: 130px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;   
+}
+.btnshowall{
+   position: relative;
+   top: 170px;
+   left:7.5% ;
+   height: 50px;
+   width: 85%;
+   border-radius: 5px;
+   font-size: larger;
+   border: 1px solid gray;
+   cursor: pointer;
+}
+
+
+
 @media (max-width: 1118px ) {
     nav h1{
         left: 3%;
+    }.categorycard{
+        height: 150px; 
+        width: 20%;
+        background-color: red;
+        position: relative;
+        left: 5%;
+    }
+    .listcategory{
+       gap: 30px;
     }
     
+    
 }
+
+
 @media (max-width: 944px ) {
     nav h1{
         left: 2%;
@@ -190,8 +350,17 @@ footer .three a{
         font-size: 15px;
 
     }
+    .categorycard{
+        height: 150px; 
+        width: 20%;
+        background-color: red;
+        position: relative;
+        left: 5%;
+    }
     
 }
+
+
 @media (max-width: 860px ) {
     label #btn{
         display: block;
@@ -205,6 +374,7 @@ footer .three a{
         left: -100%;
         text-align: center;
         transition: all .4s;
+        z-index: 1;
     }
     nav ul li{
         display: block;
@@ -223,6 +393,19 @@ footer .three a{
     }
     #check:checked ~ label #cancel{
         display: block;
+    }
+   
+    
+    nav ul li button{
+        height: 30px;
+        width: 80px;
+        border-radius: 20px;
+        background:none;
+        border: none;
+        color: white;
+        font-size: larger;
+        /* border: 1px solid gray; */
+    
     }
     footer .one {
         display: none;
@@ -256,4 +439,100 @@ footer .three a{
         margin-top: 20%;
         margin-left: 15%;
     }
+    .bannerhead{
+        height: 20%;
+        width: 100%;
+        margin-left: 0%;
+        margin-top: 1%;
+        /* background-color: red; */
+        border-radius: 5px;
+        position: relative;
+        overflow: hidden;  
+    }
+    .btnnav{
+        position: absolute;
+        top: 30%;
+        left: 0;
+        width: 100%;
+        /* transform: translateY(-50%); */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .categoryh1{
+        text-align: center;
+        position: relative;
+        font-size: 20px;
+        top: 30px;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+    .categorycard{
+        height: 100px;
+        width: 40%;
+        background-color: red;
+        position: relative;
+        left: 5%;
+        top: 50px;
+        border-radius: 10px; 
+    }
+    .listcategory{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+    .listcategory .categorycard img{
+        height: 100%;
+        width: 100%;
+        border-radius: 10px;
+    }
+    .listcategory .categorycard p{
+        font-size: 10px;
+    }
+    .product{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .procard{
+    height: 220px;
+    width: 45%;
+    position: relative;
+    top: 130px;
+    left: 3%;
+    box-shadow: none;
+    }
+    .procard img:hover{
+        transform: none;
+        transition:none;
+    }
+    .procard .name{
+    font-size: 15px;
+    position: relative;
+    top: 20px;
+    }
+    .procard img{
+        height: 60%;
+        width: 90%;
+        }
+    .procard .prize{
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: bolder;
+    position: relative;
+    top: 25px;
+    
+    }
+    .product-h1 {
+        font-size: 20px;
+        text-align: center;
+        position: relative;
+        top: 100px;
+    }.btnshowall{
+        top: 135px;
+        left:2.5% ;
+        height: 25px;
+        width: 95%;
+        font-size: 15px;
+     }
+   
 }

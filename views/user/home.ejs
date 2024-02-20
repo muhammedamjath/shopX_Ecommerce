@@ -4,16 +4,55 @@
    
     <title>shopX</title>
     <%- include('layout/header') -%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <!-- navbar -->
+    <div class="container">
+        <!-- navbar -->
     <%- include('layout/navbar') -%>
 
+    <!-- banner -->
+    <div class="bannerhead">
+        <% banner.forEach((data)=>{ %> 
+            <div class="banner">
+                <img src="/<%= data.image %>" class="slider" alt="😁">
+            </div>
+             <%   })  %>
+             <div class="btnnav">
+                <button  onclick="goPrev()"><i class="fa-solid fa-angle-left"></i></button>
+                <button  onclick="goNext()"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+    </div>
+
+    <!-- category lish -->
+    <h1 class="categoryh1">Select your category</h1>
+    <div class="listcategory">
+        <% categories.forEach((data)=>{ %>
+        <div class="categorycard">
+            <img src="/<%= data.image %>" alt="😁" >
+            <p><%= data.category %></p>
+        </div>
+    <% }) %>  
+    </div>
     
+    <!--showing first 10 product  -->
+    <h1 class="product-h1">Offer product</h1>
+    <div class="product">
+        <% product.forEach((data)=>{ %>
+        <div class="procard">
+            <img src="/<%= data.image[0] %>" alt="😁">
+            <p class="name"><%= data.name %></p>
+            <p class="prize">Just at ₹ <%= data.offerprize %> </p>
+        </div>
+     <% }) %> 
+    </div>
+    <button class="btnshowall">Show all &nbsp;&nbsp; <i class="fa-solid fa-arrow-right"></i></button>
 
 
     <!--footer-->
-    <%- include('layout/footer') -%>
-
+    <br><br>
+    <!-- <%- include('layout/footer') -%> -->
+    </div>
+<script src="/userhome.js"></script>
 </body>
 </html>

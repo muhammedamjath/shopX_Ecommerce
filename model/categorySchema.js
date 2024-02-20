@@ -9,6 +9,9 @@ const category= new mongoose.Schema({
     subcategory:{
         type:Array,
         // required:true
+    },
+    image:{
+        type:String,
     }
 })
 

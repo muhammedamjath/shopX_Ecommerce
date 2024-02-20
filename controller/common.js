@@ -79,7 +79,7 @@ exports.otpPost = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-  }
+  } 
 };
 
 // otpInvalid get

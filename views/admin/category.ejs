@@ -12,15 +12,6 @@
             padding: 0px;
             font-family: sans-serif;
         }
-        /* .mainCatogory{
-            height: 100px;
-            width: 85%;
-            background-color: grey;
-            position: absolute;
-            top: 0%;
-            left: 15%;
-            border-radius: 0 0 10px 10px;
-        } */
         .catogory{
             /* height: 100px; */
             /* box-shadow: 0 0 1px 1px gray; */
@@ -54,7 +45,7 @@
            font-size: 13px;
            background-color: rgb(231, 237, 240);
            margin-top: 1px;
-           border-radius: 10px;
+           border-radius: 5px;
            padding-left: 10px;
         }
         .mainCatogory .catogory ul li:hover {
@@ -104,15 +95,20 @@
             left: 5%;
             font-size: 20px;
         }
+        .mainCatogory .catogory ul li button{
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
         .form-container{
             display: none; 
-            height: 140px;
+            height: 180px;
             width: 250px;
             background-color: white;
             box-shadow: 0 0 10px 2px gray;
             position: fixed;
-            left: 42%;
-            top: 15%;
+            left: 45%;
+            top: 4%;
             border-radius: 10px;
            
         }
@@ -198,7 +194,15 @@
         .form-container2 label{
             margin-left: 5%;
         }
-        
+        .subli{
+            display: flex;
+            justify-content: space-between;
+            padding-right: 20px;
+        }
+        .delsubcat{
+            background: none;
+            border: none;
+        }
     </style>
     <%- include("layouts/header") -%>
 </head>
@@ -209,13 +213,14 @@
             <h1>Catogory's <a href="#" id="openForm"><i class="fa-solid fa-circle-plus" style="color: #27e10e;"></i></a></h1>
             <ul id="ul">
                 <% categories.forEach((data) => { %>
-                    <li data-id="<%- data._id %>"><%- data.category %> <i class="fa-regular fa-trash-can" style="color: #dd5013;"></i></li>
+                    <li data-id="<%- data._id %>"><%- data.category %> <button onclick="deletecategory('<%= data._id %>')"><i class="fa-regular fa-trash-can" style="color: #dd5013;"></i></button></li>
                 <% }); %>
             </ul>
             <div class="form-container" id="formContainer">
-                <form id="categoryForm" method="post" action="/admin/category">
+                <form id="categoryForm" method="post" >
                     <label for="categoryName" >Category Name:</label><br>
                     <input type="text" id="categoryName" name="category" required>
+                    <input type="file" id="image" name="image" required accept="image/*">
                     <button type="submit" id="button1">Add Category</button>
                 </form>
                 <button id="closeForm"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i></button>
@@ -224,7 +229,7 @@
         <div class="subCatogory">
             <h1>Sub catogory <a href="#" id="openForm2"><i class="fa-solid fa-circle-plus" style="color: #27e10e;"></i></a></h1>
             <ul id="ul2"> 
-                    <li></li>   
+                      
             </ul>
             <div class="form-container2" id="formContainer2" >
                 <form id="categoryForm" method="post" action="/admin/subCategory">
