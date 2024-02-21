@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>       
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            padding-bottom: 20px;
+        }
+        .image{
+            position: absolute;
+            height: 600px;
+            width: 50%;
+            top: 130px;
+            left: 5%;
+            /* background-color: yellow; */
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px 0px gray;
+        }
+        .image img{
+            height: 70%;
+            width: 60%;
+            position: relative;
+            left: 15%;
+            top: 10%;
+        }
+        .image .sub img{
+            height: 70px;
+            width: 70px;
+            border-radius: 5px;
+            border: 1px solid blue;
+        }
+        .image .sub img:hover{
+            transform: scale(1.1);
+            transition: .4s ease;
+        }
+        .image .sub{
+            display: flex;
+            position: relative;
+            top: 13%;
+            gap: 20px;
+            margin-left: 10%;
+        }
+        .body{
+            position: absolute;
+            left: 65%;
+            top: 20%;
+            /* background-color: yellow; */
+        }
+        .body h1{
+            font-family: "Poppins", sans-serif;
+            font-weight: 600;
+            font-style: normal;
+        }
+        .body .prize{
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 35px;
+            font-weight: bolder;
+            margin-top: 10%;
+        }
+        .body .prize del{
+            color: gray;
+            font-size: 20px;
+        }
+        .body .prize span{
+            font-size: 20px;
+            color: green;
+        }
+        .body .discription{
+            margin-top: 10%;
+            max-width: 400px;
+        }
+        .body .detailes{
+            margin-top: 10%;
+        }
+        .body .detailes .text{
+            display: flex;
+            gap: 50px;
+            line-height: 40px;
+            font-family: "Roboto", sans-serif;
+            font-weight: 100;
+            font-style: normal;
+            margin-top: 3%;
+        }
+        .body .detailes .text .field{
+            display: flex;
+            flex-direction: column;
+            font-weight: 600;
+
+        }
+        .body .detailes .text .value{
+            display: flex;
+            flex-direction: column;
+            color: gray;
+            font-weight: 600;
+
+        }
+        .body .detailes h2{
+            font-family: "Roboto", sans-serif;
+            font-weight: 600;
+            font-style: normal;
+            color: #fb8500;
+        }
+        .btn{
+            margin-top: 30%;
+        }
+        .btn #buy{
+            height: 40px;
+            width: 150px;
+            background-color: blue;
+            border: 1px solid gray;
+            border-radius: 5px;
+            font-size: larger;
+            color: white;
+            cursor: pointer;
+        }
+        .btn #cart{
+            height: 40px;
+            width: 150px;
+            background-color: #ffb703;
+            border: 1px solid gray;
+            border-radius: 5px;
+            font-size: larger;
+            cursor: pointer;
+        }.btn #wishlist{
+            height: 40px;
+            width: 40px;
+            background-color: #fff;
+            border: 1px solid gray;
+            border-radius: 5px;
+            font-size: larger;
+            cursor: pointer;
+        }
+        del{
+            text-decoration: line-through;
+        }
+        @media (max-width:860px){
+         
+            .image{
+            position: absolute;
+            height: 400px;
+            width: 95%;
+            top: 100px;
+            left: 2.5%;
+        }
+        .image .sub{
+            display: flex;
+            position: relative;
+            top: 8%;
+            gap: 13px;
+            margin-left: 0%;
+        }
+        .image img{
+            height: 70%;
+            width: 80%;
+            position: relative;
+            left: 10%;
+            top: 3%;
+        }
+        .image .sub img{
+            height: 58px;
+            width: 58px;
+            border-radius: 5px;
+            border: 1px solid blue;
+        }
+        /* body */
+        .body{
+            position: relative;
+            left: 0%;
+            top: 70%;
+        }
+        .body h1{
+            text-align: center;
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+        }
+        .body .prize{
+            font-size: 30px;
+            font-weight: bolder;
+            margin-top: 5%;
+            margin-left: 5%;
+        }
+        .body .prize del{
+            color: gray;
+            font-size: 15px;
+        }
+        .body .prize span{
+            font-size: 20px;
+            color: green;
+        }
+        .body .discription{
+            margin-top: 10%;
+            margin-left: 5%;
+            max-width: 340px;
+        }
+        .body .detailes{
+            margin-top: 10%;
+            margin-left: 5%;
+        }
+        .body .detailes .text{
+            margin-top: 3%;
+        }
+        .body .detailes .text .field{
+            display: flex;
+            flex-direction: column;
+            font-weight: 500;
+        }
+        .body .detailes .text .value{
+            display: flex;
+            flex-direction: column;
+            color: gray;
+            font-weight: 400;
+
+        }
+        .body .detailes h2{
+            font-family: "Roboto", sans-serif;
+            font-weight: 600;
+
+        }
+        .btn{
+            margin-top: 5%;
+            margin-left: 5%;
+            display: flex;
+            gap: 10px;
+            padding-bottom: 20px;
+        }
+        .btn #buy{
+            height: 40px;
+            width: 130px;
+            border-radius: 5px;
+            font-size: large;
+        }
+        .btn #cart{
+            height: 40px;
+            width: 130px;
+            border-radius: 5px;
+            font-size: large;
+        }
+        }
+    </style>
+    <%- include('layout/header') -%>
+</head>
+<body>
+    <%- include('layout/navbar') -%>
+    <div class="container">
+        <div class="image">
+            <img src="/<%= item.image[0] %>" alt="😁" class="img">
+            <div class="sub">
+                <img src="/public/miscellaneous/asus.webp" alt="😁" class="subimg">
+                <img src="/public/miscellaneous/ihone 15 pro.webp" alt="😁" class="subimg">
+                <img src="/public/miscellaneous/pixel 7pro 2.webp" alt="😁" class="subimg">
+                <img src="/public/miscellaneous/pixel 7pro 2.webp" alt="😁" class="subimg">
+            </div>
+        </div>
+        <div class="body">
+            <h1><%= item.name %></h1>
+            <p class="prize">₹<%= item.offerprize %> <del>(<%= item.prize %>)</del> <span><%= item.prizePercenttage %>% off</span></p>
+            <p class="discription"><%= item.discription %></p>
+            <div class="detailes">
+                <h2>Product detailes</h2>
+                <div class="text">
+                    <div class="field">
+                        <span>category</span>
+                        <span>brand</span>
+                    </div>
+                    <div class="value">
+                        <span><%= item.category %></span>
+                        <span><%= item.brand %></span>
+                    </div>
+                </div>   
+            </div>
+            <div class="btn">
+                <button id="buy">Buy now</button>
+                <button id="cart">Add to cart</button>
+                <button id="wishlist"> <i class="fa-regular fa-heart"></i></button>
+            </div>
+        </div>
+    </div>
+    <script >
+        const mainimage=document.querySelector('.img')
+        const subimg=document.querySelectorAll('.subimg')
+
+        subimg.forEach((item)=>{
+            item.addEventListener('click',()=>{
+                mainimage.src=item.src
+            })
+        })
+
+    </script>
+</body>
+</html>

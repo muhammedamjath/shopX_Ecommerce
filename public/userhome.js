@@ -34,3 +34,4 @@ const slideimage=()=>{
 
 slideimage()
 
+

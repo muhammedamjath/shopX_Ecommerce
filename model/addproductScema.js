@@ -43,6 +43,13 @@ const productData= new mongoose.Schema({
     status:{
         type:String,
         default:'Active'
+    },
+    prizePercenttage:{
+        type:Number,
+        required:true
+    },
+    brand:{
+        type:String
     }
 })  
 

@@ -144,15 +144,21 @@ exports.postaddproduct = async (req, res) => {
   } else {
     name = name.charAt(0).toUpperCase() + name.slice(1);
   }
+  const prize=req.body.prize
+  const offerprize=req.body.offerprize
+
+  percentage= 100-( Math.round(offerprize/prize*100))
 
   const postdata = new additemCollection({
     name: name,
     prize: req.body.prize,
     offerprize: req.body.offerprize,
+    prizePercenttage:percentage,
     stock: req.body.stock,
     category: req.body.category,
     subCategory: req.body.subCategory,
     image: path,
+    brand:req.body.brand,
     size: req.body.size,
     color: req.body.color,
     discription: req.body.discription,
@@ -212,6 +218,9 @@ exports.editproduct = async (req, res) => {
 exports.postEdit = async (req, res) => {
   const proId = req.params.editId;
   const data = await additemCollection.findById(proId);
+  const prizeE=req.body.prize
+  const offerprizeE=req.body.offerprize
+  percentage= 100-( Math.round(offerprizeE/prizeE*100))
   const {
     name,
     prize,
@@ -219,6 +228,7 @@ exports.postEdit = async (req, res) => {
     category,
     subCategory,
     size,
+    brand,
     color,
     discription,
   } = req.body;
@@ -232,10 +242,12 @@ exports.postEdit = async (req, res) => {
         offerprize: offerprize,
         category: category,
         subCategory: subCategory,
+        prizePercenttage:percentage,
         image: path,
         size: size,
         color: color,
         discription: discription,
+        brand:brand
       },
     });
     console.log("product updated successfully");

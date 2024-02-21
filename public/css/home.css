@@ -19,6 +19,7 @@ body{
 nav{
     height: 80px;
     background-color: orangered;
+    width: 100%;
 }
 nav h1{
     color: white;
@@ -365,29 +366,37 @@ top: 10px;
     label #btn{
         display: block;
     }
+    nav{
+        position: fixed;
+        top: 0;
+        z-index: 1;
+    }
     ul{
         position: fixed;
         height: 100vh;
-        width: 100%;
-        background-color: black;
+        width: 80%;
+        background-color: rgb(241, 238, 238);
         top: 80px;
         left: -100%;
-        text-align: center;
+        /* text-align: center; */
         transition: all .4s;
         z-index: 1;
     }
     nav ul li{
         display: block;
-        margin: 30px 0;
+        margin: 30px 0 0 10px;
         line-height: 20px;
     }
     nav ul li a{
         font-size: 15px;
+        margin-left: 25px;
+        color: gray;
         
     }
     #check:checked ~ ul {
         left: 0;
     }
+    
     #check:checked ~ label #btn{
         display: none;
     }
@@ -402,8 +411,9 @@ top: 10px;
         border-radius: 20px;
         background:none;
         border: none;
-        color: white;
+        color: gray;
         font-size: larger;
+        margin-left: 18px;
         /* border: 1px solid gray; */
     
     }
@@ -443,7 +453,7 @@ top: 10px;
         height: 20%;
         width: 100%;
         margin-left: 0%;
-        margin-top: 1%;
+        margin-top: 25%;
         /* background-color: red; */
         border-radius: 5px;
         position: relative;

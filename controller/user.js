@@ -11,6 +11,14 @@ exports.homeget=async(req,res)=>{
 } 
 
 // showing all product
-// exports.getallproduct=(req,res)=>{
-//     res.render('user/showallproduct')
-// }
+exports.getallproduct=async(req,res)=>{
+    const items=await productcollection.find()
+    res.render('user/showallproduct',{items})
+}
+
+// get single product
+exports.getsingleproduct=async(req,res)=>{
+    const id = req.params.id
+    const item=await productcollection.findById(id)
+    res.render('user/singleproduct',{item})
+}

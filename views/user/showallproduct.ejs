@@ -9,52 +9,71 @@
            display: flex;
            flex-wrap: wrap;
            gap: 20px;
+           width: 85%;
+           margin-left: 15%;
         }
         .img{
             height: 100%;
             width: 50%;
-            background-color: rgb(193, 17, 17);
+            background-color: white;
             position: absolute;
             left: 0%;
             top: 0%;
             border-radius: 10px 0 0 10px;
+            border-right: 1px solid #c2c5aa;
+            z-index: 1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .filter{
+        .img img{
             height: 100%;
-            width: 25%;
-            background-color: black;
+            width: auto;
+
+        }
+        #filter{
+            height: 100%;
+            width: 20%;
+            background-color: goldenrod;
             position: fixed;
+            top: 0;
+            z-index: -1;
         }
         
         .detailes{
             height: 100%;
             width: 50%;
             background-color: rgb(255, 255, 255);
-            position: absolute;
+            position: relative;
             left: 50%;
             border-radius: 0 10px 10px 0;
             font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
         .card{
             height: 250px;
-            width: 35%;
-            /* background-color: red; */
+            width: 45%;
             position: relative;
-            top: 100px;
-            left: 420px;
+            top: 30px;
+            left: 7%;
             border-radius: 10px;
-            border: 1px solid black;
             display: flex;
+            cursor: pointer;
+
         }
         .detailes .name{
             text-align: center;
-            margin-top: 30%;
+            margin-top: 25%;
             font-size: 25px;
             font-weight: bolder;
             font-family: sans-serif;
         }
         .detailes .category{
             margin-left: 10%;
+            margin-top: 5%;
         }
         .detailes .prize{
             margin-left: 10%;
@@ -62,40 +81,117 @@
         }
         .detailes .subcategory{
             margin-left: 10%;
+            color: gray;
         }
-        
-
+        .detailes .prize .percent{
+            color: #bb3e03;
+        }
+        del{
+            text-decoration: line-through;
+            font-size: 15px;
+            color: gray;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        @media (max-width:860px){
+            .allproduct{
+           display: flex;
+           flex-wrap: wrap;
+           gap: 5px;
+           width: 100%;
+           margin-left: 0%;margin-top: 55px;
+        }
+        .card{
+            height: 300px;
+            width: 48%;
+            position: relative;
+            top: 30px;
+            left: 1%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black;
+        }
+        .img{
+            height: 50%;
+            width: 100%;
+            background-color: white;
+            position: relative;
+            left: 0%;
+            top: 0%;
+            border-radius: 10px 10px 0 0;
+            border-right: none;
+            border-bottom: 1px solid #c2c5aa;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: -1;
+        }
+        .detailes{
+            height: 50%;
+            width: 100%;
+            background-color: rgb(255, 255, 255);
+            position: relative;
+            left: 0%;
+            border-radius: 0 0 10px 10px;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .detailes .name{
+            text-align: center;
+            margin-top: 13%;
+            font-size: 15px;
+            font-weight: bolder;
+            font-family: sans-serif;
+        }
+        .detailes .prize{
+            margin-left: 10%;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        del{
+            text-decoration: line-through;
+            font-size: 10px;
+           
+        }
+        #filter{
+            all: initial;
+        }
+        .img img{
+            height: 100%;
+            width: auto;
+            z-index: 1;
+        }
+        .detailes .category{
+           font-size: 12px;
+        }
+        .detailes .subcategory{
+            font-size: 11px;
+        }
+        }
     </style>
+    <%- include('layout/header') -%>
 </head>
 <body>
-    <div class="filter"></div>
+    <%- include('layout/navbar') -%>
+    <div id="filter"></div>
     <div class="allproduct">
-        <div class="card">
-            <div class="img"></div>
+        <% items.forEach((data)=>{ %>
+        <div class="card" onclick="window.location.href='/user/singleproduct/<%= data._id %>'">
+            <div class="img"><img src="/<%= data.image[0] %>" alt="😁"></div>
             <div class="detailes">
-                <p class="name">Amjath</p>
-                <p class="category">Mens</p>
-                <p class="subcategory">pants</p>
-                <p class="prize"> ₹ 300 <span>(<del>500</del>) <span class="percent">10% off</span></span></p>
+                <p class="name"><%= data.name %></p>
+                <p class="category"><%= data.category %></p>
+                <p class="subcategory"><%= data.brand %></p>
+                <p class="prize"> ₹ <%= data.offerprize %> <span>(<del><%= data.prize %></del>) <span class="percent"><%= data.prizePercenttage %>% off</span></span></p>
             </div>
         </div>
-        <div class="card">
-            <div class="img"></div>
-            <div class="detailes">
-                <p class="name">Amjath</p>
-                <p class="category">Mens</p>
-                <p class="subcategory">pants</p>
-                <p class="prize"> ₹ 300 <span>(<del>500</del>) <span class="percent">10% off</span></span></p>
-            </div>
-        </div><div class="card">
-            <div class="img"></div>
-            <div class="detailes">
-                <p class="name">Amjath</p>
-                <p class="category">Mens</p>
-                <p class="subcategory">pants</p>
-                <p class="prize"> ₹ 300 <span>(<del>500</del>) <span class="percent">10% off</span></span></p>
-            </div>
-        </div>
+      <% }) %>
+        
     </div>
+    <script>
+       
+    </script>
 </body>
 </html>
