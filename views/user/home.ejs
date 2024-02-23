@@ -28,7 +28,7 @@
     <h1 class="categoryh1">Select your category</h1>
     <div class="listcategory">
         <% categories.forEach((data)=>{ %>
-        <div class="categorycard">
+        <div class="categorycard" onclick="window.location.href='/user/categoryproduct/<%= data.category %>'">
             <img src="/<%= data.image %>" alt="😁" >
             <p><%= data.category %></p>
         </div>
@@ -39,7 +39,7 @@
     <h1 class="product-h1">Offer product</h1>
     <div class="product">
         <% product.forEach((data)=>{ %>
-        <div class="procard">
+        <div class="procard" onclick="window.location.href='/user/singleproduct/<%= data._id %>'">
             <img src="/<%= data.image[0] %>" alt="😁">
             <p class="name"><%= data.name %></p>
             <p class="prize">Just at ₹ <%= data.offerprize %> </p>
@@ -47,11 +47,12 @@
      <% }) %> 
     </div>
     <button class="btnshowall" onclick="window.location.href='/user/showallproduct'">Show all &nbsp;&nbsp; <i class="fa-solid fa-arrow-right"></i></button>
+    <br><br><br><br><br><br><br><br><br>
 
 
-    <!--footer-->
+    <!-- footer -->
     <br><br>
-    <!-- <%- include('layout/footer') -%> -->
+    <%- include('layout/footer') -%>
     </div>
 <script src="/userhome.js"></script>
 </body>

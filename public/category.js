@@ -121,8 +121,6 @@ button2.addEventListener('click',(event)=>{
 function currentcategory(categoryId, liElement) {
     axios.delete(`/admin/deletecategory/${categoryId}`)
     .then((response) => {
-        console.log(response);
-        console.log("Category deleted successfully");
         liElement.remove();
     })
     .catch((error) => {

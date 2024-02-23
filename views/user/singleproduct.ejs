@@ -54,6 +54,7 @@
             position: absolute;
             left: 65%;
             top: 20%;
+            height: 600px;
             /* background-color: yellow; */
         }
         .body h1{
@@ -111,7 +112,8 @@
             color: #fb8500;
         }
         .btn{
-            margin-top: 30%;
+            position: absolute;
+            top: 88%;       
         }
         .btn #buy{
             height: 40px;
@@ -131,15 +133,20 @@
             border-radius: 5px;
             font-size: larger;
             cursor: pointer;
-        }.btn #wishlist{
+        }
+        .image .wishlist{
             height: 40px;
             width: 40px;
-            background-color: #fff;
-            border: 1px solid gray;
+            background: none;
             border-radius: 5px;
+            border: 1px solid gray;
             font-size: larger;
             cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 90%;
         }
+        
         del{
             text-decoration: line-through;
         }
@@ -176,7 +183,7 @@
         .body{
             position: relative;
             left: 0%;
-            top: 70%;
+            top: 75%;
         }
         .body h1{
             text-align: center;
@@ -228,7 +235,8 @@
 
         }
         .btn{
-            margin-top: 5%;
+            position: absolute;
+            top: 88%; 
             margin-left: 5%;
             display: flex;
             gap: 10px;
@@ -256,11 +264,15 @@
         <div class="image">
             <img src="/<%= item.image[0] %>" alt="😁" class="img">
             <div class="sub">
-                <img src="/public/miscellaneous/asus.webp" alt="😁" class="subimg">
-                <img src="/public/miscellaneous/ihone 15 pro.webp" alt="😁" class="subimg">
-                <img src="/public/miscellaneous/pixel 7pro 2.webp" alt="😁" class="subimg">
-                <img src="/public/miscellaneous/pixel 7pro 2.webp" alt="😁" class="subimg">
+                <% item.image.forEach((data)=>{ %>
+                <img src="/<%=data %>" alt="😁" class="subimg">
+                <% }) %>
             </div>
+           <% if(wishdataId == null|| undefined){ %>
+                <button style="color: white;" class="wishlist" onclick="passIdtoAxios('<%= item._id %>')"> <i class="fa-solid fa-heart"></i></button>
+            <% }else{ %>
+                         <button style="color: red;" class="wishlist" onclick="passIdtoAxios('<%= item._id %>')"> <i class="fa-solid fa-heart"></i></button>
+           <% } %>
         </div>
         <div class="body">
             <h1><%= item.name %></h1>
@@ -282,20 +294,36 @@
             <div class="btn">
                 <button id="buy">Buy now</button>
                 <button id="cart">Add to cart</button>
-                <button id="wishlist"> <i class="fa-regular fa-heart"></i></button>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script >
         const mainimage=document.querySelector('.img')
         const subimg=document.querySelectorAll('.subimg')
-
+        
         subimg.forEach((item)=>{
             item.addEventListener('click',()=>{
                 mainimage.src=item.src
             })
         })
 
-    </script>
+        // add items to wishlist
+        const button=document.querySelector('.wishlist')
+        function passIdtoAxios (id){
+            if(button.style.color=='red'){
+                alert('the product is alredy in wishlist')
+            }else{
+            axios.post(`/user/passIdtoAxios/${id}`)
+            .then((res)=>{
+                console.log(res);
+                button.style.color='red'
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+        }
+        }
+        </script>
 </body>
 </html>

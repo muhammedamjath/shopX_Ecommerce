@@ -11,7 +11,7 @@
 }
 body{
     font-family: sans-serif;
-    background-color: #90e1ef4a;
+    background-color: #fed9b7;
 
 }
 /* nav bar  */
@@ -95,7 +95,7 @@ nav ul li button:hover{
 footer{
     height: 190px;
     background-color: #131a22;
-    position:absolute;
+    position:relative;
     bottom: 0;
     width: 100%;
 }
@@ -183,10 +183,10 @@ footer .three a{
 }
 /* banner */
 .bannerhead{
-    height: 80%;
+    height: 90%;
     width: 100%;
     margin-left: 0%;
-    margin-top: 1%;
+    margin-top: 0%;
     /* background-color: red; */
     border-radius: 5px;
     position: relative;
@@ -269,9 +269,9 @@ width: 250px;
 position: relative;
 border: 1px solid gray;
 top: 150px;
-left: 7%;
+background-color: rgb(232, 227, 227);
+left: 2%;
 border-radius: 5px;
-box-shadow: 0 0 1px 1px red;
 cursor: pointer;
 
 }
@@ -290,7 +290,7 @@ border-radius: 10px;
 }
 .procard .name{
 text-align: center;
-font-size: 30px;
+font-size: 25px;
 font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 position: relative;
 top: 10px;
@@ -300,7 +300,8 @@ text-align: center;
 font-family: sans-serif;
 font-weight: bolder;
 position: relative;
-top: 10px;
+top: 15px;
+color: #450920;
 
 }
 .product-h1 {
@@ -312,13 +313,14 @@ top: 10px;
 .btnshowall{
    position: relative;
    top: 170px;
-   left:7.5% ;
-   height: 50px;
-   width: 85%;
+   left:2.5% ;
+   height: 40px;
+   width: 95%;
    border-radius: 5px;
    font-size: larger;
    border: 1px solid gray;
    cursor: pointer;
+   background-color: rgb(188, 173, 173);
 }
 
 

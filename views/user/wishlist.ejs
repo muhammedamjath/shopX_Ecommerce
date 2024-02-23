@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wishlist</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 100vh;
+        width: 100%;
+      }
+      .card {
+        height: 200px;
+        width: 60%;
+        background-color: white;
+        position: relative;
+        top: 20px;
+        left: 20%;
+        border-radius: 10px;
+        padding: 10px;
+        cursor: pointer;
+      }
+      .part1 {
+        height: 100%;
+        width: 100%;
+        /* background-color: red; */
+        display: flex;
+        gap: 20px;
+        padding-bottom: 5px;
+      }
+
+      .part1 .img {
+        height: 100%;
+        width: 25%;
+        background-color: red;
+        border-radius: 10px;
+      }
+      .part1 .img img {
+        height: 100%;
+        width: 100%;
+        border-radius: 10px;
+      }
+      .part1 .detailes {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        font-family: sans-serif;
+      }
+      .part1 .detailes h4 {
+        color: #fb8500;
+      }
+      .part1 button {
+        height: 30px;
+        width: 30px;
+        position: absolute;
+        left: 95%;
+        background: none;
+        border: none;
+        color: gray;
+        cursor: pointer;
+      }
+      .part1 .offer {
+        display: flex;
+        flex-direction: column;
+        /* background-color: red; */
+        justify-content: space-around;
+        margin-left: 10%;
+        font-family: sans-serif;
+      }
+      .part1 .offer .price {
+        display: flex;
+        gap: 20px;
+        font-size: 20px;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+      .part1 .offer p {
+        font-size: 25px;
+        font-weight: bolder;
+      }
+      del {
+        text-decoration: line-through;
+      }
+      .box {
+        height: 500px;
+        width: 800px;
+        position: relative;
+        top: 50px;
+        left: 30%;
+      }
+      .box h1 {
+        margin-left: 13%;
+        z-index: 1;
+        color: black;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+      .box img {
+        position: absolute;
+        top: 0;
+        left: 10%;
+        z-index: 1;
+      }
+    </style>
+    <%- include('layout/header') -%>
+  </head>
+  <body>
+    <%- include('layout/navbar') -%>
+    <div class="container">
+      <% if( getData === undefined || getData === null ){ %>
+      <div class="box">
+        <h1>oops! nothing in your wishlist</h1>
+        <img src="/miscellaneous/not_found-removebg-preview.png" alt="" />
+      </div>
+      <%}else{ %>   
+        <% getData.forEach((data)=>{ %>
+      <div class="card">
+        <div class="part1">
+          <div class="img">
+            <img src="/<%= data.image[0] %>" alt="😁" />
+          </div>
+          <div class="detailes">
+            <h2><%= data.name %></h2>
+            <h4><%= data.brand %></h4>
+          </div>
+          <div class="offer">
+            <p>prize</p>
+            <div class="price">
+              <span style="color: gray"><del>₹<%= data.prize %></del></span>
+              <span class="prize" style="font-weight: bolder"
+                >₹<%= data.offerprize %></span
+              >
+            </div>
+          </div>
+          <button class="btn" onclick="deleteCard('<%= data._id %>')">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
+      <%}) %> <% }%>
+      <br />
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/userhome.js"></script>
+  </body>
+</html>

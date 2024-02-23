@@ -102,9 +102,12 @@ exports.loginpost = async (req, res) => {
       mongoData.password
     );
     if (mongoPass) {
-      res.redirect("/user/home");
-    } else {
-      res.redirect("/common/login");
-    }
+      req.session.email=req.body.email
+      if(req.session.email){
+        res.redirect("/user/home");
+      }else {
+          res.redirect("/common/login");
+      }
+    } 
   }
 };
