@@ -3,6 +3,7 @@ const categorycollection = require("../model/categorySchema");
 const productcollection = require("../model/addproductScema");
 const wishlistCollection = require("../model/wishlist");
 const signupCollection = require("../model/usersignupData");
+const cartcollections = require("../model/cart");
 
 // user home
 exports.homeget = async (req, res) => {
@@ -73,21 +74,20 @@ exports.getwishlist = async (req, res) => {
     const wishdata = await wishlistCollection.findOne({ id: userId });
     let getData;
     if (!wishdata) {
-      res.render("user/wishlist",{getData});
+      res.render("user/wishlist", { getData });
     } else {
       getData = [];
       for (let i of wishdata.proId) {
         const product = await productcollection.findById(i);
         getData.push(product);
       }
-      if(getData.length==0){
-        getData=undefined
-        res.render('user/wishlist',{getData})
-      }else{
-        res.render('user/wishlist',{getData})
+      if (getData.length == 0) {
+        getData = undefined;
+        res.render("user/wishlist", { getData });
+      } else {
+        res.render("user/wishlist", { getData });
       }
     }
-    console.log(getData);
   }
 };
 
@@ -120,22 +120,116 @@ exports.postToWishlist = async (req, res) => {
 };
 
 // remove item from wishlist
-exports.removeFromWishlist=async(req,res)=>{
-  if(req.session.email){
-    const id=req.params.id
+exports.removeFromWishlist = async (req, res) => {
+  if (req.session.email) {
+    const id = req.params.id;
     const email = req.session.email;
     const userData = await signupCollection.findOne({ email: email });
     const userId = userData._id;
-  try{
-    await wishlistCollection.findOneAndUpdate(
-      {id:userId},
-      {$pull:{proId:id}},
-      {new:true}
-    )
-    res.status(200).json({message:'item removed successfully'})
+    try {
+      await wishlistCollection.findOneAndUpdate(
+        { id: userId },
+        { $pull: { proId: id } },
+        { new: true }
+      );
+      res.status(200).json({ message: "item removed successfully" });
+    } catch (err) {
+      res.status(502).json({ message: "not poped" });
+    }
   }
-  catch(err){
-      res.status(502).json({message:'not poped'})
+};
+
+// cart creating
+exports.createcart = async (req, res) => {
+  if (req.session.email) {
+    const id = req.params.id;
+    const email = req.session.email;
+
+    try {
+      const userData = await signupCollection.findOne({ email: email });
+      if (userData) {
+        const userId = userData._id;
+        const cartCreation = await cartcollections.findOneAndUpdate(
+          { userId: userId },
+          { $push: { productId: { id: id } } },
+          { upsert: true, new: true }
+        );
+        if (cartCreation) {
+          res
+            .status(200)
+            .json({ message: "created and updeted the cart successfully" });
+        } else {
+          res
+            .status(200)
+            .json({ message: "cart document not created of this user" });
+        }
+      } else {
+        console.log("user is not found");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
+};
+
+// cart get
+let total
+exports.cartget = async (req, res) => {
+  if (req.session.email) {
+    let subtotal=0
+     
+    const email = req.session.email;
+    const userData = await signupCollection.findOne({ email: email });
+    const userId = userData._id;
+    let cartItem = [];
+    let data = [];
+    try {
+      const cartData = await cartcollections.findOne({ userId: userId });
+      if (cartData) {
+        for (let doc of cartData.productId) {
+          let quantity = doc.count
+          cartItem.push(doc);
+          try {
+            let item = await productcollection.findById(doc.id);
+            if (item) {
+              subtotal+=quantity*item.offerprize
+              data.push(item);
+            }
+          } catch {
+            console.log("error while reciving product");
+          }
+        }
+      }
+      res.render("user/cart", { data, cartItem ,subtotal});
+    } catch (err) {
+      console.log(err);
+    } 
+    total=subtotal
   }
-}
+};
+
+
+// updating cart quantity
+exports.updateCount = async (req, res) => {
+  if (req.session.email) {
+    const email = req.session.email;
+    const userData = await signupCollection.findOne({ email: email });
+    const userId = userData._id;
+    const id = req.params.id;
+    const quantity = req.params.quantity;
+    try {
+      const updatecount = await cartcollections.findOneAndUpdate(
+        { userId: userId, "productId.id": id },
+        { $set: { "productId.$.count": quantity } },
+        { new: true }
+      );
+      if (updatecount) {
+        res.status(200).json({ });
+      } else {
+        res.status(502).json({ message: "quantity not updated" });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+};
