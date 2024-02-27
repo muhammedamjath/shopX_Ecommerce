@@ -338,7 +338,10 @@
         function addToCart(id){
             axios.post(`/user/addToCart/${id}`)
             .then((res)=>{
-                console.log(res);
+                const message=res.data.message
+                if(message=="the product is already in cart"){
+                    alert(message)
+                }
             })
             .catch((err)=>{
                 console.log(err);

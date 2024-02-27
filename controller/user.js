@@ -149,19 +149,27 @@ exports.createcart = async (req, res) => {
       const userData = await signupCollection.findOne({ email: email });
       if (userData) {
         const userId = userData._id;
-        const cartCreation = await cartcollections.findOneAndUpdate(
-          { userId: userId },
-          { $push: { productId: { id: id } } },
-          { upsert: true, new: true }
-        );
-        if (cartCreation) {
-          res
-            .status(200)
-            .json({ message: "created and updeted the cart successfully" });
+        const checking = await cartcollections.findOne({
+          userId: userId,
+          "productId.id": id,
+        });
+        if (checking) {
+          res.status(200).json({ message: "the product is already in cart" });
         } else {
-          res
-            .status(200)
-            .json({ message: "cart document not created of this user" });
+          const cartCreation = await cartcollections.findOneAndUpdate(
+            { userId: userId },
+            { $push: { productId: { id: id } } },
+            { upsert: true, new: true }
+          );
+          if (cartCreation) {
+            res
+              .status(200)
+              .json({ message: "created and updeted the cart successfully" });
+          } else {
+            res
+              .status(200)
+              .json({ message: "cart document not created of this user" });
+          }
         }
       } else {
         console.log("user is not found");
@@ -173,11 +181,10 @@ exports.createcart = async (req, res) => {
 };
 
 // cart get
-let total
 exports.cartget = async (req, res) => {
   if (req.session.email) {
-    let subtotal=0
-     
+    let subtotal = 0;
+
     const email = req.session.email;
     const userData = await signupCollection.findOne({ email: email });
     const userId = userData._id;
@@ -185,14 +192,15 @@ exports.cartget = async (req, res) => {
     let data = [];
     try {
       const cartData = await cartcollections.findOne({ userId: userId });
+
       if (cartData) {
         for (let doc of cartData.productId) {
-          let quantity = doc.count
+          let quantity = doc.count;
           cartItem.push(doc);
           try {
             let item = await productcollection.findById(doc.id);
             if (item) {
-              subtotal+=quantity*item.offerprize
+              subtotal += quantity * item.offerprize;
               data.push(item);
             }
           } catch {
@@ -200,14 +208,13 @@ exports.cartget = async (req, res) => {
           }
         }
       }
-      res.render("user/cart", { data, cartItem ,subtotal});
+      res.render("user/cart", { data, cartItem, subtotal });
     } catch (err) {
       console.log(err);
-    } 
-    total=subtotal
+    }
+    total = subtotal;
   }
 };
-
 
 // updating cart quantity
 exports.updateCount = async (req, res) => {
@@ -224,7 +231,7 @@ exports.updateCount = async (req, res) => {
         { new: true }
       );
       if (updatecount) {
-        res.status(200).json({ });
+        res.status(200).json({});
       } else {
         res.status(502).json({ message: "quantity not updated" });
       }
@@ -232,4 +239,30 @@ exports.updateCount = async (req, res) => {
       console.log(err);
     }
   }
+};
+
+// remove item from cart
+exports.delcartItem = async (req, res) => {
+  if (req.session.email) {
+    const id = req.params.id;
+    const email = req.session.email;
+    const userData = await signupCollection.findOne({ email: email });
+    const userId = userData._id;
+    try {
+      const updatecount = await cartcollections.findOneAndUpdate(
+        { userId: userId},
+        { $pull:  { productId: { id: id } }},
+        { new: true }
+      );
+        if(updatecount){
+          res.status(200).json({message: "item   deleted from cart"})
+        }
+        else{
+          res.status(502).json({ message: "item  not deleted from cart" });
+        }
+  }
+  catch(err){
+    console.log(err);
+  }
+}
 };

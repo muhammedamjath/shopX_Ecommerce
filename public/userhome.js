@@ -44,7 +44,7 @@ function deleteCard(id) {
       cards.forEach((card) => {
         const btn = card.querySelector(".btn");
         btn.addEventListener("click", () => {
-          card.remove();
+        card.remove();
         });
       });
     })

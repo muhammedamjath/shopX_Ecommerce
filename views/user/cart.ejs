@@ -1,297 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cart</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      .container {
-        height: 100vh;
-        width: 100%;
-      }
-      .container h1 {
-        position: absolute;
-        top: 90px;
-        left: 40%;
-      }
-      .cardHead {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .card {
-        position: relative;
-        top: 80px;
-        left: 50px;
-        height: 200px;
-        width: 60%;
-        /* border: 1px solid black; */
-        padding: 10px;
-        border-radius: 10px;
-        background-color: white;
-      }
-      .part1 {
-        height: 50%;
-        width: 100%;
-        /* background-color: red; */
-        border-bottom: 1px solid #e4e7ea;
-        padding-bottom: 10px;
-      }
-      .part1 .img {
-        height: 90%;
-        width: 10%;
-        position: relative;
-        left: 10px;
-        top: 5px;
-        border-radius: 5px;
-      }
-      .part1 .img img {
-        height: 100%;
-        width: 100%;
-        border-radius: 5px;
-      }
-      .detailes {
-        height: 90%;
-        max-width: 30%;
-        position: absolute;
-        top: 15px;
-        left: 15%;
-        line-height: 31px;
-        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-          sans-serif;
-      }
-      .detailes .brand {
-        color: #fb5607;
-      }
-      .part1 .buttons {
-        position: absolute;
-        top: 10px;
-        left: 90%;
-      }
-      .part1 .buttons button {
-        height: 40px;
-        width: 40px;
-        font-size: 15px;
-        background: none;
-        border: none;
-      }
-      .part2 {
-        height: 50%;
-        width: 100%;
-        /* background-color: gray; */
-        padding-bottom: 10px;
-      }
-      .part2 .prize {
-        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-          sans-serif;
-        margin-left: 20px;
-      }
-      .part2 .prize p {
-        font-size: 25px;
-      }
-      .part2 .prize .prizePart {
-        font-size: 25px;
-        margin-top: 10px;
-        display: flex;
-        gap: 20px;
-      }
-      del {
-        color: gray;
-        text-decoration: line-through;
-      }
 
-      .part2 .quantity p {
-        position: absolute;
-        top: 130px;
-        left: 50%;
-        font-size: 20px;
-        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-          sans-serif;
-      }
-      .part2 .quantity .button div {
-        height: 40px;
-        width: 40px;
-        background-color: #c8b6ff;
-        border-radius: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .part2 .button {
-        display: flex;
-        gap: 10px;
-        position: absolute;
-        left: 47%;
-        top: 165px;
-      }
-      .part2 .button button {
-        height: 30px;
-        width: 30px;
-        margin-top: 5px;
-        border-radius: 30px;
-        border: none;
-      }
-      .part2 .total {
-        line-height: 40px;
-        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-          sans-serif;
-      }
-      .part2 .total .prize {
-        color: #fb5607;
-        font-size: 30px;
-      }
-      .part2 .total h3 {
-        position: absolute;
-        top: 130px;
-        left: 83%;
-        font-size: 20px;
-        margin-left: 28px;
-      }
-      .part2 .total span {
-        display: flex;
-        font-size: 30px;
-        position: absolute;
-        top: 170px;
-        left: 83%;
-      }
-      .prizeDetailed {
-        height: 200px;
-        width: 400px;
-        background-color: white;
-        position: absolute;
-        top: 160px;
-        left: 70%;
-        border-radius: 10px;
-        padding-bottom: 20px;
-      }
-      .prizeDetailed .head {
-        border-bottom: 1px solid #e4e7ea;
-        height: 20%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        font-size: 25px;
-        align-items: center;
-        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-          sans-serif;
-      }
-      .prizeDetailed .prizeDetailes {
-        height: 75%;
-        width: 90%;
-        margin-left: 5%;
-        margin-top: 5%;
-      }
-      .prizeDetailed .prizeDetailes div div {
-        border-bottom: none;
-        margin-left: 62%;
-        max-width: 130px;
-        text-align: center;
-      }
-      .prizeDetailed .prizeDetailes div {
-        height: 33.3%;
-        width: 100%;
-        border-bottom: 1px solid #e4e7ea;
-      }
-      .prizeDetailed .prizeDetailes div p {
-        position: relative;
-        top: 15px;
-        font-size: 15px;
-        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
-      .prizeDetailed .prizeDetailes .last {
-        font-size: 25px;
-        font-weight: bolder;
-      }
-      .desition {
-        position: absolute;
-        top: 400px;
-        left: 70%;
-        display: flex;
-        gap: 100px;
-      }
-      .desition button {
-        border-radius: 5px;
-        border: none;
-        height: 40px;
-        width: 150px;
-        color: white;
-        cursor: pointer;
-      }
-    </style>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <%- include('layout/header') -%>
-  </head>
-  <body>
-    <%- include('layout/navbar') -%>
+    .container {
+      height: 100vh;
+      width: 100%;
+    }
+
+    .container h1 {
+      position: absolute;
+      top: 90px;
+      left: 40%;
+    }
+
+    .cardHead {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card {
+      position: relative;
+      top: 80px;
+      left: 50px;
+      height: 200px;
+      width: 60%;
+      /* border: 1px solid black; */
+      padding: 10px;
+      border-radius: 10px;
+      background-color: white;
+    }
+
+    .part1 {
+      height: 50%;
+      width: 100%;
+      /* background-color: red; */
+      border-bottom: 1px solid #e4e7ea;
+      padding-bottom: 10px;
+    }
+
+    .part1 .img {
+      height: 90%;
+      width: 10%;
+      position: relative;
+      left: 10px;
+      top: 5px;
+      border-radius: 5px;
+    }
+
+    .part1 .img img {
+      height: 100%;
+      width: 100%;
+      border-radius: 5px;
+    }
+
+    .detailes {
+      height: 90%;
+      max-width: 30%;
+      position: absolute;
+      top: 15px;
+      left: 15%;
+      line-height: 31px;
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+    }
+
+    .detailes .brand {
+      color: #fb5607;
+    }
+
+    .part1 .buttons {
+      position: absolute;
+      top: 10px;
+      left: 90%;
+    }
+
+    .part1 .buttons button {
+      height: 40px;
+      width: 40px;
+      font-size: 15px;
+      background: none;
+      border: none;
+    }
+
+    .part2 {
+      height: 50%;
+      width: 100%;
+      /* background-color: gray; */
+      padding-bottom: 10px;
+    }
+
+    .part2 .prize {
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+      margin-left: 20px;
+    }
+
+    .part2 .prize p {
+      font-size: 25px;
+    }
+
+    .part2 .prize .prizePart {
+      font-size: 25px;
+      margin-top: 10px;
+      display: flex;
+      gap: 20px;
+    }
+
+    del {
+      color: gray;
+      text-decoration: line-through;
+    }
+
+    .part2 .quantity p {
+      position: absolute;
+      top: 130px;
+      left: 50%;
+      font-size: 20px;
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+    }
+
+    .part2 .quantity .button div {
+      height: 40px;
+      width: 40px;
+      background-color: #c8b6ff;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .part2 .button {
+      display: flex;
+      gap: 10px;
+      position: absolute;
+      left: 47%;
+      top: 165px;
+    }
+
+    .part2 .button button {
+      height: 30px;
+      width: 30px;
+      margin-top: 5px;
+      border-radius: 30px;
+      border: none;
+    }
+
+    .part2 .total {
+      line-height: 40px;
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+    }
+
+    .part2 .total .prize {
+      color: #fb5607;
+      font-size: 30px;
+    }
+
+    .part2 .total h3 {
+      position: absolute;
+      top: 130px;
+      left: 83%;
+      font-size: 20px;
+      margin-left: 28px;
+    }
+
+    .part2 .total span {
+      display: flex;
+      font-size: 30px;
+      position: absolute;
+      top: 170px;
+      left: 83%;
+    }
+
+    .prizeDetailed {
+      height: 200px;
+      width: 400px;
+      background-color: white;
+      position: absolute;
+      top: 160px;
+      left: 70%;
+      border-radius: 10px;
+      padding-bottom: 20px;
+    }
+
+    .prizeDetailed .head {
+      border-bottom: 1px solid #e4e7ea;
+      height: 20%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      font-size: 25px;
+      align-items: center;
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+    }
+
+    .prizeDetailed .prizeDetailes {
+      height: 75%;
+      width: 90%;
+      margin-left: 5%;
+      margin-top: 5%;
+    }
+
+    .prizeDetailed .prizeDetailes div div {
+      border-bottom: none;
+      margin-left: 62%;
+      max-width: 130px;
+      text-align: center;
+    }
+
+    .prizeDetailed .prizeDetailes div {
+      height: 33.3%;
+      width: 100%;
+      border-bottom: 1px solid #e4e7ea;
+    }
+
+    .prizeDetailed .prizeDetailes div p {
+      position: relative;
+      top: 15px;
+      font-size: 15px;
+      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    }
+
+    .prizeDetailed .prizeDetailes .last {
+      font-size: 25px;
+      font-weight: bolder;
+    }
+
+    .desition {
+      position: absolute;
+      top: 400px;
+      left: 70%;
+      display: flex;
+      gap: 100px;
+    }
+
+    .desition button {
+      border-radius: 5px;
+      border: none;
+      height: 40px;
+      width: 150px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <%- include('layout/header') -%>
+</head>
+
+<body>
+  <%- include('layout/navbar') -%>
     <div class="container">
       <h1>Welcome to your cart</h1>
       <div class="cardHead">
-        <% data.forEach((item)=>{ %>
-          <% const matching = cartItem.find((data) => item._id == data.id); %>
-            <% if(matching){ %>
-        <div class="card">
-          <div class="part1">
-            <div class="img">
-              <img src="/<%= item.image[0] %>" alt="" />
-            </div>
-            <div class="detailes">
-              <h2><%= item.name %></h2>
-              <p class="brand"><%= item.brand %></p>
-              <p>Color : <span> <%= item.color %></span></p>
-            </div>
-            <div class="buttons">
-              <button><i class="fa-solid fa-trash-can"></i></button>
-              <button><i class="fa-solid fa-heart"></i></button>
-            </div>
-          </div>
-          <div class="part2">
-            <div class="prize">
-              <p>Price</p>
-              <div class="prizePart">
-                <del>₹<%= item.prize %></del>
-                <span>₹ <span id="offerprize"><%= item.offerprize %></span></span>
+        <% data.forEach((item)=>{ %> <% const matching=cartItem.find((data)=>
+            item._id == data.id); %> <% if(matching){ %>
+              <div class="card" id="<%= matching.id %>">
+                <div class="part1">
+                  <div class="img">
+                    <img src="/<%= item.image[0] %>" alt="" />
+                  </div>
+                  <div class="detailes">
+                    <h2>
+                      <%= item.name %>
+                    </h2>
+                    <p class="brand">
+                      <%= item.brand %>
+                    </p>
+                    <p>Color : <span>
+                        <%= item.color %>
+                      </span></p>
+                  </div>
+                  <div class="buttons">
+                    <button id="btn" onclick="delcartItem('<%= matching.id %>')">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                    <button><i class="fa-solid fa-heart"></i></button>
+                  </div>
+                </div>
+                <div class="part2">
+                  <div class="prize">
+                    <p>Price</p>
+                    <div class="prizePart">
+                      <del>₹<%= item.prize %></del>
+                      <span>₹ <span id="offerprize">
+                          <%= item.offerprize %>
+                        </span></span>
+                    </div>
+                  </div>
+                  <div class="quantity">
+                    <p>Quantity</p>
+                    <div class="button">
+                      <button onclick="decrement('<%= matching.id %>')" data-item-id="<%= matching.id %>">
+                        <i class="fa-solid fa-minus"></i>
+                      </button>
+                      <div id="quantity">
+                        <%= matching.count %>
+                      </div>
+                      <button onclick="increment('<%= matching.id %>')" data-item-id="<%= matching.id %>">
+                        <i class="fa-solid fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="total">
+                    <h3>Total</h3>
+                    <span>₹
+                      <p class="prize" id="tprize">
+                        <%= item.offerprize * matching.count %>
+                      </p>
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="quantity">
-              <p>Quantity</p>
-              <div class="button">
-                <button onclick="decrement('<%= matching.id %>')"  data-item-id="<%= matching.id %>">
-                  <i class="fa-solid fa-minus"></i>
-                </button>
-                <div id="quantity"><%= matching.count %></div>
-                <button onclick="increment('<%= matching.id %>')"  data-item-id="<%= matching.id %>">
-                  <i class="fa-solid fa-plus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="total">
-              <h3>Total</h3>
-              <span
-                >₹
-                <p class="prize" id="tprize"><%= item.offerprize * matching.count %></p></span
-              >
-            </div>
-          </div>
-        </div>
-           <% } %>
-
-        <% }) %>
+              <% } %>
+                <% }) %>
       </div>
       <div class="prizeDetailed">
         <div class="head">Order summary</div>
         <div class="prizeDetailes">
           <div>
             <p>Sub total :</p>
-            <div id="subtotal"><%= subtotal %></div>
+            <div id="subtotal">
+              <%= subtotal %>
+            </div>
           </div>
           <div>
             <p>Shipping charge :</p>
@@ -307,94 +350,125 @@
                 left: 61%;
                 width: 130px;
                 text-align: center;
-              " id="total"><%= subtotal %></span>
+              " id="total">
+              <%= subtotal %>
+            </span>
           </div>
         </div>
       </div>
       <div class="desition">
-        <button
-          style="background-color: lightgray; color: black"
-          onclick="window.location.href='/user/home'">
+        <button style="background-color: lightgray; color: black" onclick="window.location.href='/user/home'">
           <i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp;&nbsp;continew
           shopping
         </button>
         <button style="background-color: #198754">
-          <i class="fa-solid fa-cart-shopping"></i
-          >&nbsp;&nbsp;&nbsp;&nbsp;Checkout
+          <i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;&nbsp;&nbsp;Checkout
         </button>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener("DOMContentLoaded", () => {
         const cards = document.querySelectorAll(".card");
-        const shipping=document.getElementById('shipping')
-        let subtotal=document.getElementById('subtotal')
-        let total=document.getElementById('total')
-        if(subtotal.innerText>1000){
-          shipping.innerText='Free delivery'
-          shipping.style.color='green'
+        const shipping = document.getElementById("shipping");
+        let subtotal = document.getElementById("subtotal");
+        let total = document.getElementById("total");
+        if (subtotal.innerText > 1000) {
+          shipping.innerText = "Free delivery";
+          shipping.style.color = "green";
+        } else {
+          total.innerText = 50 + parseInt(subtotal.innerText);
+          if (subtotal.innerText == 0) {
+            total.innerText = 0;
+          }
         }
-        
-    
+
         cards.forEach((card) => {
           const div = card.querySelector(".quantity #quantity");
           const totalPrize = card.querySelector(".total .prize");
           const offerprize = card.querySelector("#offerprize");
-          const offervalue=parseInt(offerprize.innerText)
-          
-          const itemId = card.querySelector(".quantity button").getAttribute("data-item-id");
+          const offervalue = parseInt(offerprize.innerText);
+
+          const itemId = card
+            .querySelector(".quantity button")
+            .getAttribute("data-item-id");
           function decrement(Id) {
             if (div.innerText >= 2) {
               div.innerText = parseInt(div.innerText) - 1;
-              totalPrize.innerText = (parseInt(div.innerText) * parseInt(offerprize.innerText))
-              currentQuantity=div.innerText
-              toaxios(Id,currentQuantity,-offervalue)
+              totalPrize.innerText =
+                parseInt(div.innerText) * parseInt(offerprize.innerText);
+              currentQuantity = div.innerText;
+              toaxios(Id, currentQuantity, -offervalue);
             } else {
               alert("Choose minimum quantity one");
             }
-          };
-    
+          }
+
           function increment(Id) {
             div.innerText = parseInt(div.innerText) + 1;
-            totalPrize.innerText = (parseInt(div.innerText) * parseInt(offerprize.innerText))
-            currentQuantity=div.innerText
-            toaxios(Id,currentQuantity,offervalue)
-          };
-    
-          card.querySelector('.quantity button:first-child').addEventListener('click', () => {
-            decrement(itemId);
-          });
-    
-          card.querySelector('.quantity button:last-child').addEventListener('click', () => {
-            increment(itemId);
-          });
+            totalPrize.innerText =
+              parseInt(div.innerText) * parseInt(offerprize.innerText);
+            currentQuantity = div.innerText;
+            toaxios(Id, currentQuantity, offervalue);
+          }
+
+          card
+            .querySelector(".quantity button:first-child")
+            .addEventListener("click", () => {
+              decrement(itemId);
+            });
+
+          card
+            .querySelector(".quantity button:last-child")
+            .addEventListener("click", () => {
+              increment(itemId);
+            });
         });
       });
 
       // axios function
-      function toaxios(id,quantity,offervalue){
-        console.log('the offerprize is :',offervalue);
-        axios.post(`/user/quantity/${id}/${quantity}`)
-        .then((res)=>{
-          total.innerText=offervalue+parseInt(total.innerText) 
-          subtotal.innerText=offervalue+parseInt(subtotal.innerText)   
-          if(subtotal.innerText>1000){
-          shipping.innerText='Free delivery'
-          shipping.style.color='green'
-        }else{
-          shipping.innerText=50
-          shipping.style.color='black'
-        }      
-
-        })
-        .catch((err)=>{
-          console.log(err);
-        })
+      function toaxios(id, quantity, offervalue) {
+        console.log("the offerprize is :", offervalue);
+        axios
+          .post(`/user/quantity/${id}/${quantity}`)
+          .then((res) => {
+            total.innerText = offervalue + parseInt(total.innerText);
+            subtotal.innerText = offervalue + parseInt(subtotal.innerText);
+            if (subtotal.innerText > 1000) {
+              shipping.innerText = "Free delivery";
+              shipping.style.color = "green";
+              total.innerText = -50 + parseInt(total.innerText);
+            } else {
+              shipping.innerText = 50;
+              shipping.style.color = "black";
+              total.innerText = 50 + parseInt(subtotal.innerText);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
 
+      // remove item from cart
+      function delcartItem(id) {
+        axios
+          .delete(`/user/delcartItem/${id}`)
+          .then((res) => {
+            const card = document.getElementById(id)
+            card.remove()
+            let subtotal = document.getElementById("subtotal");
+            subtotal.innerText = 0
+            let total = document.getElementById("total");
+            if (subtotal.innerText == 0) {
+              total.innerText = 0;
+            }
+
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     </script>
-    
-    
-  </body>
+</body>
+
 </html>

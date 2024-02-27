@@ -12,6 +12,7 @@ router.delete('/deletecardwish/:id',usercontroller.removeFromWishlist)
 router.get('/cart',usercontroller.cartget)
 router.post('/addToCart/:id',usercontroller.createcart)
 router.post('/quantity/:id/:quantity',usercontroller.updateCount)
+router.delete('/delcartItem/:id',usercontroller.delcartItem)
 
 
 
