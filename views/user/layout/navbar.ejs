@@ -13,6 +13,22 @@
         <li><a href="#">Contact</a></li>
         <li><a href="/user/cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
         <li><a href="/user/wishlist"><i class="fa-regular fa-heart"></i></a></li>
-        <li><button>Logout</button></li>
     </ul>
+    <div class="profile">
+        <!-- <img src="/miscellaneous/Amjath..jpg" alt=""> -->
+        <i class="fa-solid fa-user"></i>
+    </div>
+    <div class="profile-sub">
+        <button onclick="window.location.href='/user/getprofile'">Profile</button>
+        <button>Logout</button>
+    </div>
 </nav>
+<script>
+    const buttons=document.querySelector('.profile-sub')
+    const profile=document.querySelector('.profile')
+    profile.addEventListener('click',(event)=>{
+        const computedStyle = window.getComputedStyle(buttons);
+    const displayValue = computedStyle.getPropertyValue('display');
+    buttons.style.display = displayValue === 'none' ? 'block' : 'none';
+    })
+</script>

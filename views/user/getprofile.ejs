@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shopX|profile</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            height: 100vh;
+            width: 100%;
+            background-color: #220901;
+        }
+        .image{
+            height: 150px;
+            width: 98%;
+            position: relative;
+            top: 20px;
+            left: 1%;
+            border-bottom: 1px solid white;
+        }
+        .image img{
+            height: 130px;
+            width: 130px;
+            border-radius: 130px;
+            border: 1px solid gray;
+            position: relative;
+            top: 10px;
+            left: 3%;
+        }
+        .image p{
+            font-family: sans-serif;
+            font-weight: bold;
+            position: absolute;
+            top: 90px;
+            left: 12%;
+            color: white;
+        }
+        .image button{
+            height: 40px;
+            width: 80px;
+            position: relative;
+            left: 85.5%;
+            top: 0px;
+            background-color: #5c677d;
+            color: white;
+            font-size: larger;
+            border-radius: 5px;
+            border: none;
+        }
+        .image .email{
+            margin-top: 20px;
+        }
+        .part1{
+            height: 400px;
+            width: 30%;
+            position: relative;
+            /* border: 1px solid black; */
+            padding-top: 80px;
+        }
+        label{
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: white;
+            
+        }
+        input{
+            padding-left: 10px;
+            height: 40px;
+            width: 55%;
+            margin-left: 0px;
+            border-radius: 5px;
+            border: none;
+            font-weight: bold;
+        }
+        input:focus{
+            outline: none;
+        }
+
+        .part2{
+            height: 400px;
+            width: 30%;
+            position: relative;
+            /* border: 1px solid black; */
+            padding-top: 80px;
+
+        }
+
+       
+        .mainpart{
+            display: flex;
+            height: 400px;
+            width: 90%;
+            position: relative;
+            top: 50px;
+            left: 3%;
+            /* background-color: red; */
+        }
+        .part3{
+            height: 400px;
+            width: 40%;
+            position: relative;
+            /* border: 1px solid black; */
+        }
+        .part3 label{
+            font-size: 15px;
+
+        }
+        .part3 input{
+            height: 40px;
+            width: 80%;
+            margin-left: 10px;
+            font-size: 15px;
+        }
+        .part3 p{
+            text-align: center;
+            font-family: sans-serif;
+            font-weight: bolder;
+            font-size: 25px;
+            color: white;
+        }
+        .part3 .part3one{
+            width: 50%;
+        }
+        .part3 .part3two{
+            width: 50%;
+        }
+        .part3Head{
+            display: flex;
+            position: relative;
+            top: 50px;
+            left: 50px;
+        }
+
+
+    </style>
+    <%- include('layout/header') -%>
+</head>
+<body>
+    <%- include('layout/navbar') -%>
+    <div class="container">
+        <div class="image">
+            <img src="/<%=prodata.Image %>" alt="">
+            <p class="username"><%= userData.username %></p>
+            <p class="email"><%= userData.email %></p>
+            <button onclick="window.location.href='/user/Editprofile'">Edit</button>
+        </div>
+        <div class="mainpart">
+            <div class="part1">
+
+                <label for="name">Name</label><br><br>
+                <input type="text" value="<%=prodata.name %>" readonly><br><br><br>
+    
+                <label for="email">Email</label><br><br>
+                <input type="text" value="<%=userData.email %>" readonly><br><br><br>
+    
+                <label for="">Gender</label><br><br>
+                <input type="text" value="<%=prodata.gender %>" readonly><br><br><br>
+    
+            </div>
+            <div class="part2">
+                <label for="name">Mobile Number</label><br><br>
+                <input type="text" value="<%=userData.mobno %>" readonly><br><br><br>
+    
+                <label for="email">DOB</label><br><br>
+                <input type="text" value="<%=prodata.dob %>" readonly><br><br><br>
+    
+            </div>
+            <div class="part3">
+                <p>Address</p>
+                <div class="part3Head">
+                    <div class="part3one">
+                        <label for="name">House Name</label><br><br>
+                    <input type="text" value="<%=prodata.housename %>" readonly><br><br><br>
+        
+                    <label for="email">Street Name</label><br><br>
+                    <input type="text" value="<%=prodata.Streetname %>" readonly><br><br><br>
+        
+                    <label for="">Post </label><br><br>
+                    <input type="text" value="<%=prodata.post %>" readonly><br><br><br>
+    
+                    </div>
+                    <div class="part3two">
+                        <label for="">Pincode</label><br><br>
+                    <input type="text" value="<%=prodata.pincode %>" readonly><br><br><br>
+                    
+                    <label for="">District</label><br><br>
+                    <input type="text" value="<%=prodata.district %>" readonly><br><br><br>
+    
+                    <label for="">State</label><br><br>
+                    <input type="text" value="<%=prodata.state %>" readonly><br><br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
