@@ -4,6 +4,7 @@ const additemCollection = require("../model/addproductScema");
 const upload = require("../middileware/multer");
 const signupcollection = require("../model/usersignupData");
 const bannercollection = require("../model/banner");
+const coupenschema=require('../model/coupon')
 
 // login get
 exports.loginget = (req, res) => {
@@ -342,3 +343,30 @@ exports.bannerstatus = async (req, res) => {
     console.log(err);
   }
 };
+
+
+// coupon get
+exports.couponget=(req,res)=>{
+  res.render('admin/coupon')
+}
+
+exports.couponpost=async(req,res)=>{
+  const {minamount,maxamount,discamount,Code}=req.body
+  const UpperCase=Code.toUpperCase()
+  console.log(UpperCase);
+
+  try{
+    const coupon= new  coupenschema({
+      code:UpperCase,
+      minamount:minamount,
+      maxamount:maxamount,
+      discamount:discamount
+    })
+  
+    await coupon.save()
+    res.redirect('/admin/coupon')
+  }
+  catch(err){
+    console.log(err)
+  }
+}

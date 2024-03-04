@@ -11,7 +11,7 @@
 }
 body{
     font-family: sans-serif;
-    background-color: #fed9b7;
+    background-color: #220901;
 
 }
 /* nav bar  */
@@ -242,6 +242,7 @@ footer .three a{
 .categoryh1{
     text-align: center;
     position: relative;
+    color: white;
     top: 30px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -254,6 +255,7 @@ footer .three a{
 .listcategory .categorycard p{
     text-align: center;
     font-size: 15px;
+    color: white;
     font-family:Verdana, Geneva, Tahoma, sans-serif
 }
 
@@ -307,6 +309,7 @@ color: #450920;
 .product-h1 {
     text-align: center;
     position: relative;
+    color: white;
     top: 130px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;   
 }

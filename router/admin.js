@@ -36,5 +36,7 @@ router.delete('/deletecategory/:id',adminController.deletecategory)
 router.delete('/delcategory/:id',adminController.delcategory)
 router.delete('/deletesubcat/:id',adminController.subdelete)
 
+router.get('/coupon',adminController.couponget)
+router.post('/coupon',adminController.couponpost)
 
 module.exports = router
