@@ -350,6 +350,7 @@ exports.couponget=(req,res)=>{
   res.render('admin/coupon')
 }
 
+// coupon post
 exports.couponpost=async(req,res)=>{
   const {minamount,maxamount,discamount,Code}=req.body
   const UpperCase=Code.toUpperCase()

@@ -7,6 +7,9 @@ const cartcollections = require("../model/cart");
 const profileschema = require("../model/userprofiledata");
 const upload = require("../middileware/multer");
 const mongoose = require("mongoose");
+const coupenschema = require("../model/coupon");
+const checoutcollections = require("../model/checkout");
+const addressCollection = require("../model/adress");
 
 // user home
 exports.homeget = async (req, res) => {
@@ -211,7 +214,7 @@ exports.cartget = async (req, res) => {
           }
         }
       }
-      res.render("user/cart", { data, cartItem, subtotal });
+      res.render("user/cart", { data, cartItem, subtotal, cartData });
     } catch (err) {
       console.log(err);
     }
@@ -324,7 +327,6 @@ exports.completeprofile = async (req, res) => {
         },
       ]);
       if (proData.length == 0) {
-        const prodata = proData[0];
         res.render("user/Editprofile", { prodata: "" });
       } else {
         const prodata = proData[0];
@@ -373,7 +375,7 @@ exports.postprofile = async (req, res) => {
             post: post,
             pincode: pincode,
             district: district,
-            state: state
+            state: state,
           },
         },
         { upsert: true, new: true }
@@ -389,5 +391,164 @@ exports.postprofile = async (req, res) => {
     }
   } else {
     res.redirect("/common/login");
+  }
+};
+
+// checkout get
+exports.checkoutget = async (req, res) => {
+  const id = req.params.id;
+  const cartData = await cartcollections.findById(id).populate("productId.id");
+  let subtotal = 0;
+  cartData.productId.forEach((data) => {
+    subtotal += data.id.offerprize * data.count;
+  });
+  const coupon = await coupenschema.findOne({
+    minamount: { $lte: subtotal },
+    maxamount: { $gte: subtotal },
+  });
+  res.render("user/checkout", { cartData, subtotal, coupon });
+};
+
+// applaying coupon
+exports.applycoupon = async (req, res) => {
+  const id = req.params.id;
+  const coupon = await coupenschema.findById(id);
+  if (coupon) {
+    const discAmount = coupon.discamount;
+    const CId = coupon._id;
+    res.status(200).json({ data: discAmount, CId: CId });
+  } else {
+    res.status(401).json({ message: "something error " });
+  }
+};
+
+// checkout post
+exports.checkoutPost = async (req, res) => {
+  if (req.session.email) {
+    const {
+      name,
+      mobno,
+      email,
+      house,
+      pincode,
+      district,
+      state,
+      peyment,
+      couponid,
+    } = req.body;
+    const user = await signupCollection.findOne({ email: req.session.email });
+    const cartData = await cartcollections
+      .findOne({ userId: user._id })
+      .populate("productId.id");
+    if (cartData) {
+      let subtotal = 0;
+      let total = 0;
+      let proIds = [];
+      cartData.productId.forEach((data) => {
+        let obj={
+          id:data.id._id,
+          offerprice:data.id.offerprize,
+          color:data.id.color,
+          count:data.count
+        }
+        proIds.push(obj);
+        subtotal += data.id.offerprize * data.count;
+      });
+      if (req.body.couponid == "") {
+        if (subtotal < 1000) {
+          total = subtotal + 50;
+        } else {
+          total = subtotal;
+        }
+        console.log(req.body);
+        let shippingamount = subtotal < 1000 ? 50 : "Free";
+        if(req.body.peyment=="cod"){
+          const datasaving = await checoutcollections.findOneAndUpdate(
+            { userId: user._id },
+            {
+              $push: {
+                orderDetailes: {
+                  house: house,
+                  product: proIds,
+                  pincode: pincode,
+                  district: district,
+                  state: state,
+                  name: name,
+                  mobno: mobno,
+                  email: email,
+                  peymentMethord: peyment,
+                  subtotal: subtotal,
+                  shippingCharge: shippingamount,
+                  totalAmount: total,
+                },
+              },
+            },
+            { upsert: true, new: true }
+          );
+        }else{
+          const datasaving = await checoutcollections.findOneAndUpdate(
+            { userId: user._id },
+            {
+              $push: {
+                orderDetailes: {
+                  house: house,
+                  product: proIds,
+                  pincode: pincode,
+                  district: district,
+                  state: state,
+                  name: name,
+                  mobno: mobno,
+                  email: email,
+                  peymentMethord: peyment,
+                  subtotal: subtotal,
+                  shippingCharge: shippingamount,
+                  totalAmount: total,
+                },
+              },
+            },
+            { upsert: true, new: true }
+          );
+          // res.redirect("/user/peyment")
+        }
+
+        if (datasaving) {
+          console.log("data saved in first");
+        }
+      } else {
+        const couponcheck = await coupenschema.findById(couponid);
+        if (couponcheck) {
+          let shippingamount = subtotal < 1000 ? 50 : "Free";
+          total = subtotal - couponcheck.discamount;
+
+          const datasaving = await checoutcollections.findOneAndUpdate(
+            { userId: user._id },
+            {
+              $push: {
+                orderDetailes: {
+                  house: house,
+                  product: proIds,
+                  pincode: pincode,
+                  district: district,
+                  state: state,
+                  name: name,
+                  mobno: mobno,
+                  email: email,
+                  couponId: couponid,
+                  peymentMethord: peyment,
+                  subtotal: subtotal,
+                  shippingCharge: shippingamount,
+                  discount: couponcheck.discamount,
+                  totalAmount: total,
+                },
+              },
+            },
+            { upsert: true, new: true }
+          );
+          if (datasaving) {
+            console.log("data saved");
+          }
+        }
+      }
+    }
   }
 };

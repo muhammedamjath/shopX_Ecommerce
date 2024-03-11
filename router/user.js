@@ -23,6 +23,11 @@ router.get('/getprofile',usercontroller.getprofile)
 router.get('/Editprofile',usercontroller.completeprofile)
 router.post('/postProfile',usercontroller.multer1,usercontroller.postprofile)
 
+router.get('/checkout/:id',usercontroller.checkoutget)
+
+router.post('/coupon/:id',usercontroller.applycoupon)
+router.post('/checkout',usercontroller.checkoutPost)
+
 
 
 

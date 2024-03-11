@@ -18,8 +18,9 @@ body{
 
 nav{
     height: 80px;
-    background-color: orangered;
+    background-color: #220901;
     width: 100%;
+    box-shadow: 0 0 10px -2px gray;
 }
 nav h1{
     color: white;

@@ -19,6 +19,7 @@
         position: absolute;
         top: 90px;
         left: 40%;
+        color: white;
       }
 
       .cardHead {
@@ -435,12 +436,13 @@
     <%- include('layout/navbar') -%>
     <div class="container">
       <h1>Welcome to your cart</h1>
-      <% if(data.length==0){ %>
+      <% if(data==undefined){ %>
       <img src="/miscellaneous/cart cat.png" alt="" id="cat" />
       <% }else{ %>
       <div class="cardHead">
-        <% data.forEach((item)=>{ %> <% const matching=cartItem.find((data)=>
-        item._id == data.id); %> <% if(matching){ %>
+        <% data.forEach((item)=>{ %> 
+          <% const matching=cartItem.find((data)=>item._id.toString() == data.id.toString()); %>
+         <% if(matching){ %>
         <div class="card" id="<%= matching.id %>">
           <div class="part1">
             <div class="img">
@@ -500,10 +502,10 @@
             </div>
           </div>
         </div>
-        <% } %> <% }) %>
+        <% } %> <% }) %>    
       </div>
       <div class="prizeDetailed">
-        <div class="head">Order summary</div>
+        <div class="head">Cart summary</div>
         <div class="prizeDetailes">
           <div>
             <p>Sub total :</p>
@@ -540,7 +542,7 @@
           <i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp;&nbsp;continew
           shopping
         </button>
-        <button style="background-color: #198754">
+        <button style="background-color: #198754" onclick="window.location.href='/user/checkout/<%= cartData._id %>'">
           <i class="fa-solid fa-cart-shopping"></i
           >&nbsp;&nbsp;&nbsp;&nbsp;Checkout
         </button>

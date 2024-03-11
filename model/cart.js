@@ -9,7 +9,8 @@ const schema = new mongoose.Schema({
     productId:{
         type:[{
             id:{
-                type:String,
+                type: mongoose.Types.ObjectId,
+                ref:"additemCollection",                
                 required:true
             },
             count:{

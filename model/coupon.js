@@ -6,15 +6,15 @@ const schema= new mongoose.Schema({
         required:true
     },
     minamount:{
-        type:String,
+        type:Number,
         required:true
     },
     maxamount:{
-        type:String,
+        type:Number,
         required:true
     },
     discamount:{
-        type:String,
+        type:Number,
         required:true
     }
 })
