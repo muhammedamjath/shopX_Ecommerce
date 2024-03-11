@@ -69,16 +69,20 @@ const schema= new mongoose.Schema({
         totalAmount:{
             type:Number,
             required:true
-        }
+        },
+        orderSatatus:{
+            type:String,
+            default:"placed"
+        },
+        peymentStatus:{
+            type:String,
+            default:"pending"
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now
+          } 
     }],
-    orderSatatus:{
-        type:String,
-        default:"placed"
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-      }
 })
 
 const checoutcollections= new mongoose.model('checkout',schema)

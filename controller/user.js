@@ -444,109 +444,72 @@ exports.checkoutPost = async (req, res) => {
       let subtotal = 0;
       let total = 0;
       let proIds = [];
+      let discAmount = 0;
+      let shippingamount = subtotal < 1000 ? 50 : "Free";
       cartData.productId.forEach((data) => {
-        let obj={
-          id:data.id._id,
-          offerprice:data.id.offerprize,
-          color:data.id.color,
-          count:data.count
-        }
+        let obj = {
+          id: data.id._id,
+          offerprice: data.id.offerprize,
+          color: data.id.color,
+          count: data.count,
+        };
         proIds.push(obj);
         subtotal += data.id.offerprize * data.count;
       });
-      if (req.body.couponid == "") {
-        if (subtotal < 1000) {
-          total = subtotal + 50;
-        } else {
-          total = subtotal;
-        }
-        console.log(req.body);
-        let shippingamount = subtotal < 1000 ? 50 : "Free";
-        if(req.body.peyment=="cod"){
-          const datasaving = await checoutcollections.findOneAndUpdate(
-            { userId: user._id },
-            {
-              $push: {
-                orderDetailes: {
-                  house: house,
-                  product: proIds,
-                  pincode: pincode,
-                  district: district,
-                  state: state,
-                  name: name,
-                  mobno: mobno,
-                  email: email,
-                  peymentMethord: peyment,
-                  subtotal: subtotal,
-                  shippingCharge: shippingamount,
-                  totalAmount: total,
-                },
-              },
-            },
-            { upsert: true, new: true }
-          );
-        }else{
-          const datasaving = await checoutcollections.findOneAndUpdate(
-            { userId: user._id },
-            {
-              $push: {
-                orderDetailes: {
-                  house: house,
-                  product: proIds,
-                  pincode: pincode,
-                  district: district,
-                  state: state,
-                  name: name,
-                  mobno: mobno,
-                  email: email,
-                  peymentMethord: peyment,
-                  subtotal: subtotal,
-                  shippingCharge: shippingamount,
-                  totalAmount: total,
-                },
-              },
-            },
-            { upsert: true, new: true }
-          );
-          // res.redirect("/user/peyment")
-        }
 
+      if (subtotal < 1000) {
+        total = subtotal + 50;
+      } else {
+        total = subtotal;
+      }
+
+      const orderDetailes = {
+        house: house,
+        product: proIds,
+        pincode: pincode,
+        district: district,
+        state: state,
+        name: name,
+        mobno: mobno,
+        email: email,
+        peymentMethord: peyment,
+        subtotal: subtotal,
+        shippingCharge: shippingamount,
+        discount: discAmount,
+        totalAmount: total,
+      };
+
+      if (req.body.couponid == "") {
+        const datasaving = await checoutcollections.findOneAndUpdate(
+          { userId: user._id },
+          {
+            $push: {
+              orderDetailes: orderDetailes,
+            },
+          },
+          { upsert: true, new: true }
+        );
         if (datasaving) {
           console.log("data saved in first");
         }
       } else {
         const couponcheck = await coupenschema.findById(couponid);
-        if (couponcheck) {
-          let shippingamount = subtotal < 1000 ? 50 : "Free";
-          total = subtotal - couponcheck.discamount;
+        orderDetailes.discount = couponcheck.discamount;
+        orderDetailes.couponId = couponid;
+        orderDetailes.totalAmount = subtotal - couponcheck.discamount;
+        orderDetailes.shippingCharge = subtotal >= 1000 ? "Free" : 50;
 
-          const datasaving = await checoutcollections.findOneAndUpdate(
-            { userId: user._id },
-            {
-              $push: {
-                orderDetailes: {
-                  house: house,
-                  product: proIds,
-                  pincode: pincode,
-                  district: district,
-                  state: state,
-                  name: name,
-                  mobno: mobno,
-                  email: email,
-                  couponId: couponid,
-                  peymentMethord: peyment,
-                  subtotal: subtotal,
-                  shippingCharge: shippingamount,
-                  discount: couponcheck.discamount,
-                  totalAmount: total,
-                },
-              },
+        const datasaving = await checoutcollections.findOneAndUpdate(
+          { userId: user._id },
+          {
+            $push: {
+              orderDetailes: orderDetailes,
             },
-            { upsert: true, new: true }
-          );
-          if (datasaving) {
-            console.log("data saved");
-          }
+          },
+          { upsert: true, new: true }
+        );
+        if (datasaving) {
+          console.log("data saved in second");
         }
       }
     }
