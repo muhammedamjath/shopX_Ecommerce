@@ -11,10 +11,10 @@ app.set('views','views')
 
 // session 
 app.use(session({
-    secret,
-    resave: false,
-    saveUninitialized: true
-  }))  
+  secret,
+  resave: false,
+  saveUninitialized: true
+}))  
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))

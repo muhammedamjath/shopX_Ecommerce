@@ -254,12 +254,12 @@
       <div class="address">
         <p>Shipping Address</p>
         <div>
-          <input type="text" id="house" placeholder="House Name" name="house" value="kooli" required>
-          <input type="text" id="post" placeholder="Post" name="post" value="achoor" required> 
-          <input type="number" id="pin" placeholder="Pin number" name="pincode" value="673575" required >
-          <input type="text" id="district" placeholder="District" name="district" value="wayanad" required>
-          <input type="text" id="state" placeholder="State" name="state" value="kerala" required>
-          <input type="number"  id="mobno" placeholder="Phone number" name="mobno" value="8943454306" required>
+          <input type="text" id="house" placeholder="House Name" name="house" value="<%=address.housename %>" required>
+          <input type="text" id="post" placeholder="Post" name="post" value="<%=address.post %>" required> 
+          <input type="number" id="pin" placeholder="Pin number" name="pincode" value="<%=address.pincode %>" required >
+          <input type="text" id="district" placeholder="District" name="district" value="<%=address.district %>" required>
+          <input type="text" id="state" placeholder="State" name="state" value="<%=address.state %>" required>
+          <input type="number"  id="mobno" placeholder="+91 XXXXXXXXXX" name="mobno" value="" required>
           <input type="hidden" id="couponid" value="" name="couponid" >
         </div>
         <div class="preview">

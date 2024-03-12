@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopX|Peyment</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color:bisque;
+        }
+        .price{
+            height: 400px;
+            width: 20%;
+            background-color:white;
+            border-radius: 5px;
+        }
+        .price img{
+            height: 150px;
+            width: 150px;
+            margin-left: 25%;
+            margin-top: 5%;
+        }
+        .price p{
+            position: relative;
+            top: 5%;
+            text-align: center;
+            font-size: 30px;
+            font-family: sans-serif;
+        }
+        .price input{
+            height: 40px;
+            width: 80%;
+            position: relative;
+            top: 10%;
+            left: 10%;
+            border-radius: 5px;
+            border: none;
+            background-color: #e2eafc;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .price input:focus{
+            outline: none;
+        }
+        .price button{
+            height: 40px;
+            width: 80%;
+            border-radius: 5px;
+            position: relative;
+            top: 20%;
+            left: 10%;
+            background-color: #fca311;
+            border: none;
+            font-size: large;
+            font-weight: bold;
+        }
+        .price button:hover{
+            background-color: #fb5607;
+        }
+    </style>
+    <%- include('layout/header') -%>
+</head>
+<body>
+    <%- include('layout/navbar') -%>
+    <div class="container">
+       
+            <div class="price">
+                <img src="/miscellaneous/logo.png" alt="">
+                <p>Total amount</p>
+                <input type="number" value="<%= amount %>" readonly>
+                <br>
+                <button id="submit">Make peyment</button>
+            </div>
+        
+    </div>
+</body>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.getElementById('submit').addEventListener('click',  ()=> {
+
+    axios.post('/user/peymentpost')
+        .then(function (response) {
+            console.log(response);
+            var options = {
+                key: response.data.data.key,
+                amount: response.data.order.amount,
+                currency: response.data.order.currency,
+                order_id: response.data.order.id,
+                name: 'shopX',
+                description: 'Payment for your order',
+                handler: function (response) {
+                    console.log('Razorpay payment success:', response);
+                    window.location.href = '/paymentSuccess';
+                },
+                prefill: {
+                    name: response.data.data.name,
+                    email: response.data.data.email,
+                    contact: response.data.data.contact,
+                },
+                theme: {
+                    color: '#ffb703'
+                }
+            };
+            var rzp = new Razorpay(options);
+            rzp.open();
+        })
+        .catch(function (error) {
+            console.error('Error creating Razorpay order:', error);
+        });
+});
+</script>
+</html>

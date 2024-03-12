@@ -10,6 +10,15 @@ const mongoose = require("mongoose");
 const coupenschema = require("../model/coupon");
 const checoutcollections = require("../model/checkout");
 const addressCollection = require("../model/adress");
+const Razorpay = require("razorpay");
+
+// Razorpay
+const razorId = process.env.RAZORPAY_ID_KEY;
+const razorSecret = process.env.RAZORPAY_SECRET_KEY;
+const instance = new Razorpay({
+  key_id: razorId,
+  key_secret: razorSecret,
+});
 
 // user home
 exports.homeget = async (req, res) => {
@@ -396,8 +405,11 @@ exports.postprofile = async (req, res) => {
 
 // checkout get
 exports.checkoutget = async (req, res) => {
-  const id = req.params.id;
+  if(req.session.email){
+    const id = req.params.id;
+    const userData= await signupCollection.findOne({email:req.session.email})
   const cartData = await cartcollections.findById(id).populate("productId.id");
+  const address= await profileschema.findOne({id:userData._id})
   let subtotal = 0;
   cartData.productId.forEach((data) => {
     subtotal += data.id.offerprize * data.count;
@@ -406,7 +418,10 @@ exports.checkoutget = async (req, res) => {
     minamount: { $lte: subtotal },
     maxamount: { $gte: subtotal },
   });
-  res.render("user/checkout", { cartData, subtotal, coupon });
+  res.render("user/checkout", { cartData, subtotal, coupon,address });
+  }else{
+    res.render('common/login')
+  }
 };
 
 // applaying coupon
@@ -490,7 +505,11 @@ exports.checkoutPost = async (req, res) => {
           { upsert: true, new: true }
         );
         if (datasaving) {
-          console.log("data saved in first");
+          if (req.body.peyment == "cod") {
+            console.log(hai);
+          } else {
+            res.redirect("/user/peyment");
+          }
         }
       } else {
         const couponcheck = await coupenschema.findById(couponid);
@@ -509,9 +528,62 @@ exports.checkoutPost = async (req, res) => {
           { upsert: true, new: true }
         );
         if (datasaving) {
-          console.log("data saved in second");
+          if (req.body.peyment == "cod") {
+            console.log(hai);
+          } else {
+            res.redirect("/user/peyment");
+          }
         }
       }
     }
   }
+};
+
+// peyment get
+exports.peymentget = async (req, res) => {
+  if (req.session.email) {
+    const user = await signupCollection.findOne({ email: req.session.email });
+    const data = await checoutcollections.findOne({ userId: user._id });
+    if (data) {
+      const checkData = data.orderDetailes[data.orderDetailes.length - 1];
+      const amount = checkData.totalAmount;
+      res.render("user/peyment", { amount });
+    }
+  } else {
+    res.render("common/login");
+  }
+};
+
+// peyment post
+exports.peymentppost = async (req, res) => {
+  if(req.session.email){
+  try {
+    const userData = await signupCollection.findOne({ email: req.session.email });
+    const checkoutdata = await checoutcollections
+      .findOne({ userId: userData._id })
+
+    const checkorder = checkoutdata.orderDetailes[checkoutdata.orderDetailes.length-1]
+    const amount=checkorder.totalAmount
+    const currency = "INR";
+    const receipt = userData.email;
+
+    const data = {
+      key: razorId,
+      contact: userData.mobno,
+      name: userData.username,
+      email: userData.email,
+    };
+    const order = await instance.orders.create({
+      amount: amount * 100,
+      currency,
+      receipt,
+    });
+
+    res.json({ order, data });
+  } catch (err) {
+    console.log("error when post createOrder", err.message);
+  }
+}else{
+  res.redirect('/common/login')
+}
 };

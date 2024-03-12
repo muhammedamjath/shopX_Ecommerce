@@ -28,6 +28,9 @@ router.get('/checkout/:id',usercontroller.checkoutget)
 router.post('/coupon/:id',usercontroller.applycoupon)
 router.post('/checkout',usercontroller.checkoutPost)
 
+router.get('/peyment',usercontroller.peymentget)
+router.post('/peymentpost',usercontroller.peymentppost)
+
 
 
 
