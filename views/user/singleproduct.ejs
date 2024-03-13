@@ -139,6 +139,9 @@
             cursor: pointer;
             /* margin-left: 1%; */
         }
+        .btn #cart:hover{
+            background-color:#fb8500;
+        }
         .image .wishlist{
             height: 50px;
             width: 50px;
@@ -260,6 +263,7 @@
             border-radius: 5px;
             font-size: large;
         }
+        
         .image .wishlist{
             height: 40px;
             width: 40px;
@@ -305,7 +309,6 @@
                 </div>   
             </div>
             <div class="btn">
-                <button id="buy">Buy now</button>
                 <button id="cart" onclick="addToCart('<%= item._id %>')">Add to cart</button>
             </div>
         </div>

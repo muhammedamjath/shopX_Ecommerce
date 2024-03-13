@@ -30,6 +30,7 @@ router.post('/checkout',usercontroller.checkoutPost)
 
 router.get('/peyment',usercontroller.peymentget)
 router.post('/peymentpost',usercontroller.peymentppost)
+router.get('/ordercomplete/:data',usercontroller.completeOrderGet)
 
 
 

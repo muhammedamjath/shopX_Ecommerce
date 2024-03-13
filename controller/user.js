@@ -223,6 +223,9 @@ exports.cartget = async (req, res) => {
           }
         }
       }
+      if(data.length==0){
+        data=undefined
+      }
       res.render("user/cart", { data, cartItem, subtotal, cartData });
     } catch (err) {
       console.log(err);
@@ -405,22 +408,26 @@ exports.postprofile = async (req, res) => {
 
 // checkout get
 exports.checkoutget = async (req, res) => {
-  if(req.session.email){
+  if (req.session.email) {
     const id = req.params.id;
-    const userData= await signupCollection.findOne({email:req.session.email})
-  const cartData = await cartcollections.findById(id).populate("productId.id");
-  const address= await profileschema.findOne({id:userData._id})
-  let subtotal = 0;
-  cartData.productId.forEach((data) => {
-    subtotal += data.id.offerprize * data.count;
-  });
-  const coupon = await coupenschema.findOne({
-    minamount: { $lte: subtotal },
-    maxamount: { $gte: subtotal },
-  });
-  res.render("user/checkout", { cartData, subtotal, coupon,address });
-  }else{
-    res.render('common/login')
+    const userData = await signupCollection.findOne({
+      email: req.session.email,
+    });
+    const cartData = await cartcollections
+      .findById(id)
+      .populate("productId.id");
+    const address = await profileschema.findOne({ id: userData._id });
+    let subtotal = 0;
+    cartData.productId.forEach((data) => {
+      subtotal += data.id.offerprize * data.count;
+    });
+    const coupon = await coupenschema.findOne({
+      minamount: { $lte: subtotal },
+      maxamount: { $gte: subtotal },
+    });
+    res.render("user/checkout", { cartData, subtotal, coupon, address });
+  } else {
+    res.render("common/login");
   }
 };
 
@@ -506,7 +513,7 @@ exports.checkoutPost = async (req, res) => {
         );
         if (datasaving) {
           if (req.body.peyment == "cod") {
-            console.log(hai);
+            res.redirect("/user/ordercomplete/hai");
           } else {
             res.redirect("/user/peyment");
           }
@@ -529,7 +536,7 @@ exports.checkoutPost = async (req, res) => {
         );
         if (datasaving) {
           if (req.body.peyment == "cod") {
-            console.log(hai);
+            res.redirect("/user/ordercomplete/hai");
           } else {
             res.redirect("/user/peyment");
           }
@@ -554,36 +561,73 @@ exports.peymentget = async (req, res) => {
   }
 };
 
-// peyment post
+// razorpay peyment post
 exports.peymentppost = async (req, res) => {
-  if(req.session.email){
-  try {
-    const userData = await signupCollection.findOne({ email: req.session.email });
-    const checkoutdata = await checoutcollections
-      .findOne({ userId: userData._id })
+  if (req.session.email) {
+    try {
+      const userData = await signupCollection.findOne({
+        email: req.session.email,
+      });
+      const checkoutdata = await checoutcollections.findOne({
+        userId: userData._id,
+      });
 
-    const checkorder = checkoutdata.orderDetailes[checkoutdata.orderDetailes.length-1]
-    const amount=checkorder.totalAmount
-    const currency = "INR";
-    const receipt = userData.email;
+      const checkorder =
+        checkoutdata.orderDetailes[checkoutdata.orderDetailes.length - 1];
+      const amount = checkorder.totalAmount;
+      const currency = "INR";
+      const receipt = userData.email;
 
-    const data = {
-      key: razorId,
-      contact: userData.mobno,
-      name: userData.username,
-      email: userData.email,
-    };
-    const order = await instance.orders.create({
-      amount: amount * 100,
-      currency,
-      receipt,
-    });
+      const data = {
+        key: razorId,
+        contact: userData.mobno,
+        name: userData.username,
+        email: userData.email,
+      };
+      const order = await instance.orders.create({
+        amount: amount * 100,
+        currency,
+        receipt,
+      });
 
-    res.json({ order, data });
-  } catch (err) {
-    console.log("error when post createOrder", err.message);
+      res.json({ order, data });
+    } catch (err) {
+      console.log("error when post createOrder", err.message);
+    }
+  } else {
+    res.redirect("/common/login");
   }
-}else{
-  res.redirect('/common/login')
-}
+};
+
+// getting order complete page after make upi or cod peyment
+exports.completeOrderGet = async (req, res) => {
+  if (req.session.email) {
+    const methord = req.params.data;
+    const userData = await signupCollection.findOne({
+      email: req.session.email,
+    });
+    const checkData = await checoutcollections.findOne({
+      userId: userData._id,
+    });
+    const lastorder = checkData.orderDetailes.length - 1;
+    const lastorderObj = checkData.orderDetailes[checkData.orderDetailes.length - 1]
+    let proObj=[]
+    for(let a of lastorderObj.product){
+      const item =await productcollection.findById(a.id)
+      proObj.push(item)
+    }
+    const deletecart= await cartcollections.findOneAndDelete({userId:userData._id})
+    if (methord=="upi") {
+      const val="Success"
+      const updateobj = await checoutcollections.findOneAndUpdate(
+        { userId: userData._id },
+        { $set: { [`orderDetailes.${lastorder}.peymentStatus`]: val } },
+        { new: true }
+      );
+      if (updateobj) {
+        console.log("updateobj");
+      }
+    }
+    res.render("user/ordercomplete",{proObj});
+  }
 };

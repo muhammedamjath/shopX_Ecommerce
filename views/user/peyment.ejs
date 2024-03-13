@@ -97,11 +97,13 @@
                 amount: response.data.order.amount,
                 currency: response.data.order.currency,
                 order_id: response.data.order.id,
+                image:'/miscellaneous/logo.png',
                 name: 'shopX',
                 description: 'Payment for your order',
                 handler: function (response) {
                     console.log('Razorpay payment success:', response);
-                    window.location.href = '/paymentSuccess';
+                    let peyment='upi'
+                    window.location.href = '/user/ordercomplete/'+ encodeURIComponent(peyment);
                 },
                 prefill: {
                     name: response.data.data.name,

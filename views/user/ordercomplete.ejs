@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shopX</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color:bisque;
+            font-family: sans-serif;
+        }
+        .main{
+            height: 500px;
+            width: 30%;
+            background-color: white;
+            border-radius: 5px;
+        }
+        .main .product{
+            max-height: 40%;
+            width: 90%;
+            /* background-color: red; */
+            position: relative;
+            top: 50px;
+            left: 5%;
+            overflow:auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .main .product .img{
+           height: 100% ;
+            width: 30%;
+        }
+        .main .product img{
+            /* height: 100%; */
+            width: 100%;
+        }
+        .main .product .card{
+            display: flex;
+            gap: 30%;
+            height: 40%;
+            width: 100%;
+        }
+        .main .product p{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 20px;
+        }
+        .main p{
+            position: relative;
+            top: 30px;
+            font-size: 30px;
+            text-align: center;
+        }
+        .main .textlast{
+            position: relative;
+            top: 60px;
+        }
+        .main .circle{
+            height: 150px;
+            width: 150px;
+            border-radius: 100px;
+            /* background-color: red; */
+            position: relative;
+            top: 70px;
+            left: 35%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 150px;
+            color: #70e000;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="main">
+            <p>Your orders</p>
+            <div class="product">
+                <% proObj.forEach((data)=>{ %>
+                <div class="card">
+                <div class="img"><img src="/<%= data.image[0] %>" alt=""></div>
+                <p class="name"><%= data.name %></p>
+            </div>
+                <% })%>
+            </div>
+            <p class="textlast">placed successfully</p>
+            <div class="circle"><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+    </div>
+</body>
+</html>
