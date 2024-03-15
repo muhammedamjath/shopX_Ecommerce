@@ -32,6 +32,10 @@ router.get('/peyment',usercontroller.peymentget)
 router.post('/peymentpost',usercontroller.peymentppost)
 router.get('/ordercomplete/:data',usercontroller.completeOrderGet)
 
+router.get('/orderhistory',usercontroller.orderHistoryGet)
+router.get('/historySingleGet/:id',usercontroller.singleHistoryGet)
+
+router.put('/cancellOrder/:id',usercontroller.cancellorder)
 
 
 

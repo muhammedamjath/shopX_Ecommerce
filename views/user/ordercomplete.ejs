@@ -15,11 +15,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color:bisque;
+            background-color:#eee;
             font-family: sans-serif;
         }
         .main{
-            height: 500px;
+            height: 350px;
             width: 30%;
             background-color: white;
             border-radius: 5px;
@@ -79,22 +79,22 @@
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <%- include('layout/header') -%>
 </head>
 <body>
+    <%- include('layout/navbar') -%>
     <div class="container">
         <div class="main">
             <p>Your orders</p>
-            <div class="product">
-                <% proObj.forEach((data)=>{ %>
-                <div class="card">
-                <div class="img"><img src="/<%= data.image[0] %>" alt=""></div>
-                <p class="name"><%= data.name %></p>
-            </div>
-                <% })%>
-            </div>
+           
             <p class="textlast">placed successfully</p>
             <div class="circle"><i class="fa-solid fa-circle-check"></i></div>
         </div>
     </div>
+    <script>
+        setTimeout(()=>{
+            window.location.href='/user/home'
+        },3000)
+    </script>
 </body>
 </html>

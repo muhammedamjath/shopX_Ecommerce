@@ -9,6 +9,7 @@ const schema= new mongoose.Schema({
         product:[{
             id:{
                 type:mongoose.Types.ObjectId,
+                ref:'additemCollection'
             },
             offerprice:{
                 type:Number,

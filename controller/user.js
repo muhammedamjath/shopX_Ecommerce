@@ -11,6 +11,7 @@ const coupenschema = require("../model/coupon");
 const checoutcollections = require("../model/checkout");
 const addressCollection = require("../model/adress");
 const Razorpay = require("razorpay");
+const additemCollection = require("../model/addproductScema");
 
 // Razorpay
 const razorId = process.env.RAZORPAY_ID_KEY;
@@ -223,8 +224,8 @@ exports.cartget = async (req, res) => {
           }
         }
       }
-      if(data.length==0){
-        data=undefined
+      if (data == undefined || data.length == 0) {
+        data = undefined;
       }
       res.render("user/cart", { data, cartItem, subtotal, cartData });
     } catch (err) {
@@ -610,24 +611,87 @@ exports.completeOrderGet = async (req, res) => {
       userId: userData._id,
     });
     const lastorder = checkData.orderDetailes.length - 1;
-    const lastorderObj = checkData.orderDetailes[checkData.orderDetailes.length - 1]
-    let proObj=[]
-    for(let a of lastorderObj.product){
-      const item =await productcollection.findById(a.id)
-      proObj.push(item)
-    }
-    const deletecart= await cartcollections.findOneAndDelete({userId:userData._id})
-    if (methord=="upi") {
-      const val="Success"
+    const lastorderObj =
+      checkData.orderDetailes[checkData.orderDetailes.length - 1];
+    const deletecart = await cartcollections.findOneAndDelete({
+      userId: userData._id,
+    });
+    if (methord == "upi") {
+      const val = "Success";
       const updateobj = await checoutcollections.findOneAndUpdate(
         { userId: userData._id },
         { $set: { [`orderDetailes.${lastorder}.peymentStatus`]: val } },
         { new: true }
       );
-      if (updateobj) {
-        console.log("updateobj");
-      }
     }
-    res.render("user/ordercomplete",{proObj});
+    res.render("user/ordercomplete");
   }
 };
+
+// orderhistory get
+exports.orderHistoryGet = async (req, res) => {
+  if (req.session.email) {
+    const userData = await signupCollection.findOne({
+      email: req.session.email,
+    });
+    const checkData = await checoutcollections.findOne({
+      userId: userData._id,
+    });
+    if(checkData){
+      const data = checkData.orderDetailes;
+      res.render("user/orderslist", { data });
+    }else{
+      res.render("user/orderslist", { data:null });
+    }
+  }
+};
+
+// single order gistory get
+exports.singleHistoryGet = async (req, res) => {
+  if (req.session.email) {
+    const id = req.params.id;
+    const user = await signupCollection.findOne({ email: req.session.email });
+    const checkdata = await checoutcollections.findOne({ userId: user._id });
+    const obj = checkdata.orderDetailes.find((data) => data._id == id);
+
+    // product find
+    let product = [];
+    for (let i of obj.product) {
+      let productDetailes = {};
+      let data = await additemCollection.findById(i.id);
+      productDetailes.name = data.name;
+      productDetailes.image = data.image[0];
+      productDetailes.balence = i;
+      product.push(productDetailes);
+    }
+
+    // date and time  convertion
+    const date = new Date(obj.createdAt);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    const newdate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+
+    res.render("user/singlehistory", { obj, newdate, product });
+  }
+};
+
+// cancell the order
+exports.cancellorder=async(req,res)=>{
+  if(req.session.email){
+    const id = req.params.id;
+    const update='cancelld'
+    const user= await signupCollection.findOne({email:req.session.email})
+    const checkData= await checoutcollections.findOneAndUpdate(
+      {userId:user._id,"orderDetailes._id":id},
+      {$set:{"orderDetailes.$.orderSatatus":update}}
+      )
+      if(checkData){
+        res.status(200).json({message:"cancelled"})
+      }
+  }
+  
+}

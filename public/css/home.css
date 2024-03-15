@@ -7,23 +7,24 @@
 .container{
     height: 100vh;
     width: 100%;
+    /* overflow: hidden; */
     
 }
 body{
     font-family: sans-serif;
-    background-color: #220901;
+    background-color: #eeeeee;
 
 }
 /* nav bar  */
 
 nav{
     height: 80px;
-    background-color: #220901;
+    background-color: #eeeeee;
     width: 100%;
     box-shadow: 0 0 10px -2px gray;
 }
 nav h1{
-    color: white;
+    color: #ffb703;
     position: absolute;
     top: 20px;
     left: 5%;
@@ -40,7 +41,7 @@ nav ul li{
 }
 nav ul li a{
     position: relative;
-    color: white;
+    color: black;
     font-size: 18px;
     padding:5px 0;
     text-transform: uppercase;
@@ -243,7 +244,7 @@ footer .three a{
 .categoryh1{
     text-align: center;
     position: relative;
-    color: white;
+    /* color: white; */
     top: 30px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -256,7 +257,7 @@ footer .three a{
 .listcategory .categorycard p{
     text-align: center;
     font-size: 15px;
-    color: white;
+    /* color: white; */
     font-family:Verdana, Geneva, Tahoma, sans-serif
 }
 
@@ -310,7 +311,7 @@ color: #450920;
 .product-h1 {
     text-align: center;
     position: relative;
-    color: white;
+    /* color: white; */
     top: 130px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;   
 }

@@ -5,12 +5,15 @@
     font-family: sans-serif;
     list-style: none;
 }
+body{
+    background-color: #eee;
+}
 
 /* side bar start */
 .sidebar{
     height: 100vh;
     width: 15%;
-    /* background-color: #49111c; */
+    background-color: #3a5a40;
     position: fixed;
     box-shadow: 0px 0px 10px 2px gray;
 
@@ -21,48 +24,22 @@
     /* background-color: red; */
    border-bottom: 1px solid gray;
 }
-.sidebar .profile{
-    height: 150px;
-    width: 80%;
-    /* background-color: #9ad1d4; */
-    margin-left: 10%;
-    margin-top: 10px;
-    border-radius: 20px;
-    border: 1px solid gray;
-    box-shadow: 0 0 5px 1px gray;
-
-}
-.sidebar .profile .image{
-    height: 75px;
-    width: 75px;
-    /* background-color:red; */
-    border-radius: 10px;
-    position: relative;
-    left: 30%;
-    top: 15%;
-}
-.sidebar .profile h1{
-    position: relative;
-    top: 25%;
-    text-align: center;
-    font-size: 15px;
-}
 
 .sidebar ul{
-    margin-top: 20px;
+    margin-top: 0px;
    
 }
 .sidebar ul li{
     margin: 0 0;
     height: 50px;
     width: 100%;
-    background-color: #49111c;
-    margin-top: 1px;
+    background-color: #344e41;
+    margin-top: 2px;
     line-height: 50px;
 }
 .sidebar ul li a{
     margin-left: 50px;
-    color: gray;
+    color: white;
 }
 .sidebar ul li:hover {
    background-color: #9ad1d4;
@@ -78,7 +55,7 @@
     font-size: larger;
     position: absolute;
     bottom: 0;
-    /* background-color: #49111c; */
+    background-color: #3a5a40;
     border: none;
     color: gray;
    
@@ -89,7 +66,7 @@
     color: white;
 }
 .sidebar .logo h1{
-    color: blue;
+    color: #ffb703;
     text-align: center;
     position: relative;
     top: 5px;

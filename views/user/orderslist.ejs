@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders|shopX</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .container{
+        overflow-x: hidden;
+        /* overflow-y: hidden; */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-bottom: 100px;
+      }
+     
+       p {
+        font-size: 20px;
+        position: relative;
+        top: 30px;
+        left: 5%;
+      }
+       .card {
+        height: 150px;
+        width: 90%;
+        background-color: #ecf39e;
+        position: relative;
+        top: 40px;
+        left: 5%;
+        padding: 10px;
+        border: 1px solid #e5e5e5;
+      }
+       .card .part1 {
+        height: 50px;
+        width: 100%;
+        background-color: #f9f9f9;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      }
+       .card .part1 .time {
+        margin-left: 5px;
+        margin-top: 5px;
+      }
+       .card .part1 .id {
+        margin-left: 5px;
+      }
+       .card .part2 {
+        height: 100px;
+        width: 100%;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+       .part2 .status {
+        height: 80px;
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+      }
+       .part2 .status .part3 {
+        height: 40px;
+        display: flex;
+      }
+       .part2 .status .part4 {
+        display: flex;
+       gap: 29%;
+        height: 40px;
+      }
+       .part2 .status .part4 p {
+        position: relative;
+        top: 0px;
+        left: 0;
+        font-size: 10px;
+      }
+       .part2 .status .one .circle {
+        height: 20px;
+        width: 20px;
+        border-radius: 20px;
+        border: 1px solid gray;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: large;
+      }
+       .part2 .status .one .stick {
+        height: 2px;
+        width: 100px;
+        border-radius: 0%;
+        border: 1px solid gray;
+      }
+       .part2 .status .one {
+        display: flex;
+        align-items: center;
+      }
+       .part2 .status .two .circle {
+        height: 20px;
+        width: 20px;
+        border-radius: 20px;
+        border: 1px solid gray;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: large;
+      }
+       .part2 .status .two .stick {
+        height: 2px;
+        width: 100px;
+        border-radius: 0%;
+        border: 1px solid gray;
+      }
+       .part2 .status .two {
+        display: flex;
+        align-items: center;
+      }
+       .part2 .status .three .circle {
+        height: 20px;
+        width: 20px;
+        border-radius: 20px;
+        border: 1px solid gray;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: large;
+      }
+       .part2 .status .three {
+        display: flex;
+        align-items: center;
+      }
+       .part2 button {
+        height: 30px;
+        width: 100px;
+        border-radius: 5px;
+        border: none;
+        background-color: #ffb703;
+      }
+      .part2 button:hover{
+        background-color: #ffd500;
+      }
+       .part2 .img {
+        height: 80%;
+        width: 10%;
+        background-color: black;
+      }
+       .part1 .img img {
+        height: 100%;
+        width: 100%;
+      }
+      .container .else{
+        text-align: center;
+        font-size: 30px;
+        color: #ffb703;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <%- include('layout/header') -%>
+  </head>
+  <body>
+    <%- include('layout/navbar') -%>
+    <div class="container">
+        <p>Your orders history</p>
+        <% if(data==null){ %>
+          <p class="else">Your history is clean 😊</p>
+        <% }else{ %>
+        <% data.forEach((data)=>{ %>
+        <div class="card">
+          <div class="part1">
+            <div class="id">#ID :<%= data._id %></div>
+            <div class="time">Purchased on : <%= data.createdAt %></div>
+            <input id="status" type="hidden" value="<%= data.orderSatatus %>">
+          </div>
+          <div class="part2">
+            <div class="img"><img src="" alt="" /></div>
+            <div class="status">
+              <div class="part3">
+                <div class="one">
+                  <div id="circle1" class="circle"></div>
+                  <div id="stick1" class="stick"></div>
+                </div>
+                <div class="two">
+                  <div id="circle2" class="circle"></div>
+                  <div id="stick2" class="stick"></div>
+                </div>
+                <div class="three">
+                  <div id="circle3" class="circle"></div>
+                </div>
+              </div>
+              <div class="part4">
+                <p id="p1">Placed</p>
+                <p id="p2">Shipped</p>
+                <p id="p3">Deliverd</p>
+              </div>
+            </div>
+            <button onclick="window.location.href='/user/historySingleGet/<%= data._id %>'">Detailes</button>
+          </div>
+        </div>
+      <% }) %>
+         <%}%>
+        
+    </div>
+    <script>
+      const cards = document.querySelectorAll('.card');
+    
+      cards.forEach((card) => {
+        const statusInput = card.querySelector('#status'); 
+        const circle1 = card.querySelector('#circle1');
+        const stick1 = card.querySelector('#stick1');
+        const circle2 = card.querySelector('#circle2');
+        const stick2 = card.querySelector('#stick2');
+        const circle3 = card.querySelector('#circle3');
+        const placed=card.querySelector('#p1')
+        const shipped=card.querySelector('#p2')
+        const deliverd=card.querySelector('#p3')
+    
+        if(statusInput.value==="cancelld"){
+        circle1.style.color='red'
+        circle1.style.border='none'
+        circle1.innerHTML='<i class="fa-solid fa-circle-check"></i>'
+
+        stick1.style.backgroundColor='red'
+        stick2.style.display='none'
+
+        circle3.innerHTML='<i class="fa-solid fa-circle-check"></i>'
+        circle3.style.border='none'
+        circle3.style.color='red'
+        circle2.style.display='none'
+
+        deliverd.textContent=''
+        shipped.textContent='Cancelled'
+
+
+        }else if (statusInput.value === 'placed') {
+          circle1.style.border='none'
+          circle1.innerHTML='<i class="fa-solid fa-circle-check"></i>'
+          circle1.style.color = '#70e000';
+        }else if(statusInput.value==="shipped"){
+          circle1.style.border='none'
+          circle1.innerHTML='<i class="fa-solid fa-circle-check"></i>'
+          circle1.style.color = '#70e000';
+          circle1.style.border='none'
+
+          circle2.innerHTML='<i class="fa-solid fa-circle-check"></i>'
+          circle2.style.color = '#70e000';
+          circle2.style.border='none'
+          stick1.style.backgroundColor='#70e000'
+        }else if(statusInput.value==='deliverd'){
+          circle1.style.border='none'
+          circle1.innerHTML='<i class="fa-solid fa-circle-check"></i>'
+          circle1.style.color = '#70e000';
+          circle1.style.border='none'
+          stick1.style.backgroundColor='#70e000'
+          
+          circle2.innerHTML='<i class="fa-solid fa-circle-check"></i>'
+          circle2.style.color = '#70e000';
+          circle2.style.border='none'
+          stick2.style.backgroundColor='#70e000'
+
+          circle3.innerHTML='<i class="fa-solid fa-circle-check"></i>'
+          circle3.style.color = '#70e000';
+          circle3.style.border='none'
+        } 
+      });
+    </script>
+  </body>
+</html>
