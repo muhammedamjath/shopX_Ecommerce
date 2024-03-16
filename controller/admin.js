@@ -4,7 +4,9 @@ const additemCollection = require("../model/addproductScema");
 const upload = require("../middileware/multer");
 const signupcollection = require("../model/usersignupData");
 const bannercollection = require("../model/banner");
-const coupenschema=require('../model/coupon')
+const coupenschema = require("../model/coupon");
+const checoutcollections = require("../model/checkout");
+const { default: mongoose } = require("mongoose");
 
 // login get
 exports.loginget = (req, res) => {
@@ -40,56 +42,53 @@ exports.categoryPost = async (req, res) => {
     const data = new categoryCollection({
       category: req.body.category,
       subcategory: [],
-      image:'images/'+req.file.filename
+      image: "images/" + req.file.filename,
     });
     await data.save();
-    const catData=await categoryCollection.find()
-    res.status(200).json({categories:catData});
+    const catData = await categoryCollection.find();
+    res.status(200).json({ categories: catData });
   } catch (err) {
-    console.log(err); 
+    console.log(err);
   }
 };
 
 // categorydelete with axios
-exports.deletecategory=async(req,res)=>{
-  const id=req.params.id
-  try{
-    await categoryCollection.findByIdAndDelete(id)
-    res.status(200).json({})
-  }
-  catch(err){
+exports.deletecategory = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await categoryCollection.findByIdAndDelete(id);
+    res.status(200).json({});
+  } catch (err) {
     console.log(err);
   }
-}
+};
 
 // previews category delete
-exports.delcategory=async(req,res)=>{
-  const id=req.params.id
-  try{
-    await categoryCollection.findByIdAndDelete(id)
-    res.status(200).json({})
+exports.delcategory = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await categoryCollection.findByIdAndDelete(id);
+    res.status(200).json({});
+  } catch (err) {
+    console.log("the err is ", err);
   }
-  catch(err){
-    console.log('the err is ',err);
-  }
-}
+};
 
 // subcategory delete with axios
-exports.subdelete=async(req,res)=>{
-  const id = req.params.id
-  const item =req.body.subcategoryName
-  try{
-      await categoryCollection.findByIdAndUpdate(
-        id,
-        {$pull:{subcategory:item}},
-        {new:true}
-      )
-      res.status(200).json({})
-  }
-  catch(err){
+exports.subdelete = async (req, res) => {
+  const id = req.params.id;
+  const item = req.body.subcategoryName;
+  try {
+    await categoryCollection.findByIdAndUpdate(
+      id,
+      { $pull: { subcategory: item } },
+      { new: true }
+    );
+    res.status(200).json({});
+  } catch (err) {
     console.log(err);
   }
-}
+};
 
 // sub category get in admin side
 exports.getsubcategory = async (req, res) => {
@@ -132,7 +131,7 @@ exports.getaadProduct = async (req, res) => {
 exports.multerpost = upload.upload.array("image", 4);
 
 // using multer2
-exports.multer1 = upload.upload2.single("image"); 
+exports.multer1 = upload.upload2.single("image");
 
 // add product post
 exports.postaddproduct = async (req, res) => {
@@ -145,21 +144,21 @@ exports.postaddproduct = async (req, res) => {
   } else {
     name = name.charAt(0).toUpperCase() + name.slice(1);
   }
-  const prize=req.body.prize
-  const offerprize=req.body.offerprize
+  const prize = req.body.prize;
+  const offerprize = req.body.offerprize;
 
-  percentage= 100-( Math.round(offerprize/prize*100))
+  percentage = 100 - Math.round((offerprize / prize) * 100);
 
   const postdata = new additemCollection({
     name: name,
     prize: req.body.prize,
     offerprize: req.body.offerprize,
-    prizePercenttage:percentage,
+    prizePercenttage: percentage,
     stock: req.body.stock,
     category: req.body.category,
     subCategory: req.body.subCategory,
     image: path,
-    brand:req.body.brand,
+    brand: req.body.brand,
     size: req.body.size,
     color: req.body.color,
     discription: req.body.discription,
@@ -167,7 +166,7 @@ exports.postaddproduct = async (req, res) => {
   if (postdata) {
     await postdata.save();
     console.log("product saved successfully");
-    res.redirect("/admin/aadproduct"); 
+    res.redirect("/admin/aadproduct");
   } else {
     res.redirect("/admin/aadproduct");
   }
@@ -219,9 +218,9 @@ exports.editproduct = async (req, res) => {
 exports.postEdit = async (req, res) => {
   const proId = req.params.editId;
   const data = await additemCollection.findById(proId);
-  const prizeE=req.body.prize
-  const offerprizeE=req.body.offerprize
-  percentage= 100-( Math.round(offerprizeE/prizeE*100))
+  const prizeE = req.body.prize;
+  const offerprizeE = req.body.offerprize;
+  percentage = 100 - Math.round((offerprizeE / prizeE) * 100);
   const {
     name,
     prize,
@@ -243,12 +242,12 @@ exports.postEdit = async (req, res) => {
         offerprize: offerprize,
         category: category,
         subCategory: subCategory,
-        prizePercenttage:percentage,
+        prizePercenttage: percentage,
         image: path,
         size: size,
         color: color,
         discription: discription,
-        brand:brand
+        brand: brand,
       },
     });
     console.log("product updated successfully");
@@ -344,30 +343,85 @@ exports.bannerstatus = async (req, res) => {
   }
 };
 
-
 // coupon get
-exports.couponget=(req,res)=>{
-  res.render('admin/coupon')
-}
+exports.couponget = (req, res) => {
+  res.render("admin/coupon");
+};
 
 // coupon post
-exports.couponpost=async(req,res)=>{
-  const {minamount,maxamount,discamount,Code}=req.body
-  const UpperCase=Code.toUpperCase()
+exports.couponpost = async (req, res) => {
+  const { minamount, maxamount, discamount, Code } = req.body;
+  const UpperCase = Code.toUpperCase();
   console.log(UpperCase);
 
-  try{
-    const coupon= new  coupenschema({
-      code:UpperCase,
-      minamount:minamount,
-      maxamount:maxamount,
-      discamount:discamount
-    })
-  
-    await coupon.save()
-    res.redirect('/admin/coupon')
+  try {
+    const coupon = new coupenschema({
+      code: UpperCase,
+      minamount: minamount,
+      maxamount: maxamount,
+      discamount: discamount,
+    });
+
+    await coupon.save();
+    res.redirect("/admin/coupon");
+  } catch (err) {
+    console.log(err);
   }
-  catch(err){
-    console.log(err)
+};
+
+// orders list get
+exports.orderslist = async (req, res) => {
+  const orders = await checoutcollections.find();
+  let datas = [];
+  for (let i of orders) {
+    let userid = i.userId;
+    for (let j of i.orderDetailes) {
+      const obj = { userid: userid, orders: j };
+      datas.push(obj);
+    }
   }
+  if(datas.length>0){
+    res.render("admin/orders",{datas});
+  }else{
+    res.render("admin/orders",{datas:''});
+  }
+};
+
+// single order  get
+exports.getsingleorder=async(req,res)=>{
+  const userId= req.params.userId
+  const orderId= req.params.orderId
+ 
+  const userDetailes= await signupcollection.findOne({_id:userId},{password:0})
+  const orderData= await checoutcollections.findOne({userId:userId})
+  let objdata;
+  let product=[]
+  for( let i of orderData.orderDetailes){
+      if(i._id == orderId ){
+        objdata=i
+        for ( let j of i.product){
+          const finditem= await additemCollection.findById(j.id)
+          const image=finditem.image[0]
+          const data={image:image,otherDetailes:j}
+          product.push(data)
+        }
+      }
+
+  }
+ res.render('admin/orderSingle',{userDetailes,objdata,product,userId})
+}
+
+// order status updating
+exports.statusupdate=async(req,res)=>{
+  const status = req.body.selectedValue;
+    const userId = req.body.userId;
+    const orderId=req.body.orderId
+    const checkData= await checoutcollections.findOneAndUpdate(
+      {userId:userId,"orderDetailes._id":orderId},
+      {$set:{"orderDetailes.$.orderSatatus":status}}
+      )
+      if(checkData){
+        res.status(200).json({})
+      }
+
 }

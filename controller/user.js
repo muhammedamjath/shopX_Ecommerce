@@ -426,7 +426,11 @@ exports.checkoutget = async (req, res) => {
       minamount: { $lte: subtotal },
       maxamount: { $gte: subtotal },
     });
-    res.render("user/checkout", { cartData, subtotal, coupon, address });
+    if(address){
+      res.render("user/checkout", { cartData, subtotal, coupon, address });
+    }else{
+      res.render("user/checkout", { cartData, subtotal, coupon, address:'' });
+    }
   } else {
     res.render("common/login");
   }
@@ -607,12 +611,14 @@ exports.completeOrderGet = async (req, res) => {
     const userData = await signupCollection.findOne({
       email: req.session.email,
     });
+
     const checkData = await checoutcollections.findOne({
       userId: userData._id,
     });
+    
     const lastorder = checkData.orderDetailes.length - 1;
-    const lastorderObj =
-      checkData.orderDetailes[checkData.orderDetailes.length - 1];
+    const lastorderObj =checkData.orderDetailes[checkData.orderDetailes.length - 1];
+    console.log(lastorderObj);
     const deletecart = await cartcollections.findOneAndDelete({
       userId: userData._id,
     });
@@ -683,7 +689,7 @@ exports.singleHistoryGet = async (req, res) => {
 exports.cancellorder=async(req,res)=>{
   if(req.session.email){
     const id = req.params.id;
-    const update='cancelld'
+    const update='cancelled'
     const user= await signupCollection.findOne({email:req.session.email})
     const checkData= await checoutcollections.findOneAndUpdate(
       {userId:user._id,"orderDetailes._id":id},
@@ -692,6 +698,11 @@ exports.cancellorder=async(req,res)=>{
       if(checkData){
         res.status(200).json({message:"cancelled"})
       }
-  }
-  
+  } 
+}
+
+// logout
+exports.logout=(req,res)=>{
+  req.session.destroy()
+  res.redirect('/common/login')
 }

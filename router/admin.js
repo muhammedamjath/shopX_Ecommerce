@@ -39,4 +39,9 @@ router.delete('/deletesubcat/:id',adminController.subdelete)
 router.get('/coupon',adminController.couponget)
 router.post('/coupon',adminController.couponpost)
 
+router.get('/orders',adminController.orderslist)
+router.get('/changeOrderStatus/:userId/:orderId',adminController.getsingleorder)
+
+router.put('/statusupdate',adminController.statusupdate)
+
 module.exports = router
