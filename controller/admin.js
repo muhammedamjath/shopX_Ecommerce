@@ -383,7 +383,7 @@ exports.orderslist = async (req, res) => {
   if(datas.length>0){
     res.render("admin/orders",{datas});
   }else{
-    res.render("admin/orders",{datas:''});
+    res.render("admin/orders",{datas:[]});
   }
 };
 

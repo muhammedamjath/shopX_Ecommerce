@@ -90,7 +90,32 @@ nav ul li button{
 nav ul li button:hover{
     transform: scaleX(1.1);
 }
-
+nav .input{
+    height: 30px;
+    width: 20%;
+    position: absolute;
+    top: 25px;
+    left: 30%;
+}
+nav .input input{
+    height: 100%;
+    width: 88%;
+    border: 1px solid gray;
+    border-radius: 5px;
+    text-align: center;
+}
+nav .input button{
+    height: 100%;
+    width: 9%;
+    background: none;
+    border: none;
+}
+nav .input button:hover{
+    transform: scale(1.1);
+}
+nav .input input:focus{
+    outline: 1px solid blue;
+}
 
 /* footer */
 

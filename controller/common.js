@@ -1,6 +1,8 @@
 const signupCollection = require("../model/usersignupData");
 const otpjs = require("../public/otp");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");const bannercollection = require("../model/banner");
+const categorycollection = require("../model/categorySchema");
+const productcollection = require("../model/addproductScema");
 
 // rejex
 const emailRejex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -8,8 +10,13 @@ const passwordRejex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 // common home get
-exports.commonHome = (req, res) => {
-  res.render("common/commonHome");
+exports.commonHome =async (req, res) => {
+  const banner = await bannercollection.find();
+  const categories = await categorycollection.find();
+  const product = await productcollection
+    .find({ status: "Active" })
+    .limit(10);
+  res.render("user/home", { banner, categories, product });
 };
 
 // login get

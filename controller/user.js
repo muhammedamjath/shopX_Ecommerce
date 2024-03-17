@@ -12,6 +12,7 @@ const checoutcollections = require("../model/checkout");
 const addressCollection = require("../model/adress");
 const Razorpay = require("razorpay");
 const additemCollection = require("../model/addproductScema");
+const { search } = require("../router/user");
 
 // Razorpay
 const razorId = process.env.RAZORPAY_ID_KEY;
@@ -23,33 +24,37 @@ const instance = new Razorpay({
 
 // user home
 exports.homeget = async (req, res) => {
-  if (req.session.email) {
     const banner = await bannercollection.find();
     const categories = await categorycollection.find();
     const product = await productcollection
       .find({ status: "Active" })
       .limit(10);
     res.render("user/home", { banner, categories, product });
-  } else {
-    res.render("common/login");
-  }
+  
 };
 
 // showing all product
 exports.getallproduct = async (req, res) => {
-  const items = await productcollection.find({ status: "Active" });
+  let items
+  if(req.query.search){
+    const search=req.query.search
+    items =await productcollection.find({stock:{$gt:0},status:{$ne:'Blocked'},name:{$regex:search,$options:'i'}})
+  }else{
+    items = await productcollection.find({ status: "Active" });
+  }
   res.render("user/showallproduct", { items });
 };
 
 // get single product
 exports.getsingleproduct = async (req, res) => {
+  const id = req.params.id;
+  let wishdataId;
+  const item = await productcollection.findById(id);
   if (req.session.email) {
-    const id = req.params.id;
     const email = req.session.email;
     const emailId = await signupCollection.findOne({ email: email });
     const userId = emailId._id;
     let wishdata = await wishlistCollection.findOne({ id: userId, proId: id });
-    let wishdataId;
     if (wishdata) {
       wishdata.proId.forEach((data) => {
         if (data == id) {
@@ -60,11 +65,9 @@ exports.getsingleproduct = async (req, res) => {
         wishdataId = null;
       }
     }
-    const item = await productcollection.findById(id);
+  } 
     res.render("user/singleproduct", { item, wishdataId });
-  } else {
-    res.redirect("/user/home");
-  }
+  
 };
 
 // listing  items  by clicking category
@@ -104,6 +107,8 @@ exports.getwishlist = async (req, res) => {
         res.render("user/wishlist", { getData });
       }
     }
+  }else{
+    res.redirect('/common/login')
   }
 };
 
@@ -232,6 +237,8 @@ exports.cartget = async (req, res) => {
       console.log(err);
     }
     total = subtotal;
+  }else{
+    res.redirect('/common/login')
   }
 };
 
@@ -649,6 +656,8 @@ exports.orderHistoryGet = async (req, res) => {
     }else{
       res.render("user/orderslist", { data:null });
     }
+  }else{
+    res.render('common/login')
   }
 };
 
@@ -704,5 +713,5 @@ exports.cancellorder=async(req,res)=>{
 // logout
 exports.logout=(req,res)=>{
   req.session.destroy()
-  res.redirect('/common/login')
+  res.redirect('/user/home')
 }
