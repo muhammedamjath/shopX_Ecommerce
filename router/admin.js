@@ -6,6 +6,7 @@ router.get('/', adminController.loginget)
 router.post('/post', adminController.loginpost)
 
 router.get('/dashboard', adminController.dashboardGet)
+router.get('/getgraph',adminController.graphget)
 router.get('/catogory', adminController.catogoryGet)
 router.post('/category',adminController.multer1, adminController.categoryPost)
 

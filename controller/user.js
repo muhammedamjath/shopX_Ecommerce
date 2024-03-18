@@ -630,7 +630,6 @@ exports.completeOrderGet = async (req, res) => {
     
     const lastorder = checkData.orderDetailes.length - 1;
     const lastorderObj =checkData.orderDetailes[checkData.orderDetailes.length - 1];
-    console.log(lastorderObj);
     const deletecart = await cartcollections.findOneAndDelete({
       userId: userData._id,
     });

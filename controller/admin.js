@@ -25,9 +25,53 @@ exports.loginpost = async (req, res) => {
 };
 
 // Dashboard get
-exports.dashboardGet = (req, res) => {
-  res.render("admin/dashboard", { mongoAdminData });
+exports.dashboardGet = async (req, res) => {
+  res.render('admin/dashboard')
 };
+
+// grapg get in dashboard
+exports.graphget=async(req,res)=>{
+  
+   try {
+    const currentDate = new Date();
+    const startDate = new Date(currentDate);
+    startDate.setMonth(startDate.getMonth() - 6);
+
+    const salesData = await checoutcollections.aggregate([
+      {
+        $unwind: '$orderDetailes'
+      },
+      {
+        $match: {
+          'orderDetailes.createdAt': {
+            $gte: startDate,
+            $lte: currentDate
+          }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: '$orderDetailes.createdAt' },
+            month: { $month: '$orderDetailes.createdAt' }
+          },
+          totalAmount: { $sum: '$orderDetailes.totalAmount' }
+        }
+      },
+      {
+        $sort: {
+          '_id.year': 1,
+          '_id.month': 1
+        }
+      }
+    ]);
+    console.log(salesData);
+    res.status(200).json({salesData});
+  } catch (error) {
+    console.error('Error fetching sales data:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
 // catogory get
 let categories;
@@ -425,3 +469,5 @@ exports.statusupdate=async(req,res)=>{
       }
 
 }
+
+

@@ -1,9 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .chart1{
+            height: 300px;
+            width: 600px;
+            position: absolute;
+            top: 390px;
+            left: 16%;
+            /* background-color: red; */
+        }
+        .chart2{
+          height: 300px;
+            width: 600px;
+            position: absolute;
+            top: 390px;
+            left: 46%;
+        }
+    </style>
     <%- include("layouts/header") -%>
 </head>
 <body>
     <%- include('layouts/sidebar') -%>
+    <div class="chart1">
+        <canvas id="myChart1"></canvas>
+      </div>
+
+      <div class="chart2">
+        <canvas id="myChart2"></canvas>
+      </div>
+
+
+
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const ctx = document.getElementById('myChart1').getContext('2d');
+    
+          axios.get('/admin/getgraph')
+            .then(response => {
+              const data = response.data.salesData;
+              console.log(response);
+              const labels = [];
+              const sales = [];
+    
+              data.forEach(item => {
+                labels.push(`${item._id.year}-${item._id.month}`);
+                sales.push(item.totalAmount);
+              });
+    
+              new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'Sales',
+                    data: sales,
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  scales: {
+                    y: {
+                      beginAtZero: true
+                    }
+                  }
+                }
+              });
+    
+            })
+            .catch(error => {
+              console.error('Error fetching sales data:', error.message);
+            });
+        });
+      </script>
 </body>
 </html>
