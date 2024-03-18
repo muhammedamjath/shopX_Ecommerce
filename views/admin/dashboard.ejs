@@ -1,79 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <style>
-        .chart1{
-            height: 300px;
-            width: 600px;
-            position: absolute;
-            top: 390px;
-            left: 16%;
-            /* background-color: red; */
-        }
-        .chart2{
-          height: 300px;
-            width: 600px;
-            position: absolute;
-            top: 390px;
-            left: 46%;
-        }
+      .chart1 {
+        height: 300px;
+        width: 600px;
+        position: absolute;
+        top: 390px;
+        left: 16%;
+        /* background-color: red; */
+      }
+      .chart2 {
+        height: 300px;
+        width: 600px;
+        position: absolute;
+        top: 390px;
+        left: 57%;
+        /* background-color: white; */
+      }
+      .box{
+        display: flex;
+        position: relative;
+        left: 16%;
+        top: 40px;
+        gap: 1%;
+        
+      }
+       .box .one,.two,.three,.four{
+        height: 100px;
+        width: 20%;
+        background-color: red;
+        border-radius: 5px;
+        /* position: relative; */
+      }
     </style>
     <%- include("layouts/header") -%>
-</head>
-<body>
+  </head>
+  <body>
     <%- include('layouts/sidebar') -%>
+    <div class="box">
+      <div class="one">
+        <div class="child">
+          <div class="icon"><i class="fa-solid fa-user"></i></div>
+          <p>Total users</p>
+        </div>
+        <div class="content"></div>
+      </div>
+      <div class="two">
+        <div class="child">
+          <div class="icon"><i class="fa-solid fa-bag-shopping"></i></div>
+          <p>Total products</p>
+        </div>
+      </div>
+      <div class="three">
+        <div class="child">
+          <div class="icon"><i class="fa-solid fa-calendar-days"></i></div>
+          <p>Today date</p>
+        </div>
+      </div>
+      <div class="four">
+        <div class="child">
+          <div class="icon"></div>
+          <p></p>
+        </div>
+      </div>
+    </div>
+
     <div class="chart1">
-        <canvas id="myChart1"></canvas>
-      </div>
+      <canvas id="myChart1"></canvas>
+    </div>
+    <div class="chart2">
+      <canvas id="myChart2"></canvas>
+    </div>
 
-      <div class="chart2">
-        <canvas id="myChart2"></canvas>
-      </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const ctx1 = document.getElementById("myChart1").getContext("2d");
+        const ctx2 = document.getElementById("myChart2").getContext("2d");
 
+        axios
+          .get("/admin/getgraph")
+          .then((response) => {
+            const data = response.data.salesData;
+            console.log(response);
+            const labels = [];
+            const sales = [];
 
-
-      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          const ctx = document.getElementById('myChart1').getContext('2d');
-    
-          axios.get('/admin/getgraph')
-            .then(response => {
-              const data = response.data.salesData;
-              console.log(response);
-              const labels = [];
-              const sales = [];
-    
-              data.forEach(item => {
-                labels.push(`${item._id.year}-${item._id.month}`);
-                sales.push(item.totalAmount);
-              });
-    
-              new Chart(ctx, {
-                type: 'line',
-                data: {
-                  labels: labels,
-                  datasets: [{
-                    label: 'Sales',
-                    data: sales,
-                    borderWidth: 1
-                  }]
-                },
-                options: {
-                  scales: {
-                    y: {
-                      beginAtZero: true
-                    }
-                  }
-                }
-              });
-    
-            })
-            .catch(error => {
-              console.error('Error fetching sales data:', error.message);
+            data.forEach((item) => {
+              labels.push(`${item._id.year}-${item._id.month}`);
+              sales.push(item.totalAmount);
             });
-        });
-      </script>
-</body>
+
+            new Chart(ctx1, {
+              type: "line",
+              data: {
+                labels: labels,
+                datasets: [
+                  {
+                    label: "sales ",
+                    data: sales,
+                    borderWidth: 1,
+                    backgroundColor: "#d90429",
+                  },
+                ],
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+                responsive: true,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Last 6 months sales",
+                    color:'#d90429'
+                  },
+                },
+              },
+            });
+
+            // user signup graph
+            const labels1 = [];
+            const signups = [];
+            const data1 = response.data.signupData;
+            data1.forEach((item) => {
+              labels1.push(`${item._id.year}-${item._id.month}`);
+              signups.push(item.totalSignups);
+            });
+
+            new Chart(ctx2, {
+              type: "bar",
+              data: {
+                labels: labels1,
+                datasets: [
+                  {
+                    label: " users",
+                    data: signups,
+                    borderWidth: 1,
+                    backgroundColor: "#3a5a40",
+                    borderColor:'#3a5a40'
+                  },
+                ],
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+                responsive: true,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Last 6 months users",
+                    color:'#3a5a40'
+                  },
+                },
+              },
+            });
+          })
+          .catch((error) => {
+            console.error("Error fetching sales data:", error.message);
+          });
+      });
+    </script>
+  </body>
 </html>

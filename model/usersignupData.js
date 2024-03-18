@@ -22,6 +22,10 @@ const signupscema=new mongoose.Schema({
     status:{
         type:String,
         default:"active"
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now
     }
     
 })

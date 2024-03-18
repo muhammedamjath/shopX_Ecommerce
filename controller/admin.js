@@ -6,7 +6,7 @@ const signupcollection = require("../model/usersignupData");
 const bannercollection = require("../model/banner");
 const coupenschema = require("../model/coupon");
 const checoutcollections = require("../model/checkout");
-const { default: mongoose } = require("mongoose");
+const  mongoose  = require("mongoose");
 
 // login get
 exports.loginget = (req, res) => {
@@ -31,12 +31,12 @@ exports.dashboardGet = async (req, res) => {
 
 // grapg get in dashboard
 exports.graphget=async(req,res)=>{
-  
-   try {
+  try {
     const currentDate = new Date();
     const startDate = new Date(currentDate);
     startDate.setMonth(startDate.getMonth() - 6);
-
+    
+    //...............sales grapg...............//
     const salesData = await checoutcollections.aggregate([
       {
         $unwind: '$orderDetailes'
@@ -65,8 +65,31 @@ exports.graphget=async(req,res)=>{
         }
       }
     ]);
-    console.log(salesData);
-    res.status(200).json({salesData});
+
+    // .......user signup graph ...........//
+    const signupData = await signupcollection.aggregate([
+      {
+          $match: {
+            createdAt: { $gte: startDate}
+          }
+      },
+      {
+          $group: {
+              _id: {
+                  year: { $year: "$createdAt" },
+                  month: { $month: "$createdAt" }
+              },
+              totalSignups: { $sum: 1 }
+          }
+      },
+      {
+          $sort: {
+              "_id.year": 1,
+              "_id.month": 1
+          }
+      }
+  ]);
+  res.status(200).json({salesData,signupData});
   } catch (error) {
     console.error('Error fetching sales data:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
