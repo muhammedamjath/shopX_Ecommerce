@@ -437,6 +437,8 @@ color: #450920;
 @media (max-width: 860px ) {
     label #btn{
         display: block;
+        margin-right: 20%;
+        color: black;
     }
     nav{
         position: fixed;
@@ -474,6 +476,8 @@ color: #450920;
     }
     #check:checked ~ label #cancel{
         display: block;
+        color: black;
+        margin-right: 20%;
     }
    
     
@@ -617,4 +621,57 @@ color: #450920;
         font-size: 15px;
      }
    
+     /* input section */
+     nav .input{
+        height: 20px;
+        width: 30%;
+        position: absolute;
+        top: 30px;
+        left: 35%;
+        /* background-color: red; */
+    }
+    nav .input input{
+        height: 100%;
+        width: 70%;
+        border: 1px solid gray;
+        border-radius: 5px;
+        text-align: center;
+    }
+    /* profile */
+    .profile{
+        height: 40px;
+        width: 40px;
+        border-radius: 40px;
+        background-color: white;
+        position: relative;
+        top: 20px;
+        left: 85%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: larger;
+    }
+   
+    .profile-sub{
+        height: 80px;
+        width: 80px;
+        background-color: white;
+        position: relative;
+        top: 30px;
+        left: 78%;
+        z-index: 1;
+        display: none;
+        border-radius: 0 0 5px 5px;
+    }
+    .profile-sub button{
+        height: 40px;
+        width: 100%;
+        border: none;
+        border-radius: 0 0 5px 5px;
+    
+    }
+    .profile-sub button:hover{
+        background-color: green;
+        color: white;
+    }
 }

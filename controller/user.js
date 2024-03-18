@@ -39,7 +39,15 @@ exports.getallproduct = async (req, res) => {
   if(req.query.search){
     const search=req.query.search
     items =await productcollection.find({stock:{$gt:0},status:{$ne:'Blocked'},name:{$regex:search,$options:'i'}})
-  }else{
+  }else if(req.query.sort){
+    const sort=req.query.sort
+    if(sort=== 'low to high'){
+      items=await productcollection.find({stock:{$gt:0},status:{$ne:'Blocked'}}).sort({offerprize:1})
+    }else if(sort=== 'high to low'){
+      items=await productcollection.find({stock:{$gt:0},status:{$ne:'Blocked'}}).sort({offerprize:-1})
+    }
+  }
+  else{
     items = await productcollection.find({ status: "Active" });
   }
   res.render("user/showallproduct", { items });
@@ -72,16 +80,13 @@ exports.getsingleproduct = async (req, res) => {
 
 // listing  items  by clicking category
 exports.getcatProduct = async (req, res) => {
-  if (req.session.email) {
     const name = req.params.name;
-    const item = await productcollection.find({
+    const items = await productcollection.find({
       category: name,
       status: "Active",
     });
-    res.render("user/categoryProduct", { item });
-  } else {
-    res.redirect("/user/singleproduct");
-  }
+    res.render("user/showallproduct", { items });
+  
 };
 
 // wishlist
