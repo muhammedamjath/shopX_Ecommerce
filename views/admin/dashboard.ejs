@@ -18,20 +18,58 @@
         left: 57%;
         /* background-color: white; */
       }
-      .box{
+      .box {
         display: flex;
+        width: 84%;
         position: relative;
         left: 16%;
-        top: 40px;
-        gap: 1%;
-        
+        top: 20px;
+        gap: 4%;
+        flex-wrap: wrap;
       }
-       .box .one,.two,.three,.four{
-        height: 100px;
+      .box .one,
+      .two,
+      .three,
+      .four,
+      .five {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 80px;
         width: 20%;
-        background-color: red;
+        padding: 10px;
+        background-color: white;
         border-radius: 5px;
-        /* position: relative; */
+        margin-top: 10px;
+      }
+      .box .child {
+        height: 50%;
+        width: 80%;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+      .box .child .icon {
+        height: 100%;
+        width: 30%;
+        background-color: #b7e4c7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+        font-size: 20px;
+      }
+      .box .content {
+        height: 50%;
+        width: 80%;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: bolder;
       }
     </style>
     <%- include("layouts/header") -%>
@@ -41,28 +79,39 @@
     <div class="box">
       <div class="one">
         <div class="child">
-          <div class="icon"><i class="fa-solid fa-user"></i></div>
+          <div class="icon" style="color: blue">
+            <i class="fa-solid fa-user"></i>
+          </div>
           <p>Total users</p>
         </div>
-        <div class="content"></div>
+        <div class="content"><%= usersCount %></div>
       </div>
       <div class="two">
         <div class="child">
-          <div class="icon"><i class="fa-solid fa-bag-shopping"></i></div>
+          <div class="icon" style="color: orangered">
+            <i class="fa-solid fa-bag-shopping"></i>
+          </div>
           <p>Total products</p>
         </div>
+        <div class="content"><%= productcount %></div>
       </div>
       <div class="three">
         <div class="child">
-          <div class="icon"><i class="fa-solid fa-calendar-days"></i></div>
+          <div class="icon" style="color: white">
+            <i class="fa-solid fa-calendar-days"></i>
+          </div>
           <p>Today date</p>
         </div>
+        <div class="content" id="date-today" style="font-size: 15px"></div>
       </div>
       <div class="four">
         <div class="child">
-          <div class="icon"></div>
-          <p></p>
+          <div class="icon" style="color: #9e2a2b">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <p>Time</p>
         </div>
+        <div class="content" id="time"></div>
       </div>
     </div>
 
@@ -76,6 +125,35 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+      const todayDate = document.getElementById("date-today");
+      const Time = document.getElementById("time");
+      function updateTime() {
+        const date = new Date();
+        const daysOfWeek = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        const dayName = daysOfWeek[date.getDay()];
+        const currentDate = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        const dateToday = `${dayName} ${currentDate}-${month}-${year}`;
+        todayDate.innerText = dateToday;
+
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const seconds = String(date.getSeconds()).padStart(2, "0");
+        const timeString = `${hours}:${minutes}:${seconds}`;
+        Time.innerText = timeString;
+      }
+      updateTime();
+      setInterval(updateTime, 1000);
+
       document.addEventListener("DOMContentLoaded", () => {
         const ctx1 = document.getElementById("myChart1").getContext("2d");
         const ctx2 = document.getElementById("myChart2").getContext("2d");
@@ -84,7 +162,6 @@
           .get("/admin/getgraph")
           .then((response) => {
             const data = response.data.salesData;
-            console.log(response);
             const labels = [];
             const sales = [];
 
@@ -117,7 +194,7 @@
                   title: {
                     display: true,
                     text: "Last 6 months sales",
-                    color:'#d90429'
+                    color: "#d90429",
                   },
                 },
               },
@@ -142,7 +219,7 @@
                     data: signups,
                     borderWidth: 1,
                     backgroundColor: "#3a5a40",
-                    borderColor:'#3a5a40'
+                    borderColor: "#3a5a40",
                   },
                 ],
               },
@@ -157,7 +234,7 @@
                   title: {
                     display: true,
                     text: "Last 6 months users",
-                    color:'#3a5a40'
+                    color: "#3a5a40",
                   },
                 },
               },

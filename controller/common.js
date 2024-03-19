@@ -102,7 +102,8 @@ exports.loginpost = async (req, res) => {
     res.render("common/login");
   }
   if (mongoData.status === "Blocked") {
-    res.send("your accound is blocked");
+    req.flash('error', 'Your account is blocked')
+    res.redirect('/common/login')
   } else {
     const mongoPass = await bcrypt.compare(
       req.body.password,

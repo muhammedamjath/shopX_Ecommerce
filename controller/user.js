@@ -12,7 +12,7 @@ const checoutcollections = require("../model/checkout");
 const addressCollection = require("../model/adress");
 const Razorpay = require("razorpay");
 const additemCollection = require("../model/addproductScema");
-const { search } = require("../router/user");
+const reviewschema = require("../model/review");
 
 // Razorpay
 const razorId = process.env.RAZORPAY_ID_KEY;
@@ -24,30 +24,34 @@ const instance = new Razorpay({
 
 // user home
 exports.homeget = async (req, res) => {
-    const banner = await bannercollection.find();
-    const categories = await categorycollection.find();
-    const product = await productcollection
-      .find({ status: "Active" })
-      .limit(10);
-    res.render("user/home", { banner, categories, product });
-  
+  const banner = await bannercollection.find();
+  const categories = await categorycollection.find();
+  const product = await productcollection.find({ status: "Active" }).limit(10);
+  res.render("user/home", { banner, categories, product });
 };
 
 // showing all product
 exports.getallproduct = async (req, res) => {
-  let items
-  if(req.query.search){
-    const search=req.query.search
-    items =await productcollection.find({stock:{$gt:0},status:{$ne:'Blocked'},name:{$regex:search,$options:'i'}})
-  }else if(req.query.sort){
-    const sort=req.query.sort
-    if(sort=== 'low to high'){
-      items=await productcollection.find({stock:{$gt:0},status:{$ne:'Blocked'}}).sort({offerprize:1})
-    }else if(sort=== 'high to low'){
-      items=await productcollection.find({stock:{$gt:0},status:{$ne:'Blocked'}}).sort({offerprize:-1})
+  let items;
+  if (req.query.search) {
+    const search = req.query.search;
+    items = await productcollection.find({
+      stock: { $gt: 0 },
+      status: { $ne: "Blocked" },
+      name: { $regex: search, $options: "i" },
+    });
+  } else if (req.query.sort) {
+    const sort = req.query.sort;
+    if (sort === "low to high") {
+      items = await productcollection
+        .find({ stock: { $gt: 0 }, status: { $ne: "Blocked" } })
+        .sort({ offerprize: 1 });
+    } else if (sort === "high to low") {
+      items = await productcollection
+        .find({ stock: { $gt: 0 }, status: { $ne: "Blocked" } })
+        .sort({ offerprize: -1 });
     }
-  }
-  else{
+  } else {
     items = await productcollection.find({ status: "Active" });
   }
   res.render("user/showallproduct", { items });
@@ -58,6 +62,15 @@ exports.getsingleproduct = async (req, res) => {
   const id = req.params.id;
   let wishdataId;
   const item = await productcollection.findById(id);
+  const reviewData= await reviewschema.find({productId:new mongoose.Types.ObjectId(id)})
+  let reviews=[]
+  for(let i of reviewData){
+    const userId= await signupCollection.findOne({_id:new mongoose.Types.ObjectId(i.userId)})
+    const username=userId.username
+    let obj={username:username,content:i.review,starcount:i.starcount}
+    reviews.push(obj)
+  }
+
   if (req.session.email) {
     const email = req.session.email;
     const emailId = await signupCollection.findOne({ email: email });
@@ -70,23 +83,21 @@ exports.getsingleproduct = async (req, res) => {
         }
       });
       if (!wishdataId) {
-        wishdataId = null;
+        wishdataId = null; 
       }
     }
-  } 
-    res.render("user/singleproduct", { item, wishdataId });
-  
+  }
+  res.render("user/singleproduct", { item, wishdataId,reviews });
 };
 
 // listing  items  by clicking category
 exports.getcatProduct = async (req, res) => {
-    const name = req.params.name;
-    const items = await productcollection.find({
-      category: name,
-      status: "Active",
-    });
-    res.render("user/showallproduct", { items });
-  
+  const name = req.params.name;
+  const items = await productcollection.find({
+    category: name,
+    status: "Active",
+  });
+  res.render("user/showallproduct", { items });
 };
 
 // wishlist
@@ -112,8 +123,8 @@ exports.getwishlist = async (req, res) => {
         res.render("user/wishlist", { getData });
       }
     }
-  }else{
-    res.redirect('/common/login')
+  } else {
+    res.redirect("/common/login");
   }
 };
 
@@ -242,8 +253,8 @@ exports.cartget = async (req, res) => {
       console.log(err);
     }
     total = subtotal;
-  }else{
-    res.redirect('/common/login')
+  } else {
+    res.redirect("/common/login");
   }
 };
 
@@ -438,10 +449,10 @@ exports.checkoutget = async (req, res) => {
       minamount: { $lte: subtotal },
       maxamount: { $gte: subtotal },
     });
-    if(address){
+    if (address) {
       res.render("user/checkout", { cartData, subtotal, coupon, address });
-    }else{
-      res.render("user/checkout", { cartData, subtotal, coupon, address:'' });
+    } else {
+      res.render("user/checkout", { cartData, subtotal, coupon, address: "" });
     }
   } else {
     res.render("common/login");
@@ -627,9 +638,10 @@ exports.completeOrderGet = async (req, res) => {
     const checkData = await checoutcollections.findOne({
       userId: userData._id,
     });
-    
+
     const lastorder = checkData.orderDetailes.length - 1;
-    const lastorderObj =checkData.orderDetailes[checkData.orderDetailes.length - 1];
+    const lastorderObj =
+      checkData.orderDetailes[checkData.orderDetailes.length - 1];
     const deletecart = await cartcollections.findOneAndDelete({
       userId: userData._id,
     });
@@ -654,14 +666,14 @@ exports.orderHistoryGet = async (req, res) => {
     const checkData = await checoutcollections.findOne({
       userId: userData._id,
     });
-    if(checkData){
+    if (checkData) {
       const data = checkData.orderDetailes;
       res.render("user/orderslist", { data });
-    }else{
-      res.render("user/orderslist", { data:null });
+    } else {
+      res.render("user/orderslist", { data: null });
     }
-  }else{
-    res.render('common/login')
+  } else {
+    res.render("common/login");
   }
 };
 
@@ -699,23 +711,93 @@ exports.singleHistoryGet = async (req, res) => {
 };
 
 // cancell the order
-exports.cancellorder=async(req,res)=>{
-  if(req.session.email){
+exports.cancellorder = async (req, res) => {
+  if (req.session.email) {
     const id = req.params.id;
-    const update='cancelled'
-    const user= await signupCollection.findOne({email:req.session.email})
-    const checkData= await checoutcollections.findOneAndUpdate(
-      {userId:user._id,"orderDetailes._id":id},
-      {$set:{"orderDetailes.$.orderSatatus":update}}
-      )
-      if(checkData){
-        res.status(200).json({message:"cancelled"})
-      }
-  } 
-}
+    const update = "cancelled";
+    const user = await signupCollection.findOne({ email: req.session.email });
+    const checkData = await checoutcollections.findOneAndUpdate(
+      { userId: user._id, "orderDetailes._id": id },
+      { $set: { "orderDetailes.$.orderSatatus": update } }
+    );
+    if (checkData) {
+      res.status(200).json({ message: "cancelled" });
+    }
+  }
+};
 
 // logout
-exports.logout=(req,res)=>{
-  req.session.destroy()
-  res.redirect('/user/home')
-}
+exports.logout = (req, res) => {
+  req.session.destroy();
+  res.redirect("/user/home");
+};
+
+// reviw post
+exports.review = async (req, res) => {
+  if (req.session.email) {
+    const star = req.query.starcount;
+    const textcontent = req.query.content;
+    const proId = req.query.proId;
+    const user = await signupCollection.findOne({ email: req.session.email });
+    const userId = user._id;
+    const checkdata = await checoutcollections.findOne({ userId: userId });
+    let orderStatus;
+
+    try {
+      if (checkdata) {
+        let proIdExists = false;
+        checkdata.orderDetailes.forEach((order) => {
+          order.product.forEach((product) => {
+            if (product.id.toString() === proId) {
+              orderStatus = order.orderSatatus;
+              proIdExists = true;
+            }
+          });
+        });
+        if (proIdExists === false) {
+          res
+            .status(200)
+            .json({ message: "pls purchase this product for post review" });
+        } else {
+          const findPreviewsReview = await reviewschema.findOne({
+            userId: userId,
+            productId: proId,
+          });
+          if (findPreviewsReview) {
+            res
+              .status(200)
+              .json({ message: "you already reviewd this product" });
+          } else {
+            if (orderStatus == "deliverd") {
+              const reviewCreate = new reviewschema({
+                productId: proId,
+                userId: userId,
+                review: textcontent,
+                starcount: star,
+              });
+              await reviewCreate.save();
+              if (reviewCreate) {
+                res.status(200).json({ message: "created successfull" });
+              }
+            } else {
+              res
+                .status(200)
+                .json({
+                  message: "you can review this product after deliverd",
+                });
+            }
+          }
+        }
+      } else {
+        res
+          .status(200)
+          .json({ message: "pls purchase this product for post review" });
+      }
+      console.log(orderStatus);
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    res.status(200).json({ message: "pls login" });
+  }
+};

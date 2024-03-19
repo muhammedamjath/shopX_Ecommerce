@@ -21,7 +21,7 @@ const signupscema=new mongoose.Schema({
     },
     status:{
         type:String,
-        default:"active"
+        default:"Active"
     },
     createdAt:{
         type:Date,

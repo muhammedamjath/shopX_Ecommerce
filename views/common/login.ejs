@@ -193,6 +193,7 @@
     color: greenyellow;
 	
 }
+
     </style>
 </head>
 <body>
@@ -200,6 +201,8 @@
         
         <div class="screen_1">
             <div class="screen__content">
+					<div class="alert ">
+					</div>
                 <form class="login" method="post" action="/login">
                     <div class="login__field">
                         <i class="login__icon fas fa-user"></i>
@@ -215,7 +218,12 @@
                     </button>				
                 </form>
                 <div class="social-login">
+				<% if (typeof messages !== 'undefined' && messages.error) { %>
+
+					<h3><%= messages.error %></h3>
+				<% }else{ %>
                     <h3>Create new account 👇</h3>
+				<% } %>
                     <a href="/common/signup" id="anger">Sign up</a>
                 </div>
             </div>

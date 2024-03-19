@@ -3,6 +3,7 @@ const app=express()
 const ejs = require('ejs')
 require('dotenv').config()
 const session = require('express-session')
+const flash = require('connect-flash');
 const port=process.env.port || 3000
 const secret=process.env.secret
 
@@ -19,6 +20,7 @@ app.use(session({
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'))
+app.use(flash());
 
 // Import all routes
 const admin=require('./router/admin')

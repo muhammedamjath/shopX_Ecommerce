@@ -26,7 +26,11 @@ exports.loginpost = async (req, res) => {
 
 // Dashboard get
 exports.dashboardGet = async (req, res) => {
-  res.render('admin/dashboard')
+  const usersCount = await signupcollection.countDocuments();
+  const productcount = await additemCollection.countDocuments();
+
+
+  res.render('admin/dashboard',{usersCount,productcount})
 };
 
 // grapg get in dashboard

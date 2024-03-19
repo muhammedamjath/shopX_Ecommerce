@@ -37,6 +37,8 @@ router.get('/historySingleGet/:id',usercontroller.singleHistoryGet)
 
 router.put('/cancellOrder/:id',usercontroller.cancellorder)
 
+router.post('/review',usercontroller.review)
+
 router.get('/logout',usercontroller.logout)
 
 

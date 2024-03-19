@@ -12,7 +12,6 @@
     </div>
     <ul>
         <li><a href="/user/home">Home</a></li>
-        <li><a href="#">About</a></li>
         <li><a href="/user/showallproduct">Product</a></li>
         <li><a href="#">Contact</a></li>
         <li><a href="/user/cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
@@ -39,7 +38,6 @@
 
     const searchButton= document.getElementById('search-btn')
     searchButton.addEventListener('click',(event)=>{
-        // event.preventDefault()
         const inputValue= document.getElementById('search-input').value
         console.log(inputValue);
         location.href=`/user/showallproduct?search=${inputValue}`
