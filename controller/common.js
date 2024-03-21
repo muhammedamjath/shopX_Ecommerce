@@ -1,5 +1,5 @@
 const signupCollection = require("../model/usersignupData");
-const otpjs = require("../public/otp");
+const otpjs = require("../public/js/otp");
 const bcrypt = require("bcrypt");const bannercollection = require("../model/banner");
 const categorycollection = require("../model/categorySchema");
 const productcollection = require("../model/addproductScema");

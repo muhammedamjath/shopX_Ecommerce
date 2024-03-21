@@ -1,6 +1,11 @@
 const express=require('express')
 const router=express.Router()
 const usercontroller=require('../controller/user')
+const wishlistcontroller=require('../controller/wishlist')
+const cartcontroller=require('../controller/cart')
+const userProfile=require('../controller/userProfile')
+const checkoutController=require('../controller/checkout')
+
 
 router.get('/home',usercontroller.homeget)
 
@@ -10,23 +15,22 @@ router.get('/singleproduct/:id',usercontroller.getsingleproduct)
 
 router.get('/categoryproduct/:name',usercontroller.getcatProduct)
 
-router.get('/wishlist',usercontroller.getwishlist)
-router.post('/passIdtoAxios/:id',usercontroller.postToWishlist)
-router.delete('/deletecardwish/:id',usercontroller.removeFromWishlist)
+router.get('/wishlist',wishlistcontroller.getwishlist)
+router.post('/passIdtoAxios/:id',wishlistcontroller.postToWishlist)
+router.delete('/deletecardwish/:id',wishlistcontroller.removeFromWishlist)
 
-router.get('/cart',usercontroller.cartget)
-router.post('/addToCart/:id',usercontroller.createcart)
-router.post('/quantity/:id/:quantity',usercontroller.updateCount)
-router.delete('/delcartItem/:id',usercontroller.delcartItem)
+router.get('/cart',cartcontroller.cartget)
+router.post('/addToCart/:id',cartcontroller.createcart)
+router.post('/quantity/:id/:quantity',cartcontroller.updateCount)
+router.delete('/delcartItem/:id',cartcontroller.delcartItem)
 
-router.get('/getprofile',usercontroller.getprofile)
-router.get('/Editprofile',usercontroller.completeprofile)
-router.post('/postProfile',usercontroller.multer1,usercontroller.postprofile)
+router.get('/getprofile',userProfile.getprofile)
+router.get('/Editprofile',userProfile.completeprofile)
+router.post('/postProfile',userProfile.multer1,userProfile.postprofile)
 
-router.get('/checkout/:id',usercontroller.checkoutget)
-
-router.post('/coupon/:id',usercontroller.applycoupon)
-router.post('/checkout',usercontroller.checkoutPost)
+router.get('/checkout/:id',checkoutController.checkoutget)
+router.post('/coupon/:id',checkoutController.applycoupon)
+router.post('/checkout',checkoutController.checkoutPost)
 
 router.get('/peyment',usercontroller.peymentget)
 router.post('/peymentpost',usercontroller.peymentppost)
@@ -41,6 +45,6 @@ router.post('/review',usercontroller.review)
 
 router.get('/logout',usercontroller.logout)
 
-
+ 
 
 module.exports=router 
