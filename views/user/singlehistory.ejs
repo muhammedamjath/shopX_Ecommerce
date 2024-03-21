@@ -274,6 +274,130 @@
         border: none;
         border-radius: 5px;
       }
+
+      @media (max-width:860px){
+        .products {
+        height: auto;
+        width: 90%;
+        top: 120px;
+        left: 5%;
+       
+      }
+      .products .card {
+        border: 2px solid #ffd166;
+        
+      }
+      .products .card .img {
+        height: 100%;
+        width: 30%;
+      }
+     
+      /* address */
+      .address {
+        height: 200px;
+        width: 90%;
+        border-radius: 5px;
+        position: relative;
+        top:100px;
+        left: 5%;
+        background-color: white;
+      }
+      .address h4 {
+        margin-top: 20px;
+        margin-left: 20px;
+      }
+      .address .flex {
+        font-size: 15px;
+        margin-left: 35%;
+        margin-top: 10%;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+      }
+      /* status */
+
+      .status {
+        height: 80px;
+        width: 90%;
+        
+        top: 120px;
+        left: 5%;
+      }
+      .status .part1 {
+        height: 40px;
+        display: flex;
+        
+      }
+      .status .part2 {
+        display: flex;
+        gap: 23%;
+        height: 40px;
+      }
+      
+     
+
+      /* id */
+      .id {
+        height: 50px;
+        width: 90%;
+        top: 100px;
+        left: 5%;
+      }
+      /* date */
+      .date {
+        width: 90%;
+       
+        top: 110px;
+        left: 5%;
+      }
+      
+      /* peyment */
+      .payment {
+        height: 50px;
+        width: 90%;
+        background-color: white;
+        position: relative;
+        top: 130px;
+        left: 5%;
+      }
+      .payment h2 {
+        font-size: 20px;
+        
+      }
+      .payment p {
+        margin-top: 1px;
+        
+      }
+
+      .pricedetailes {
+        height: 200px;
+        width: 90%;
+        border-radius: 5px;
+        
+        position: relative;
+        top: 150px;
+        left: 5%;
+        background-color: white;
+      }
+      .pricedetailes .text {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .pricedetailes .text div {
+        width: 40%;
+        
+      }
+      
+      .container button {
+        height: 30px;
+        width: 80%;
+        position: relative;
+        top: 170px;
+        left: 10%;
+        background-color: #f77f00;
+        border: none;
+        border-radius: 5px;
+      }
+      }
     </style>
     <%- include('layout/header') -%>
   </head>
@@ -404,7 +528,11 @@
         circle1.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
 
         stick1.style.backgroundColor = "red";
+        stick1.style.border='none'
         stick2.style.display = "none";
+        stick1.style.height='3px'
+        stick1.style.height='3px'
+
 
         circle3.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
         circle3.style.border = "none";
@@ -431,17 +559,24 @@
         circle2.style.color = "#70e000";
         circle2.style.border = "none";
         stick1.style.backgroundColor = "#70e000";
+        stick1.style.border='none'
+        stick1.style.height='3px'
       } else if (statusInput.value === "deliverd") {
         circle1.style.border = "none";
         circle1.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
         circle1.style.color = "#70e000";
         circle1.style.border = "none";
         stick1.style.backgroundColor = "#70e000";
+        stick1.style.height='3px'
+        stick1.style.border='none'
+
 
         circle2.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
         circle2.style.color = "#70e000";
         circle2.style.border = "none";
         stick2.style.backgroundColor = "#70e000";
+        stick2.style.border='none'
+        stick2.style.height='3px'
 
         circle3.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
         circle3.style.color = "#70e000";

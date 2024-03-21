@@ -4,7 +4,7 @@ const ejs = require('ejs')
 require('dotenv').config()
 const session = require('express-session')
 const flash = require('connect-flash');
-const port=process.env.port || 3000
+const port=process.env.port
 const secret=process.env.secret
 
 app.set('view engine', 'ejs')

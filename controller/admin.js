@@ -272,7 +272,6 @@ exports.deleteitem = async (req, res) => {
     console.log("item not fount");
   } else {
     await additemCollection.findByIdAndDelete(id);
-    console.log("item deleted");
     res.redirect("/admin/showproduct");
   }
 };
@@ -321,7 +320,6 @@ exports.postEdit = async (req, res) => {
         brand: brand,
       },
     });
-    console.log("product updated successfully");
     res.redirect("/admin/showproduct");
   } catch (err) {
     console.log(err);

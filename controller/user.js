@@ -793,7 +793,6 @@ exports.review = async (req, res) => {
           .status(200)
           .json({ message: "pls purchase this product for post review" });
       }
-      console.log(orderStatus);
     } catch (err) {
       console.log(err);
     }

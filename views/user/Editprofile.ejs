@@ -126,6 +126,124 @@
             background: white;
         }
 
+        @media (max-width: 860px) {
+        .part1 label + br,
+        .part2 label + br,
+        .part3 label + br,
+        .part1 input + br,
+        .part2 input + br,
+        .part3 input + br {
+          display: none;
+        }
+        .image {
+          height: 110px;
+          width: 90%;
+          position: relative;
+          top: 100px;
+          left: 5%;
+          border-bottom: 1px solid white;
+        }
+        .image img {
+          height: 80px;
+          width: 80px;
+          border-radius: 80px;
+          border: 1px solid gray;
+          position: relative;
+          top: 10px;
+          left: 3%;
+          background-color: white;
+        }
+        .image p {
+          font-size: 10px;
+          top: 50px;
+          left: 30%;
+        }
+        .image button {
+          height: 30px;
+          width: 80px;
+          position: relative;
+          left: 45%;
+          top: 70px;
+        }
+        .part1 {
+          height: 240px;
+          width: 100%;
+          position: relative;
+          padding-top: 0px;
+        }
+        label {
+          font-size: 15px;
+          font-family: Arial, Helvetica, sans-serif;
+          font-weight: bold;
+        }
+        input {
+          padding-left: 10px;
+          height: 40px;
+          width: 100%;
+          margin-left: 0px;
+          border-radius: 5px;
+          border: none;
+          font-weight: bold;
+          font-size: 10px;
+        }
+        input:focus {
+          outline: none;
+        }
+        .part2 {
+          height: 160px;
+          width: 100%;
+          position: relative;
+          padding-top: 0px;
+        }
+        .mainpart {
+          display: flex;
+          flex-direction: column;
+          height: auto;
+          position: relative;
+          top: 160px;
+        }
+        .part3 {
+          height: 280px;
+          width: 100%;
+          position: relative;
+        }
+        .part3 p {
+          text-align: center;
+          font-family: sans-serif;
+          font-weight: bolder;
+          font-size: 20px;
+        }
+        .part3 label {
+          font-size: 13px;
+        }
+        .part3 input {
+          height: 40px;
+          width: 80%;
+          font-size: 10px;
+          margin-left: 0px;
+        }
+        .part3 p {
+          text-align: center;
+          font-family: sans-serif;
+          font-weight: bolder;
+          font-size: 25px;
+        }
+        .part3 .part3one {
+          width: 50%;
+          margin-left: 10px;
+          margin-top: -40px;
+        }
+        .part3 .part3two {
+          width: 50%;
+          margin-top: -40px;
+        }
+        .part3Head {
+          display: flex;
+          position: relative;
+          top: 50px;
+          left: 0px;
+        }
+      }
 
     </style>
     <%- include('layout/header') -%>
