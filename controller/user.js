@@ -229,6 +229,7 @@ exports.cartget = async (req, res) => {
     try {
       const cartData = await cartcollections.findOne({ userId: userId });
 
+      console.log(cartData);
       if (cartData) {
         data = [];
         for (let doc of cartData.productId) {
@@ -541,6 +542,7 @@ exports.checkoutPost = async (req, res) => {
         );
         if (datasaving) {
           if (req.body.peyment == "cod") {
+
             res.redirect("/user/ordercomplete/hai");
           } else {
             res.redirect("/user/peyment");

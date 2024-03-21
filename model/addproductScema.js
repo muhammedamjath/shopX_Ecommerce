@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const server=require('../model/mongodb');
-const { array } = require('../middileware/multer');
 
 
 const productData= new mongoose.Schema({

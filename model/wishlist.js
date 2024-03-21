@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const server=require('../model/mongodb')
 
 
 const wishlist=new mongoose.Schema({

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const server=require('../model/mongodb')
 
 const schema = new mongoose.Schema({
     userId:{

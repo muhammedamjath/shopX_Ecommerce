@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-require('../model/mongodb')
+
 
 
 const Schema= new mongoose.Schema({
