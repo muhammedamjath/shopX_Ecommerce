@@ -22,7 +22,7 @@ const instance = new Razorpay({
 exports.homeget = async (req, res) => {
   const banner = await bannercollection.find();
   const categories = await categorycollection.find();
-  const product = await productcollection.find({ status: "Active" }).limit(10);
+  const product = await productcollection.find({stock:{$gt:0},status: "Active" }).limit(10);
   res.render("user/home", { banner, categories, product });
 };
 
@@ -48,7 +48,7 @@ exports.getallproduct = async (req, res) => {
         .sort({ offerprize: -1 });
     }
   } else {
-    items = await productcollection.find({ status: "Active" });
+    items = await productcollection.find({stock:{$gt:0},status: "Active" });
   }
   res.render("user/showallproduct", { items });
 };
@@ -58,13 +58,17 @@ exports.getsingleproduct = async (req, res) => {
   const id = req.params.id;
   let wishdataId;
   const item = await productcollection.findById(id);
-  const reviewData= await reviewschema.find({productId:new mongoose.Types.ObjectId(id)})
-  let reviews=[]
-  for(let i of reviewData){
-    const userId= await signupCollection.findOne({_id:new mongoose.Types.ObjectId(i.userId)})
-    const username=userId.username
-    let obj={username:username,content:i.review,starcount:i.starcount}
-    reviews.push(obj)
+  const reviewData = await reviewschema.find({
+    productId: new mongoose.Types.ObjectId(id),
+  });
+  let reviews = [];
+  for (let i of reviewData) {
+    const userId = await signupCollection.findOne({
+      _id: new mongoose.Types.ObjectId(i.userId),
+    });
+    const username = userId.username;
+    let obj = { username: username, content: i.review, starcount: i.starcount };
+    reviews.push(obj);
   }
 
   if (req.session.email) {
@@ -79,11 +83,11 @@ exports.getsingleproduct = async (req, res) => {
         }
       });
       if (!wishdataId) {
-        wishdataId = null; 
+        wishdataId = null;
       }
     }
   }
-  res.render("user/singleproduct", { item, wishdataId,reviews });
+  res.render("user/singleproduct", { item, wishdataId, reviews });
 };
 
 // listing  items  by clicking category
@@ -95,10 +99,6 @@ exports.getcatProduct = async (req, res) => {
   });
   res.render("user/showallproduct", { items });
 };
-
-
-
-
 
 // peyment get
 exports.peymentget = async (req, res) => {
@@ -153,17 +153,33 @@ exports.peymentppost = async (req, res) => {
   }
 };
 
-// getting order complete page after make upi or cod peyment
+// getting order complete page after make upi peyment
 exports.completeOrderGet = async (req, res) => {
   if (req.session.email) {
     const methord = req.params.data;
     const userData = await signupCollection.findOne({
       email: req.session.email,
     });
-
     const checkData = await checoutcollections.findOne({
       userId: userData._id,
     });
+    let proIds = [];
+
+    const cartData = await cartcollections
+      .findOne({ userId: userData._id })
+      .populate("productId.id");
+
+    if (cartData) {
+      cartData.productId.forEach((data) => {
+        let obj = {
+          id: data.id._id,
+          offerprice: data.id.offerprize,
+          color: data.id.color,
+          count: data.count,
+        };
+        proIds.push(obj);
+      });
+    }
 
     const lastorder = checkData.orderDetailes.length - 1;
     const lastorderObj =
@@ -173,6 +189,13 @@ exports.completeOrderGet = async (req, res) => {
     });
     if (methord == "upi") {
       const val = "Success";
+      for (let i of proIds) {
+        const update = await additemCollection.findOneAndUpdate(
+          { _id: new mongoose.Types.ObjectId(i.id) },
+          { $inc: { stock: -i.count } },
+          { new: true }
+        );
+      }
       const updateobj = await checoutcollections.findOneAndUpdate(
         { userId: userData._id },
         { $set: { [`orderDetailes.${lastorder}.peymentStatus`]: val } },
@@ -306,11 +329,9 @@ exports.review = async (req, res) => {
                 res.status(200).json({ message: "created successfull" });
               }
             } else {
-              res
-                .status(200)
-                .json({
-                  message: "you can review this product after deliverd",
-                });
+              res.status(200).json({
+                message: "you can review this product after deliverd",
+              });
             }
           }
         }

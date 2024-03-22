@@ -17,6 +17,7 @@ let mongoAdminData;
 exports.loginpost = async (req, res) => {
   mongoAdminData = await adminCollection.findOne({ email: req.body.email });
   if (req.body.password === mongoAdminData.password) {
+    req.session.email=req.body.email
     res.redirect("/admin/dashboard");
   } else {
     res.redirect("/admin");
@@ -25,12 +26,14 @@ exports.loginpost = async (req, res) => {
 
 // Dashboard get
 exports.dashboardGet = async (req, res) => {
-  const usersCount = await signupcollection.countDocuments();
+  if(req.session.email){
+    const usersCount = await signupcollection.countDocuments();
   const productcount = await additemCollection.countDocuments();
-
-
   res.render('admin/dashboard',{usersCount,productcount})
-};
+  }else{
+    res.render('admin/login') 
+  }
+}; 
 
 // grapg get in dashboard
 exports.graphget=async(req,res)=>{
@@ -102,23 +105,31 @@ exports.graphget=async(req,res)=>{
 // catogory get
 let categories;
 exports.catogoryGet = async (req, res) => {
-  categories = await categoryCollection.find();
-  res.render("admin/category", { mongoAdminData, categories });
+  if(req.session.email){
+    categories = await categoryCollection.find();
+  res.render("admin/category", {  categories });
+  }else{
+    res.render('admin/login')
+  }
 };
 
 // category post in admin side
 exports.categoryPost = async (req, res) => {
-  try {
-    const data = new categoryCollection({
-      category: req.body.category,
-      subcategory: [],
-      image: "images/" + req.file.filename,
-    });
-    await data.save();
-    const catData = await categoryCollection.find();
-    res.status(200).json({ categories: catData });
-  } catch (err) {
-    console.log(err);
+  if(req.session.email){
+    try {
+      const data = new categoryCollection({
+        category: req.body.category,
+        subcategory: [],
+        image: "images/" + req.file.filename,
+      });
+      await data.save();
+      const catData = await categoryCollection.find();
+      res.status(200).json({ categories: catData });
+    } catch (err) {
+      console.log(err);
+    }
+  }else{
+    res.render('admin/login') 
   }
 };
 
@@ -166,7 +177,6 @@ exports.getsubcategory = async (req, res) => {
   const subCategoryData = await categoryCollection.findById(categoryId);
   res.status(200).json({
     subCategoryData: subCategoryData,
-    mongoAdminData: mongoAdminData,
     categories: categories,
   });
 };
@@ -199,13 +209,14 @@ exports.multer1 = upload.upload2.single("image");
 
 // userlist get
 exports.userlistget = async (req, res) => {
-  const userlistdata = await signupcollection.find();
+  if(req.session.email){
+    const userlistdata = await signupcollection.find();
   const usersCount = await signupcollection.countDocuments();
-  res.render("admin/usersList", { userlistdata, mongoAdminData, usersCount });
+  res.render("admin/usersList", { userlistdata, usersCount });
+  }else{
+    res.render('admin/login')
+  }
 };
-
-
-
 
 
 // changing the status of user
@@ -232,8 +243,11 @@ exports.changeStatus = async (req, res) => {
 
 // banner get
 exports.bannerget = async (req, res) => {
-  const banner = await bannercollection.find();
-  res.render("admin/banner", { mongoAdminData, banner });
+  if(req.session.email){
+    const banner = await bannercollection.find();
+  res.render("admin/banner", { banner });
+  }
+  res.render('admin/login')
 };
 
 // banner post
@@ -276,7 +290,11 @@ exports.bannerstatus = async (req, res) => {
 
 // coupon get
 exports.couponget = (req, res) => {
-  res.render("admin/coupon");
+  if(req.session.email){
+    res.render("admin/coupon");
+  }else{
+    res.render('admin/login')
+  }
 };
 
 // coupon post
@@ -302,7 +320,8 @@ exports.couponpost = async (req, res) => {
 
 // orders list get
 exports.orderslist = async (req, res) => {
-  const orders = await checoutcollections.find();
+  if(req.session.email){
+    const orders = await checoutcollections.find();
   let datas = [];
   for (let i of orders) {
     let userid = i.userId;
@@ -316,11 +335,15 @@ exports.orderslist = async (req, res) => {
   }else{
     res.render("admin/orders",{datas:[]});
   }
+  }else{
+    res.render('admin/login')
+  }
 };
 
 // single order  get
 exports.getsingleorder=async(req,res)=>{
-  const userId= req.params.userId
+  if(req.session.email){
+    const userId= req.params.userId
   const orderId= req.params.orderId
  
   const userDetailes= await signupcollection.findOne({_id:userId},{password:0})
@@ -340,6 +363,9 @@ exports.getsingleorder=async(req,res)=>{
 
   }
  res.render('admin/orderSingle',{userDetailes,objdata,product,userId})
+  }else{
+    res.render('admin/login')
+  }
 }
 
 // order status updating
@@ -358,3 +384,7 @@ exports.statusupdate=async(req,res)=>{
 }
 
 
+exports.logout=(req,res)=>{
+  req.session.destroy();
+  res.render('admin/login')
+}

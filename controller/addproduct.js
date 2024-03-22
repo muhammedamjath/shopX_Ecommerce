@@ -8,7 +8,7 @@ exports.multerpost = upload.upload.array("image", 4);
 // add product get
 exports.getaadProduct = async (req, res) => {
   const itemdata = await categoryCollection.find();
-  res.render("admin/aadproduct", { mongoAdminData, itemdata });
+  res.render("admin/aadproduct", {  itemdata });
 };
 
 // add product post
@@ -68,7 +68,7 @@ exports.editproduct = async (req, res) => {
   const id = req.params.id;
   const categoryData = await categoryCollection.find();
   const data = await additemCollection.findById(id);
-  res.render("admin/edititem", { data, mongoAdminData, categoryData });
+  res.render("admin/edititem", { data,  categoryData });
 };
 
 // post edit product
@@ -141,7 +141,6 @@ exports.productlistget = async (req, res) => {
   productcount = await additemCollection.countDocuments();
   productdata = await additemCollection.find();
   res.render("admin/showproduct", {
-    mongoAdminData,
     productdata,
     productcount,
   });

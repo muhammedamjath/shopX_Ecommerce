@@ -46,4 +46,6 @@ router.get('/changeOrderStatus/:userId/:orderId',adminController.getsingleorder)
 
 router.put('/statusupdate',adminController.statusupdate)
 
+router.get('/logout',adminController.logout)
+
 module.exports = router

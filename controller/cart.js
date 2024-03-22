@@ -54,9 +54,7 @@ exports.createcart = async (req, res) => {
       let data;
       try {
         const cartData = await cartcollections.findOne({ userId: userId });
-  
-        console.log(cartData);
-        if (cartData) {
+          if (cartData) {
           data = [];
           for (let doc of cartData.productId) {
             let quantity = doc.count;
